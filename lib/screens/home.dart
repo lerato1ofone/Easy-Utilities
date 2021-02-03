@@ -12,10 +12,8 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         body: Column(
           children: [
-            Padding(
-                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 0.0)),
+            Padding(padding: EdgeInsets.only(top: 50.0)),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 25.0),
               child: Text(
                 'Easily Track Your Utility Spend.',
                 textAlign: TextAlign.center,
@@ -29,36 +27,48 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(
-              height: 120.0,
+              height: 100.0,
             ),
             Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  MaterialButton(
-                    onPressed: () {},
-                    color: Colors.blue,
-                    textColor: Colors.deepOrange[50],
-                    child: Icon(
-                      Icons.power,
-                      size: 40,
-                    ),
-                    padding: EdgeInsets.all(16),
-                    shape: CircleBorder(),
+                  Column(
+                    children: [
+                      MaterialButton(
+                        onPressed: () {},
+                        color: Colors.blue,
+                        textColor: Colors.deepOrange[50],
+                        child: Icon(
+                          Icons.power,
+                          size: 40,
+                        ),
+                        padding: EdgeInsets.all(16),
+                        shape: CircleBorder(),
+                      ),
+                      Padding(padding: EdgeInsets.only(top: 20.0)),
+                      Text('Add Electricity bill'),
+                    ],
                   ),
-                  MaterialButton(
-                    onPressed: () {},
-                    color: Colors.blue,
-                    textColor: Colors.deepOrange[50],
-                    child: Icon(
-                      Icons.water_damage,
-                      size: 40,
-                    ),
-                    padding: EdgeInsets.all(16),
-                    shape: CircleBorder(),
+                  Column(
+                    children: [
+                      MaterialButton(
+                        onPressed: () {},
+                        color: Colors.blue,
+                        textColor: Colors.deepOrange[50],
+                        child: Icon(
+                          Icons.water_damage,
+                          size: 40,
+                        ),
+                        padding: EdgeInsets.all(16),
+                        shape: CircleBorder(),
+                      ),
+                      Padding(padding: EdgeInsets.only(top: 20.0)),
+                      Text('Add Water bill'),
+                    ],
                   ),
                 ]),
             SizedBox(
-              height: 100,
+              height: 80,
             ),
             Text(
               'R 1200.00',
@@ -71,13 +81,14 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 10.0,
             ),
             Text(
-              'Overall Spend',
+              'OVERALL SPEND',
               style: TextStyle(fontSize: 15.0, letterSpacing: 1.0),
             ),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Color.fromRGBO(192, 63, 138, 50),
+          selectedItemColor: Colors.white70,
+          backgroundColor: Color.fromRGBO(192, 63, 138, 60),
           type: BottomNavigationBarType.fixed,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -86,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.addchart),
+              icon: Icon(Icons.money),
               label: 'Add Utility',
             ),
             BottomNavigationBarItem(
@@ -96,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
               label: 'Statistics',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_balance),
+              icon: Icon(Icons.person),
               label: 'Account',
             ),
           ],
