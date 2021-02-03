@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_utilities/constants.dart' as Constants;
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -35,7 +36,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   Column(
                     children: [
                       MaterialButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('/add', arguments: Constants.ELECTRICITY);
+                        },
                         color: Colors.blue,
                         textColor: Colors.deepOrange[50],
                         child: Icon(
@@ -52,7 +55,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   Column(
                     children: [
                       MaterialButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('/add', arguments: Constants.WATER);
+                        },
                         color: Colors.blue,
                         textColor: Colors.deepOrange[50],
                         child: Icon(
