@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 
-class AddBillScreen extends StatefulWidget {
+class BillsScreen extends StatefulWidget {
   // This value is passed into this widget to determine which bill to add (Electricity or Water bill)
   final String bill;
 
-  AddBillScreen({
+  BillsScreen({
     Key key,
     @required this.bill,
   }) : super(key: key);
 
   @override
-  _AddBillScreenState createState() => _AddBillScreenState(bill);
+  _BillsScreenState createState() => _BillsScreenState(bill);
 }
 
-class _AddBillScreenState extends State<AddBillScreen> {
+class _BillsScreenState extends State<BillsScreen> {
   String bill;
-
+  
   //constructor
-  _AddBillScreenState(this. bill);
+  _BillsScreenState(this. bill);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class _AddBillScreenState extends State<AddBillScreen> {
         title: Text('Add a utility'),
       ),
         body: Center(
-      child: Text('bill : $bill'),
+      child: Text('Bills Screen'),
     ));
   }
 }
