@@ -1,7 +1,9 @@
+import 'package:easy_utilities/screens/account_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_utilities/screens/stats_screen.dart';
 import 'package:easy_utilities/screens/add_bill.dart';
-import 'package:easy_utilities/screens/home.dart';
-import 'package:easy_utilities/constants.dart' as Constants;
+import 'package:easy_utilities/screens/account_screen.dart';
+import 'package:easy_utilities/screens/home_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -11,13 +13,13 @@ class RouteGenerator {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) => HomeScreen());
-      case '/add':
-        if (args is String && args == Constants.ELECTRICITY || args == Constants.WATER) {
-          return MaterialPageRoute(
-              builder: (_) => AddBillScreen(bill: args)
-          );
-        }
-        return _errorRoute();
+      case '/bills':
+        return MaterialPageRoute(
+            builder: (_) => BillsScreen(bill: args ?? 'Add bils'));
+      case '/stats':
+        return MaterialPageRoute(builder: (_) => StatsScreen());
+      case '/account':
+        return MaterialPageRoute(builder: (_) => AccountScreen());
       default:
         return _errorRoute();
     }
@@ -25,17 +27,15 @@ class RouteGenerator {
 
   // Error route for any invalid page routes
   static Route<dynamic> _errorRoute() {
-    return MaterialPageRoute(
-        builder:
-            (_) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text('Error'),
-            ),
-            body: Center(
-              child: Text('ERROR'),
-            ),
-          );
-        });
+    return MaterialPageRoute(builder: (_) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Error'),
+        ),
+        body: Center(
+          child: Text('ERROR'),
+        ),
+      );
+    });
   }
 }
