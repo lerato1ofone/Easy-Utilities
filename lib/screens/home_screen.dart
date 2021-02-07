@@ -40,7 +40,6 @@ class _HomeScreenState extends State<HomeScreen> {
           controller: _pageController,
           children: _screens,
           onPageChanged: _onPageChanged,
-          physics: NeverScrollableScrollPhysics(),
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
