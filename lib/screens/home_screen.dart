@@ -22,7 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   void _onItemTapped(int selectIndex) {
-    _pageController.jumpToPage(selectIndex);
+    _pageController.animateToPage(selectIndex,
+        duration: Duration(milliseconds: 500), curve: Curves.easeIn);
   }
 
   void _onPageChanged(int index) {
