@@ -22,8 +22,6 @@ class _BillsScreenState extends State<BillsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final String assetName = '../assets/images/backdrop.svg';
-
     return Scaffold(
       backgroundColor: HexColor.fromHex('#4A4040'),
       body: Stack(
@@ -35,8 +33,64 @@ class _BillsScreenState extends State<BillsScreen> {
               painter: CurvePainter(),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(30.0, 110.0, 0.0, 0.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Just bought water \nor electricity?',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.bold,
+                    shadows: [
+                      Shadow(
+                          // bottomLeft
+                          offset: Offset(-1.5, -1.5),
+                          color: Colors.black12),
+                      Shadow(
+                          // bottomRight
+                          offset: Offset(1.5, -1.5),
+                          color: Colors.black12),
+                      Shadow(
+                          // topRight
+                          offset: Offset(0.5, 0.5),
+                          color: Colors.black12),
+                      Shadow(
+                          // topLeft
+                          offset: Offset(-1.5, 1.5),
+                          color: Colors.black12),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 40.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Add it right here',
+                        style: TextStyle(color: Colors.black, fontSize: 15.0),
+                      ),
+                      SizedBox(width: 30),
+                      FlatButton(
+                        minWidth: 105.0,
+                        color: Colors.green,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                        ),
+                        splashColor: HexColor.fromHex('#12E2E2'),
+                        onPressed: () {},
+                        child: Text("Add"),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
-      )
+      ),
     );
   }
 }
