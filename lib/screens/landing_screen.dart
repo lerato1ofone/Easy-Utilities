@@ -17,7 +17,7 @@ class _HomeScreenState extends State<LandingScreen> {
 
   List<Widget> _screens = [
     HomeScreen(),
-    BillsScreen(bill: null),
+    BillsScreen(),
     StatsScreen(),
     AccountScreen(),
   ];
@@ -45,8 +45,8 @@ class _HomeScreenState extends State<LandingScreen> {
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           currentIndex: _selectedIndex,
-          selectedLabelStyle: TextStyle(color: Colors.white),
-          selectedItemColor: Colors.white,
+          selectedLabelStyle: TextStyle(color: Colors.indigo[100]),
+          selectedItemColor:Colors.indigo[100],
           backgroundColor: HexColor.fromHex('#4A4040'),
           onTap: _onItemTapped,
           items: [
