@@ -1,27 +1,19 @@
 import 'package:easy_utilities/core/hex_color.dart';
+import 'package:easy_utilities/data/bills.dart';
 import 'package:flutter/material.dart';
 
 class BillsScreen extends StatefulWidget {
-  // This value is passed into this widget to determine which bill to add (Electricity or Water bill)
-  final String bill;
-
-  BillsScreen({
-    Key key,
-    @required this.bill,
-  }) : super(key: key);
+  BillsScreen() : super();
 
   @override
-  _BillsScreenState createState() => _BillsScreenState(bill);
+  _BillsScreenState createState() => _BillsScreenState();
 }
 
 class _BillsScreenState extends State<BillsScreen> {
-  String bill;
-
-  //constructor
-  _BillsScreenState(this.bill);
-
   @override
   Widget build(BuildContext context) {
+    final bills = Bills;
+
     return Scaffold(
       backgroundColor: HexColor.fromHex('#4A4040'),
       body: Stack(
@@ -34,7 +26,7 @@ class _BillsScreenState extends State<BillsScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(30.0, 110.0, 0.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(30.0, 90.0, 0.0, 0.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -65,7 +57,7 @@ class _BillsScreenState extends State<BillsScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 40.0),
+                  padding: const EdgeInsets.only(top: 30.0),
                   child: Row(
                     children: [
                       Text(
@@ -85,6 +77,56 @@ class _BillsScreenState extends State<BillsScreen> {
                       ),
                     ],
                   ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 290.0,
+              right: 15.0,
+              left: 15.0,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'History',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: HexColor.fromHex('#12E2E2'),
+                    fontSize: 20.0,
+                    fontFamily: 'Nunito',
+                    letterSpacing: 0.6
+                  ),
+                ),
+                SizedBox(
+                  height: 15.0,
+                ),
+                ListView.separated(
+                  physics: BouncingScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: bills.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      height: 70,
+                      decoration: BoxDecoration(
+                        color: Colors.indigo[100],
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                      child: ListTile(
+                        title: Text('R ${bills[index].amount}'),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return SizedBox(
+                      height: 10,
+                    );
+                  },
                 ),
               ],
             ),
