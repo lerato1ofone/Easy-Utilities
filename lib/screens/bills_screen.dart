@@ -4,6 +4,7 @@ import 'package:easy_utilities/models/bill.dart';
 import 'package:easy_utilities/data/bills.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BillsScreen extends StatefulWidget {
   BillsScreen() : super();
@@ -113,69 +114,72 @@ class _BillsScreenState extends State<BillsScreen> {
                 ),
               ),
               Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 18.0, right: 25.0),
-                  child: Container(
-                    height: size.height,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'History Purchases',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: HexColor.fromHex('#12E2E2'),
-                                  fontSize: 20.0,
-                                  fontFamily: 'Nunito',
-                                  letterSpacing: 0.6),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 15.0,
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: ListView.separated(
-                              controller: controller,
-                              physics: BouncingScrollPhysics(),
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              itemCount: bills.length,
-                              itemBuilder: (context, index) {
-                                return Container(
-                                  height: 80,
-                                  decoration: BoxDecoration(
-                                    color: Colors.indigo[100],
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10),
-                                    ),
+                  child: Padding(
+                padding: EdgeInsets.only(left: 18.0, right: 25.0),
+                child: Container(
+                  height: size.height,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'History Purchases',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: HexColor.fromHex('#12E2E2'),
+                                fontSize: 20.0,
+                                fontFamily: 'Nunito',
+                                letterSpacing: 0.6),
+                          ),
+                          IconButton(
+                              icon: FaIcon(FontAwesomeIcons.filter),
+                              onPressed: null)
+                        ],
+                      ),
+                      SizedBox(
+                        height: 15.0,
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: ListView.separated(
+                            controller: controller,
+                            physics: BouncingScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: bills.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  color: Colors.indigo[100],
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
                                   ),
-                                  child: CreateListTile.createTile(
-                                      bills[index], index, bills),
-                                );
-                              },
-                              separatorBuilder: (BuildContext context, int index) {
-                                return SizedBox(
-                                  height: 10,
-                                );
-                              },
-                            ),
+                                ),
+                                child: CreateListTile.createTile(
+                                    bills[index], index, bills),
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return SizedBox(
+                                height: 10,
+                              );
+                            },
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                )
-              ),
+                ),
+              )),
             ],
           ),
-          ),
         ),
+      ),
     );
   }
 }
