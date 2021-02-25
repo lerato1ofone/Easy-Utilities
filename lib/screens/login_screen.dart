@@ -11,7 +11,13 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(),
+        Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/login-img.jpg'),
+            ),
+          ),
+        ),
         Scaffold(
           body: Container(),
         ),
