@@ -33,14 +33,14 @@ class _BillsScreenState extends State<BillsScreen> {
     final Size size = MediaQuery.of(context).size;
     final double addBillHeight = size.height * 0.35;
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: HexColor.fromHex('#4A4040'),
-        body: Container(
+    return Scaffold(
+      backgroundColor: HexColor.fromHex('#4A4040'),
+      body: SafeArea(
+        child: Container(
           child: Column(
             children: <Widget>[
               AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
+                duration: const Duration(milliseconds: 300),
                 width: size.width,
                 alignment: Alignment.topCenter,
                 height: closeTopContainer ? 0 : size.height * 0.50,
@@ -86,25 +86,28 @@ class _BillsScreenState extends State<BillsScreen> {
                                 ],
                               ),
                             ),
-                            Row(
-                              children: [
-                                Text(
-                                  'Add it right here',
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 15.0),
-                                ),
-                                SizedBox(width: 45.0),
-                                FlatButton(
-                                  minWidth: 105.0,
-                                  color: Colors.green,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18.0),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 30.0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Add it right here',
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 15.0),
                                   ),
-                                  splashColor: HexColor.fromHex('#12E2E2'),
-                                  onPressed: () {},
-                                  child: Text("Add"),
-                                ),
-                              ],
+                                  SizedBox(width: 45.0),
+                                  FlatButton(
+                                    minWidth: 105.0,
+                                    color: Colors.green,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                    ),
+                                    splashColor: HexColor.fromHex('#12E2E2'),
+                                    onPressed: () {},
+                                    child: Text("Add"),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -134,7 +137,7 @@ class _BillsScreenState extends State<BillsScreen> {
                                 letterSpacing: 0.6),
                           ),
                           IconButton(
-                              icon: FaIcon(FontAwesomeIcons.filter),
+                              icon: FaIcon(FontAwesomeIcons.filter, color: Colors.white70, size: 20.0,),
                               onPressed: null)
                         ],
                       ),

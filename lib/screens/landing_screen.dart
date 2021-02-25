@@ -35,39 +35,39 @@ class _HomeScreenState extends State<LandingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: PageView(
+    return Scaffold(
+      body: SafeArea(
+        child: PageView(
           controller: _pageController,
           children: _screens,
           onPageChanged: _onPageChanged,
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          currentIndex: _selectedIndex,
-          selectedLabelStyle: TextStyle(color: Colors.indigo[100]),
-          selectedItemColor:Colors.indigo[100],
-          backgroundColor: HexColor.fromHex('#4A4040'),
-          onTap: _onItemTapped,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.money),
-              label: 'Add Utility',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.data_usage_outlined),
-              label: 'Statistics',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Account',
-            ),
-          ],
-        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _selectedIndex,
+        selectedLabelStyle: TextStyle(color: Colors.indigo[100]),
+        selectedItemColor:Colors.indigo[100],
+        backgroundColor: HexColor.fromHex('#4A4040'),
+        onTap: _onItemTapped,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.money),
+            label: 'Add Utility',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.data_usage_outlined),
+            label: 'Statistics',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Account',
+          ),
+        ],
       ),
     );
   }
