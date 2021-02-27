@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:easy_utilities/constants.dart' as Constants;
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -9,19 +8,20 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/login-img.jpg'),
+    return
+      Scaffold(
+        body: Stack(children: <Widget>[
+          Container(
+            height: MediaQuery
+                .of(context)
+                .size
+                .height,
+            child: Image(
+              image: AssetImage('./assets/images/login.jpg'),
+              fit: BoxFit.cover,
             ),
           ),
-        ),
-        Scaffold(
-          body: Container(),
-        ),
-      ],
-    );
+        ]),
+      );
   }
 }
