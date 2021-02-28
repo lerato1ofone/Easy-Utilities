@@ -26,34 +26,58 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 100.0,
+                  height: 31.0,
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 30.0),
                   child: Column(
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.5),
-                          borderRadius: BorderRadius.circular(16.0)
-                        ),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
-                            border: InputBorder.none,
-                            hintText: 'Email',
-                            hintStyle: eBodyText,
-                            prefixIcon: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal:20.0),
-                              child: Icon(
-                                FontAwesomeIcons.envelope, color: Colors.white,
-                                  size: 30.0,
-                              ),
+                      Column(
+                        children: [
+                          TextInput(
+                            icon: FontAwesomeIcons.solidEnvelope,
+                            hint: 'Email',
+                            inputType: TextInputType.emailAddress,
+                            inputAction: TextInputAction.next,
+                          ),
+                          PasswordInput(
+                            icon: FontAwesomeIcons.lock,
+                            hint: 'Password',
+                            inputAction: TextInputAction.done,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 16.0),
+                            child: Text(
+                              'Forgot Password?',
+                              style: eBodyText,
                             ),
                           ),
-                          style: eBodyText,
-                          keyboardType: TextInputType.emailAddress,
-                        ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: 80,
+                          ),
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            child: FlatButton(
+                              onPressed: () {},
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16.0),
+                                child: Text(
+                                  'Login',
+                                  style: eBodyText,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
                       )
                     ],
                   ),
