@@ -1,3 +1,4 @@
+import 'package:easy_utilities/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_utilities/screens/account_screen.dart';
 import 'package:easy_utilities/screens/home_screen.dart';
@@ -13,7 +14,10 @@ class RouteGenerator {
 
     switch (settings.name) {
       case '/':
+      case '/login':
         return MaterialPageRoute(builder: (_) => LoginScreen());
+      case '/register':
+        return MaterialPageRoute(builder: (_) => RegisterScreen());
       case '/landing':
         return MaterialPageRoute(builder: (_) => LandingScreen());
       case '/home':
