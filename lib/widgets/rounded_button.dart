@@ -2,11 +2,12 @@ import 'package:easy_utilities/core/palette.dart';
 import 'package:flutter/material.dart';
 
 class RoundedButton extends StatelessWidget {
-  const RoundedButton({Key key, @required this.text, @required this.screen})
+  const RoundedButton({Key key, @required this.text, @required this.screen, this.onButtonPressed})
       : super(key: key);
 
   final String text;
   final String screen;
+  final VoidCallback onButtonPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +18,7 @@ class RoundedButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: FlatButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed('/$screen');
-        },
+        onPressed: () => onButtonPressed(),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           child: Text(
@@ -51,7 +50,6 @@ class SmallRoundedButton extends StatelessWidget {
       ),
       child: FlatButton(
         onPressed: () {
-          print('pressed');
           Navigator.of(context).pushNamed('/$screen');
         },
         child: Text(text),

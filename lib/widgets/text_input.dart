@@ -2,18 +2,20 @@ import 'package:easy_utilities/core/palette.dart';
 import 'package:flutter/material.dart';
 
 class TextInput extends StatelessWidget {
-  const TextInput(
-      {Key key,
-        @required this.icon,
-        @required this.hint,
-        @required this.inputType,
-        @required this.inputAction})
-      : super(key: key);
+  const TextInput({
+    Key key,
+    @required this.icon,
+    @required this.hint,
+    @required this.inputType,
+    @required this.inputAction,
+    @required this.onChanged,
+  }) : super(key: key);
 
   final IconData icon;
   final String hint;
   final TextInputType inputType;
   final TextInputAction inputAction;
+  final ValueChanged<String> onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class TextInput extends StatelessWidget {
           color: Colors.grey[600].withOpacity(0.5),
           borderRadius: BorderRadius.circular(16.0),
         ),
-        child: TextField(
+        child: TextFormField(
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
             border: InputBorder.none,
@@ -42,6 +44,7 @@ class TextInput extends StatelessWidget {
           style: eBodyText,
           keyboardType: inputType,
           textInputAction: inputAction,
+          onChanged: (val) => onChanged(val),
         ),
       ),
     );
