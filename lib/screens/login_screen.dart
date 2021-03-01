@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             TextInput(
                               icon: FontAwesomeIcons.solidEnvelope,
-                              hint: 'Email',
+                              hint: 'Email or Phone number',
                               inputType: TextInputType.emailAddress,
                               inputAction: TextInputAction.next,
                             ),
@@ -60,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             SizedBox(
                               height: 70,
                             ),
-                            RoundedButton(text: 'Login'),
+                            RoundedButton(text: 'Login', screen: 'login'),
                             SizedBox(
                               height: 15.0,
                             ),
@@ -79,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             SizedBox(
                               height: 15.0,
                             ),
-                            SmallRoundedButton(text: 'Sign Up'),
+                            SmallRoundedButton(text: 'Sign Up', screen: 'register',),
                             SizedBox(
                               height: 50,
                             )

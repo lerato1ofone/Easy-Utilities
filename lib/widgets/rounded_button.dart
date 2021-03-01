@@ -2,9 +2,11 @@ import 'package:easy_utilities/core/palette.dart';
 import 'package:flutter/material.dart';
 
 class RoundedButton extends StatelessWidget {
-  const RoundedButton({Key key, @required this.text}) : super(key: key);
+  const RoundedButton({Key key, @required this.text, @required this.screen})
+      : super(key: key);
 
   final String text;
+  final String screen;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,9 @@ class RoundedButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: FlatButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pushNamed('/$screen');
+        },
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           child: Text(
@@ -29,9 +33,12 @@ class RoundedButton extends StatelessWidget {
 }
 
 class SmallRoundedButton extends StatelessWidget {
-  const SmallRoundedButton({Key key, @required this.text}) : super(key: key);
+  const SmallRoundedButton(
+      {Key key, @required this.text, @required this.screen})
+      : super(key: key);
 
   final String text;
+  final String screen;
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +50,11 @@ class SmallRoundedButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: FlatButton(
-        onPressed: () {},
-        child: Text('Sign Up'),
+        onPressed: () {
+          print('pressed');
+          Navigator.of(context).pushNamed('/$screen');
+        },
+        child: Text(text),
         color: Colors.lightBlue[200],
       ),
     );
