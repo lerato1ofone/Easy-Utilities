@@ -58,27 +58,30 @@ class _LoginScreenState extends State<LoginScreen> {
                         Column(
                           children: [
                             SizedBox(
-                              height: 40,
+                              height: 70,
                             ),
                             RoundedButton(text: 'Login'),
-                            SizedBox(height: 15.0,),
-                            Text(
-                              "Don't have an account?",
-                              style: eBodyText,
+                            SizedBox(
+                              height: 15.0,
                             ),
-                            SizedBox(height: 15.0,),
                             Container(
-                              height: 50,
-                              padding: const EdgeInsets.symmetric(vertical: 8),
                               decoration: BoxDecoration(
-                                color: Colors.lightBlue[200],
-                                borderRadius: BorderRadius.circular(10.0),
+                                border: Border(
+                                  bottom:
+                                  BorderSide(color: Colors.white, width: 1),
+                                ),
                               ),
-                              child: FlatButton(
-                                onPressed: () {},
-                                child: Text('Sign Up'),
-                                color: Colors.lightBlue[200],
+                              child: Text(
+                                "Don't have an account?",
+                                style: eBodyText,
                               ),
+                            ),
+                            SizedBox(
+                              height: 15.0,
+                            ),
+                            SmallRoundedButton(text: 'Sign Up'),
+                            SizedBox(
+                              height: 50,
                             )
                           ],
                         )
