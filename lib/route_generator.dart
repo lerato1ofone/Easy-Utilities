@@ -1,11 +1,11 @@
-import 'package:easy_utilities/screens/register_screen.dart';
+import 'package:easy_utilities/screens/authenticate/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_utilities/screens/account_screen.dart';
 import 'package:easy_utilities/screens/home_screen.dart';
 import 'package:easy_utilities/screens/landing_screen.dart';
 import 'package:easy_utilities/screens/stats_screen.dart';
 import 'package:easy_utilities/screens/bills_screen.dart';
-import 'package:easy_utilities/screens/login_screen.dart';
+import 'package:easy_utilities/screens/authenticate/login_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {

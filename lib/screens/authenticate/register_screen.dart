@@ -1,7 +1,7 @@
 import 'package:easy_utilities/core/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../widgets/widgets.dart';
+import '../../widgets/widgets.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -9,6 +9,11 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreen extends State<RegisterScreen> {
+
+  String emailOrPhonenumber = '';
+  String password = '';
+  String confirmPassword = '';
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -40,16 +45,19 @@ class _RegisterScreen extends State<RegisterScreen> {
                               hint: 'Email or Phone number',
                               inputType: TextInputType.emailAddress,
                               inputAction: TextInputAction.next,
+                              onChanged: (value) => onEmailChange(value),
                             ),
                             PasswordInput(
                               icon: FontAwesomeIcons.lock,
                               hint: 'Password',
                               inputAction: TextInputAction.done,
+                              onChanged: (value) => onPasswordChange(value),
                             ),
                             PasswordInput(
                               icon: FontAwesomeIcons.lock,
                               hint: 'Confirm Password',
                               inputAction: TextInputAction.done,
+                              onChanged: (value) => onConfirmPasswordChange(value),
                             ),
                           ],
                         ),
@@ -58,7 +66,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                             SizedBox(
                               height: 60,
                             ),
-                            RoundedButton(text: 'Register', screen: 'OTP'),
+                            RoundedButton(text: 'Register',   onButtonPressed: () => _register(),),
                             SizedBox(
                               height: 15.0,
                             ),
@@ -79,7 +87,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                             ),
                             SmallRoundedButton(
                               text: 'Sign In',
-                              screen: 'login',
+                              onButtonPressed: () =>  Navigator.of(context).pushNamed('/login'),
                             ),
                             SizedBox(
                               height: 50,
@@ -96,5 +104,29 @@ class _RegisterScreen extends State<RegisterScreen> {
         ),
       ],
     );
+  }
+
+  void onEmailChange(value) {
+    setState(() {
+      emailOrPhonenumber = value;
+    });
+  }
+
+  void onPasswordChange(value){
+    setState(() {
+      password = value;
+    });
+  }
+
+  void onConfirmPasswordChange(value){
+    setState(() {
+      confirmPassword = value;
+    });
+  }
+
+  void _register() {
+    print('email: $emailOrPhonenumber');
+    print('password: $password');
+    print('password: $confirmPassword');
   }
 }
