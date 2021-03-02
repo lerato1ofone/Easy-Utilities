@@ -9,6 +9,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreen extends State<RegisterScreen> {
+  final _formKey = GlobalKey<FormState>();
 
   String emailOrPhonenumber = '';
   String password = '';
@@ -36,65 +37,79 @@ class _RegisterScreen extends State<RegisterScreen> {
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: Column(
-                      children: [
-                        Column(
-                          children: [
-                            TextInput(
-                              icon: FontAwesomeIcons.solidEnvelope,
-                              hint: 'Email or Phone number',
-                              inputType: TextInputType.emailAddress,
-                              inputAction: TextInputAction.next,
-                              onChanged: (value) => onEmailChange(value),
-                            ),
-                            PasswordInput(
-                              icon: FontAwesomeIcons.lock,
-                              hint: 'Password',
-                              inputAction: TextInputAction.done,
-                              onChanged: (value) => onPasswordChange(value),
-                            ),
-                            PasswordInput(
-                              icon: FontAwesomeIcons.lock,
-                              hint: 'Confirm Password',
-                              inputAction: TextInputAction.done,
-                              onChanged: (value) => onConfirmPasswordChange(value),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            SizedBox(
-                              height: 60,
-                            ),
-                            RoundedButton(text: 'Register',   onButtonPressed: () => _register(),),
-                            SizedBox(
-                              height: 15.0,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom:
-                                      BorderSide(color: Colors.white, width: 1),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          Column(
+                            children: [
+                              TextInput(
+                                icon: FontAwesomeIcons.solidEnvelope,
+                                hint: 'Email or Phone number',
+                                inputType: TextInputType.emailAddress,
+                                inputAction: TextInputAction.next,
+                                onChanged: (value) => onEmailChange(value),
+                                validator: (value) =>
+                                    value.isEmpty ? 'Enter an email' : null,
+                              ),
+                              PasswordInput(
+                                validator: (value) =>
+                                value.length < 6 ? 'Enter a password 6+ chars long' : null,
+                                icon: FontAwesomeIcons.lock,
+                                hint: 'Password',
+                                inputAction: TextInputAction.done,
+                                onChanged: (value) => onPasswordChange(value),
+                              ),
+                              PasswordInput(
+                                validator: (value) =>
+                                value != password ? 'Passwords do not match' : null,
+                                icon: FontAwesomeIcons.lock,
+                                hint: 'Confirm Password',
+                                inputAction: TextInputAction.done,
+                                onChanged: (value) =>
+                                    onConfirmPasswordChange(value),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              SizedBox(
+                                height: 60,
+                              ),
+                              RoundedButton(
+                                text: 'Register',
+                                onButtonPressed: () => _register(),
+                              ),
+                              SizedBox(
+                                height: 15.0,
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                        color: Colors.white, width: 1),
+                                  ),
+                                ),
+                                child: Text(
+                                  "Have an account already?",
+                                  style: eBodyText,
                                 ),
                               ),
-                              child: Text(
-                                "Have an account already?",
-                                style: eBodyText,
+                              SizedBox(
+                                height: 15.0,
                               ),
-                            ),
-                            SizedBox(
-                              height: 15.0,
-                            ),
-                            SmallRoundedButton(
-                              text: 'Sign In',
-                              onButtonPressed: () =>  Navigator.of(context).pushNamed('/login'),
-                            ),
-                            SizedBox(
-                              height: 50,
-                            )
-                          ],
-                        )
-                      ],
+                              SmallRoundedButton(
+                                text: 'Sign In',
+                                onButtonPressed: () =>
+                                    Navigator.of(context).pushNamed('/login'),
+                              ),
+                              SizedBox(
+                                height: 50,
+                              )
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -112,21 +127,23 @@ class _RegisterScreen extends State<RegisterScreen> {
     });
   }
 
-  void onPasswordChange(value){
+  void onPasswordChange(value) {
     setState(() {
       password = value;
     });
   }
 
-  void onConfirmPasswordChange(value){
+  void onConfirmPasswordChange(value) {
     setState(() {
       confirmPassword = value;
     });
   }
 
   void _register() {
-    print('email: $emailOrPhonenumber');
-    print('password: $password');
-    print('password: $confirmPassword');
+    if (_formKey.currentState.validate()) {
+      print('email: $emailOrPhonenumber');
+      print('password: $password');
+      print('confirm password: $confirmPassword');
+    }
   }
 }
