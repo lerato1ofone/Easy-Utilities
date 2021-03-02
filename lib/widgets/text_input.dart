@@ -9,6 +9,7 @@ class TextInput extends StatelessWidget {
     @required this.inputType,
     @required this.inputAction,
     @required this.onChanged,
+    this.validator,
   }) : super(key: key);
 
   final IconData icon;
@@ -16,6 +17,7 @@ class TextInput extends StatelessWidget {
   final TextInputType inputType;
   final TextInputAction inputAction;
   final ValueChanged<String> onChanged;
+  final Function validator;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class TextInput extends StatelessWidget {
           borderRadius: BorderRadius.circular(16.0),
         ),
         child: TextFormField(
+          validator: (value) => validator(value),
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
             border: InputBorder.none,

@@ -7,13 +7,15 @@ class PasswordInput extends StatelessWidget {
       @required this.icon,
       @required this.hint,
       @required this.inputAction,
-      @required this.onChanged})
+      @required this.onChanged,
+      this.validator})
       : super(key: key);
 
   final IconData icon;
   final String hint;
   final TextInputAction inputAction;
   final ValueChanged<String> onChanged;
+  final Function validator;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class PasswordInput extends StatelessWidget {
           borderRadius: BorderRadius.circular(16.0),
         ),
         child: TextFormField(
+          validator: (value) => validator(value),
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
             border: InputBorder.none,
