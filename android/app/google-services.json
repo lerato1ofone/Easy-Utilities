@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "317675028385",
+    "project_id": "easy-utilities-d6d82",
+    "storage_bucket": "easy-utilities-d6d82.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:317675028385:android:e3a364fafd5b8af50015e0",
+        "android_client_info": {
+          "package_name": "www.leratoletsepe.easy_utilities"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "317675028385-6256o333n42an92ffiba2eajgm2q2ug9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqmDtYAq0w_K2VZobiHQBUsgqcEk999MI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "317675028385-6256o333n42an92ffiba2eajgm2q2ug9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

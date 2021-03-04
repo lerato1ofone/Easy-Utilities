@@ -1,7 +1,9 @@
 import 'package:easy_utilities/models/bill.dart';
 import 'package:easy_utilities/data/constants.dart';
 
-List<Bill> Bills = <Bill>[
+class Bills {
+
+static List<Bill> bills = <Bill>[
   new Bill.fromJson({
     'amount': 250.00,
     'date':   new DateTime(2021, 1, 06),
@@ -59,3 +61,5 @@ List<Bill> Bills = <Bill>[
     'by': 'Mashoto'
   }),
 ];
+
+}

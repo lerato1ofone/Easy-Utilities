@@ -10,7 +10,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   // text field state
-  String emailOrPhonenumber = '';
+  final _formKey = GlobalKey<FormState>();
+
+  String emailOrPhoneNumber = '';
   String password = '';
 
   @override
@@ -23,6 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
           body: SafeArea(
             child: SingleChildScrollView(
               child: Form(
+                key: _formKey,
                 child: Column(
                   children: [
                     Container(
@@ -46,8 +49,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 inputType: TextInputType.emailAddress,
                                 inputAction: TextInputAction.next,
                                 onChanged: (value) => onEmailChange(value),
+                                validator: (value) =>
+                                value.isEmpty ? 'Enter an email or phone number' : null,
                               ),
                               PasswordInput(
+                                validator: (value) =>
+                                value.length < 6 ? 'Enter a password 6+ chars long' : null,
                                 icon: FontAwesomeIcons.lock,
                                 hint: 'Password',
                                 inputAction: TextInputAction.done,
@@ -113,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void onEmailChange(value) {
     setState(() {
-      emailOrPhonenumber = value;
+      emailOrPhoneNumber = value;
     });
   }
 
@@ -124,7 +131,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _login() {
-    print('email: $emailOrPhonenumber');
-    print('password: $password');
+    if (_formKey.currentState.validate()) {
+      print('email: $emailOrPhoneNumber');
+      print('password: $password');
+    }
   }
 }
