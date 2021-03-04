@@ -1,7 +1,9 @@
 import 'package:easy_utilities/core/palette.dart';
+import 'package:easy_utilities/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../widgets/widgets.dart';
+import 'package:easy_utilities/widgets/error_message.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen(
@@ -17,11 +19,15 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
+  final AuthService _auth = AuthService();
+
   // text field state
   final _formKey = GlobalKey<FormState>();
 
   String emailOrPhoneNumber = '';
   String password = '';
+
+  String error = '';
 
   @override
   Widget build(BuildContext context) {
@@ -80,8 +86,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           Column(
                             children: [
                               SizedBox(
-                                height: 70,
+                                height: 40,
                               ),
+                              ErrorMessage(text: error),
                               RoundedButton(
                                 text: 'Login',
                                 onButtonPressed: () => _login(),
@@ -138,10 +145,17 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  void _login() {
+  void _login() async {
     if (_formKey.currentState.validate()) {
-      print('email: $emailOrPhoneNumber');
-      print('password: $password');
+      dynamic result = await _auth.signInWithEmailOrPhoneNumberAndPassword(
+          emailOrPhoneNumber, password);
+      if (result == null) {
+        setState(() {
+          error = 'Invalid credentials';
+        });
+      } else {
+        Navigator.of(context).pushNamed('/landing');
+      }
     }
   }
 }

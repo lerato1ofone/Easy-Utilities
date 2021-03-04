@@ -14,6 +14,22 @@ class AuthService {
     return _auth.onAuthStateChanged.map((FirebaseUser user) => _userFromFirebaseUser(user));
   }
 
+  // sign in with email and password
+  Future signInWithEmailOrPhoneNumberAndPassword(
+      String emailOrPhoneNumber, String password) async {
+    try {
+      AuthResult result = await _auth.signInWithEmailAndPassword(
+          email: emailOrPhoneNumber, password: password);
+
+      FirebaseUser user = result.user;
+
+      return _userFromFirebaseUser(user);
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
   // register with email or phone number and password
   Future registerWithEmailOrPhoneNumberAndPassword(
       String emailOrPhoneNumber, String password) async {
