@@ -1,4 +1,6 @@
 import 'package:easy_utilities/core/palette.dart';
+import 'package:easy_utilities/services/auth.dart';
+import 'package:easy_utilities/widgets/error_message.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../widgets/widgets.dart';
@@ -11,9 +13,13 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreen extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  String emailOrPhonenumber = '';
+  final AuthService _auth = AuthService();
+
+  String emailOrPhoneNumber = '';
   String password = '';
   String confirmPassword = '';
+
+  String error = '';
 
   @override
   Widget build(BuildContext context) {
@@ -49,20 +55,23 @@ class _RegisterScreen extends State<RegisterScreen> {
                                 inputType: TextInputType.emailAddress,
                                 inputAction: TextInputAction.next,
                                 onChanged: (value) => onEmailChange(value),
-                                validator: (value) =>
-                                    value.isEmpty ? 'Enter an email' : null,
+                                validator: (value) => value.isEmpty
+                                    ? 'Enter an email or phone number'
+                                    : null,
                               ),
                               PasswordInput(
-                                validator: (value) =>
-                                value.length < 6 ? 'Enter a password 6+ chars long' : null,
+                                validator: (value) => value.length < 6
+                                    ? 'Enter a password 6+ chars long'
+                                    : null,
                                 icon: FontAwesomeIcons.lock,
                                 hint: 'Password',
                                 inputAction: TextInputAction.done,
                                 onChanged: (value) => onPasswordChange(value),
                               ),
                               PasswordInput(
-                                validator: (value) =>
-                                value != password ? 'Passwords do not match' : null,
+                                validator: (value) => value != password
+                                    ? 'Passwords do not match'
+                                    : null,
                                 icon: FontAwesomeIcons.lock,
                                 hint: 'Confirm Password',
                                 inputAction: TextInputAction.done,
@@ -74,8 +83,9 @@ class _RegisterScreen extends State<RegisterScreen> {
                           Column(
                             children: [
                               SizedBox(
-                                height: 60,
+                                height: 30,
                               ),
+                              ErrorMessage(text: error),
                               RoundedButton(
                                 text: 'Register',
                                 onButtonPressed: () => _register(),
@@ -123,7 +133,7 @@ class _RegisterScreen extends State<RegisterScreen> {
 
   void onEmailChange(value) {
     setState(() {
-      emailOrPhonenumber = value;
+      emailOrPhoneNumber = value;
     });
   }
 
@@ -139,11 +149,17 @@ class _RegisterScreen extends State<RegisterScreen> {
     });
   }
 
-  void _register() {
+  void _register() async {
     if (_formKey.currentState.validate()) {
-      print('email: $emailOrPhonenumber');
-      print('password: $password');
-      print('confirm password: $confirmPassword');
+      dynamic result = await _auth.registerWithEmailOrPhoneNumberAndPassword(
+          emailOrPhoneNumber, password);
+      if (result == null) {
+        setState(() {
+          error = 'Please supply a valid email';
+        });
+      } else {
+        Navigator.of(context).pushNamed('/landing');
+      }
     }
   }
 }
