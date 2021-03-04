@@ -1,10 +1,10 @@
 import 'package:easy_utilities/core/hex_color.dart';
 import 'package:easy_utilities/data/constants.dart';
 import 'package:easy_utilities/models/bill.dart';
-import 'package:easy_utilities/data/bills.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:easy_utilities/data/bills.dart';
 
 class BillsScreen extends StatefulWidget {
   BillsScreen() : super();
@@ -29,7 +29,7 @@ class _BillsScreenState extends State<BillsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final bills = Bills;
+    final bills = Bills.bills;
     final Size size = MediaQuery.of(context).size;
     final double addBillHeight = size.height * 0.35;
 
@@ -96,6 +96,7 @@ class _BillsScreenState extends State<BillsScreen> {
                                         color: Colors.black, fontSize: 15.0),
                                   ),
                                   SizedBox(width: 45.0),
+                                  // ignore: deprecated_member_use
                                   FlatButton(
                                     minWidth: 105.0,
                                     color: Colors.green,
