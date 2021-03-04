@@ -6,6 +6,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../widgets/widgets.dart';
 
 class RegisterScreen extends StatefulWidget {
+     const RegisterScreen(
+      {Key key,
+      this.toggleView})
+      : super(key: key);
+
+  final VoidCallback toggleView;
   @override
   _RegisterScreen createState() => _RegisterScreen();
 }
@@ -110,8 +116,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                               ),
                               SmallRoundedButton(
                                 text: 'Sign In',
-                                onButtonPressed: () =>
-                                    Navigator.of(context).pushNamed('/login'),
+                                   onButtonPressed: () => widget.toggleView(),
                               ),
                               SizedBox(
                                 height: 50,

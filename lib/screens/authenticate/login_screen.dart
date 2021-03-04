@@ -4,11 +4,19 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../widgets/widgets.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen(
+      {Key key,
+      this.toggleView})
+      : super(key: key);
+
+  final VoidCallback toggleView;
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
   // text field state
   final _formKey = GlobalKey<FormState>();
 
@@ -98,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               SmallRoundedButton(
                                 text: 'Sign Up',
-                                onButtonPressed: () =>  Navigator.of(context).pushNamed('/register'),
+                                    onButtonPressed: () => widget.toggleView(),
                               ),
                               SizedBox(
                                 height: 50,
