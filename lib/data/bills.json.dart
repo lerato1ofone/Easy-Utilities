@@ -57,4 +57,4 @@ var bills = [
     "kwh": null,
     "by": "Mashoto"
   }
-]
+];

@@ -18,7 +18,6 @@ class Bill {
       by: json["by"],
     );
 
-  @override
   Map<String, dynamic> toJson() => {
     "amount": this.amount,
     "date": this.date,
