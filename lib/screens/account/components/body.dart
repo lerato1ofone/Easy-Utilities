@@ -1,8 +1,11 @@
 import 'package:easy_utilities/screens/account/components/profile_menu.dart';
 import 'package:easy_utilities/screens/account/components/profile_picture.dart';
+import 'package:easy_utilities/services/auth.dart';
 import 'package:flutter/material.dart';
 
 class Body extends StatelessWidget {
+  final AuthService _auth = AuthService();
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -16,7 +19,9 @@ class Body extends StatelessWidget {
           ProfileMenu(
             icon: "./assets/icons/logout-icon.svg",
             text: 'Log Out',
-            press: () {},
+            press: () {
+              _auth.signOutUser();
+            },
           ),
           ProfileMenu(
             icon: "./assets/icons/user-icon.svg",
