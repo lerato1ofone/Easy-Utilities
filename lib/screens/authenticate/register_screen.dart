@@ -6,10 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../widgets/widgets.dart';
 
 class RegisterScreen extends StatefulWidget {
-     const RegisterScreen(
-      {Key key,
-      this.toggleView})
-      : super(key: key);
+  const RegisterScreen({Key key, this.toggleView}) : super(key: key);
 
   final VoidCallback toggleView;
   @override
@@ -116,7 +113,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                               ),
                               SmallRoundedButton(
                                 text: 'Sign In',
-                                   onButtonPressed: () => widget.toggleView(),
+                                onButtonPressed: () => widget.toggleView(),
                               ),
                               SizedBox(
                                 height: 50,
@@ -162,8 +159,6 @@ class _RegisterScreen extends State<RegisterScreen> {
         setState(() {
           error = 'Please supply a valid email';
         });
-      } else {
-        Navigator.of(context).pushNamed('/landing');
       }
     }
   }
