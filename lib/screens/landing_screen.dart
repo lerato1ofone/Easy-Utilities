@@ -3,7 +3,6 @@ import 'package:easy_utilities/screens/account_screen.dart';
 import 'package:easy_utilities/screens/home_screen.dart';
 import 'package:easy_utilities/screens/bills_screen.dart';
 import 'package:easy_utilities/screens/stats_screen.dart';
-import 'package:easy_utilities/core/hex_color.dart';
 
 class LandingScreen extends StatefulWidget {
   @override
@@ -43,31 +42,33 @@ class _HomeScreenState extends State<LandingScreen> {
           onPageChanged: _onPageChanged,
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _selectedIndex,
-        selectedLabelStyle: TextStyle(color: Colors.indigo[100]),
-        selectedItemColor:Colors.indigo[100],
-        backgroundColor: HexColor.fromHex('#4A4040'),
-        onTap: _onItemTapped,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.money),
-            label: 'Add Utility',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.data_usage_outlined),
-            label: 'Statistics',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Account',
-          ),
-        ],
+      bottomNavigationBar: Container(
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          currentIndex: _selectedIndex,
+          selectedLabelStyle: TextStyle(color: Colors.indigo[100]),
+          selectedItemColor: Colors.indigo[100],
+          backgroundColor: Colors.white,
+          onTap: _onItemTapped,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.money),
+              label: 'Add Utility',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.data_usage_outlined),
+              label: 'Statistics',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Account',
+            ),
+          ],
+        ),
       ),
     );
   }
