@@ -1,4 +1,5 @@
 import 'package:easy_utilities/models/user.dart';
+import 'package:easy_utilities/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
@@ -11,7 +12,8 @@ class AuthService {
 
   // auth change user stream
   Stream<User> get user {
-    return _auth.onAuthStateChanged.map((FirebaseUser user) => _userFromFirebaseUser(user));
+    return _auth.onAuthStateChanged
+        .map((FirebaseUser user) => _userFromFirebaseUser(user));
   }
 
   // sign in with email and password
@@ -39,7 +41,20 @@ class AuthService {
 
       FirebaseUser user = result.user;
 
+      // create a new document with the user's uid
+      await DatabaseService(uid: user.uid).updateUserData(
+          emailOrPhoneNumber.split('@')[0], emailOrPhoneNumber, password, '');
+
       return _userFromFirebaseUser(user);
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
+  Future signOutUser() async {
+    try {
+      await _auth.signOut();
     } catch (e) {
       print(e.toString());
       return null;
