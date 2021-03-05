@@ -10,12 +10,17 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(
-      centerTitle: true,
-      title: Text('Account', style: ePageHeading,),
+    return Scaffold(
       backgroundColor: Colors.white,
-      elevation: 0.0,
-    ),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          'Account',
+          style: ePageHeading,
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+      ),
       body: Body(),
     );
   }
