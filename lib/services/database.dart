@@ -9,12 +9,20 @@ class DatabaseService {
       Firestore.instance.collection('accounts');
 
   Future updateUserData(String name, String emailOrPhoneNumber, String password,
-      String photoUrl) async {
+      String photoUrl, bool profileUpdated) async {
     return await billsCollection.document(uid).setData({
       'name': name,
       'emailOrPhoneNumber': emailOrPhoneNumber,
       'password': password,
-      'photoUrl': photoUrl
+      'photoUrl': photoUrl,
+      'profileUpdated': profileUpdated
     });
+  }
+
+  Future<bool> getUserProfileUpdateStatus() async {
+    await billsCollection.document(uid).get().then((doc) {
+      return doc.data['profileUpdated'];
+    });
+    return true;
   }
 }

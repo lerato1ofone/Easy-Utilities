@@ -43,7 +43,7 @@ class AuthService {
 
       // create a new document with the user's uid
       await DatabaseService(uid: user.uid).updateUserData(
-          emailOrPhoneNumber.split('@')[0], emailOrPhoneNumber, password, '');
+          emailOrPhoneNumber, emailOrPhoneNumber, password, '', false);
 
       return _userFromFirebaseUser(user);
     } catch (e) {
@@ -55,6 +55,18 @@ class AuthService {
   Future signOutUser() async {
     try {
       await _auth.signOut();
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
+  // check if the user exists in the database
+  Future<bool> checkUserProfile(User user) async {
+    try {
+      bool value =
+          await DatabaseService(uid: user.uid).getUserProfileUpdateStatus();
+      return value;
     } catch (e) {
       print(e.toString());
       return null;
