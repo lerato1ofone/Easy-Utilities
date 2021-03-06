@@ -6,10 +6,7 @@ import '../../widgets/widgets.dart';
 import 'package:easy_utilities/widgets/error_message.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen(
-      {Key key,
-      this.toggleView})
-      : super(key: key);
+  const LoginScreen({Key key, this.toggleView}) : super(key: key);
 
   final VoidCallback toggleView;
 
@@ -18,7 +15,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   final AuthService _auth = AuthService();
 
   // text field state
@@ -63,12 +59,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 inputType: TextInputType.emailAddress,
                                 inputAction: TextInputAction.next,
                                 onChanged: (value) => onEmailChange(value),
-                                validator: (value) =>
-                                value.isEmpty ? 'Enter an email or phone number' : null,
+                                validator: (value) => value.isEmpty
+                                    ? 'Enter an email or phone number'
+                                    : null,
                               ),
                               PasswordInput(
-                                validator: (value) =>
-                                value.length < 6 ? 'Enter a password 6+ chars long' : null,
+                                validator: (value) => value.length < 6
+                                    ? 'Enter a password 6+ chars long'
+                                    : null,
                                 icon: FontAwesomeIcons.lock,
                                 hint: 'Password',
                                 inputAction: TextInputAction.done,
@@ -113,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               SmallRoundedButton(
                                 text: 'Sign Up',
-                                    onButtonPressed: () => widget.toggleView(),
+                                onButtonPressed: () => widget.toggleView(),
                               ),
                               SizedBox(
                                 height: 50,
@@ -139,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  void onPasswordChange(value){
+  void onPasswordChange(value) {
     setState(() {
       password = value;
     });
@@ -153,8 +151,6 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() {
           error = 'Invalid credentials';
         });
-      } else {
-        Navigator.of(context).pushNamed('/landing');
       }
     }
   }
