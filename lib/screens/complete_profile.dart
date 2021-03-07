@@ -1,15 +1,16 @@
 import 'package:easy_utilities/core/hex_color.dart';
 import 'package:easy_utilities/core/palette.dart';
+import 'package:easy_utilities/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CompleteProfileScreen extends StatelessWidget {
   const CompleteProfileScreen({
     Key key,
-    @required this.name,
+    @required this.user,
   }) : super(key: key);
 
-  final String name;
+  final UserData user;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class CompleteProfileScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Welcome, \n$name',
+                      'Welcome, \n${user.name}',
                       style: ePageHeading,
                     ),
                     SizedBox(
@@ -49,7 +50,11 @@ class CompleteProfileScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       color: HexColor.fromHex('#E4E0FA'),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(
+                            '/complete-profile-form',
+                            arguments: user);
+                      },
                       child: Row(
                         children: [
                           SvgPicture.asset(

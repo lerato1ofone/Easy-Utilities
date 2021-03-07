@@ -89,6 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ErrorMessage(text: error),
                               RoundedButton(
                                 text: 'Login',
+                                color: Colors.blue,
                                 onButtonPressed: () => _login(),
                               ),
                               SizedBox(
