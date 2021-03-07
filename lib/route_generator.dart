@@ -1,3 +1,5 @@
+import 'package:easy_utilities/screens/complete_profile_form_screen.dart';
+import 'package:easy_utilities/screens/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_utilities/screens/account_screen.dart';
 import 'package:easy_utilities/screens/home_screen.dart';
@@ -11,6 +13,13 @@ class RouteGenerator {
     final args = settings.arguments;
 
     switch (settings.name) {
+      case '/':
+        return MaterialPageRoute(builder: (_) => Wrapper());
+      case '/complete-profile-form':
+        return MaterialPageRoute(
+            builder: (_) => CompleteProfileFormScreen(
+                  user: args,
+                ));
       case '/landing':
         return MaterialPageRoute(builder: (_) => LandingScreen());
       case '/home':

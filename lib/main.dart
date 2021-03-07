@@ -1,4 +1,5 @@
 import 'package:easy_utilities/models/user.dart';
+import 'package:easy_utilities/route_generator.dart';
 import 'package:easy_utilities/screens/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,10 +12,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamProvider<User>.value(
-        value: AuthService().user,
-          initialData: null,
-          child: MaterialApp(
-          home: Wrapper(),
+      value: AuthService().user,
+      initialData: null,
+      child: MaterialApp(
+        home: Wrapper(),
+        initialRoute: '/',
+        onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );
   }
