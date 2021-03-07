@@ -9,9 +9,11 @@ class LandingScreen extends StatefulWidget {
   const LandingScreen({
     Key key,
     this.isPostSignUp,
+    this.userName,
   }) : super(key: key);
 
   final bool isPostSignUp;
+  final String userName;
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -43,7 +45,9 @@ class _HomeScreenState extends State<LandingScreen> {
   @override
   Widget build(BuildContext context) {
     if (widget.isPostSignUp == true) {
-      return CompleteProfileScreen();
+      return CompleteProfileScreen(
+        name: widget.userName,
+      );
     } else {
       return Scaffold(
         body: SafeArea(
