@@ -60,16 +60,4 @@ class AuthService {
       return null;
     }
   }
-
-  // check if the user exists in the database
-  Future<bool> checkUserProfile(User user) async {
-    try {
-      bool value =
-          await DatabaseService(uid: user.uid).getUserProfileUpdateStatus();
-      return value;
-    } catch (e) {
-      print(e.toString());
-      return null;
-    }
-  }
 }
