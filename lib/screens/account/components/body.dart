@@ -12,7 +12,9 @@ class Body extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ProfilePicture(),
+          ProfilePicture(
+            image: './assets/images/profile-img.jpg',
+          ),
           SizedBox(
             height: 15,
           ),

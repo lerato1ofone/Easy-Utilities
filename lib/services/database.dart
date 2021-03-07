@@ -31,6 +31,7 @@ class DatabaseService {
     return UserData(
         uid: uid,
         name: snapshot.data['name'],
+        password: snapshot.data['password'],
         emailOrPhonenumber: snapshot.data['emailOrPhoneNumber'],
         profilePhotoUrl: snapshot.data['profilePhotoUrl'],
         profileUpdated: snapshot.data['profileUpdated']);
