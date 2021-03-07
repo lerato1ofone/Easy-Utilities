@@ -28,7 +28,7 @@ class _RegisterScreen extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        BackgroundImage(),
+        BackgroundImage(image: './assets/images/login.jpg'),
         Scaffold(
           backgroundColor: Colors.transparent,
           body: SafeArea(

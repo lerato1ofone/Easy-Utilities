@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_utilities/models/user.dart';
 
 class DatabaseService {
   final String uid;
@@ -9,12 +10,12 @@ class DatabaseService {
       Firestore.instance.collection('accounts');
 
   Future updateUserData(String name, String emailOrPhoneNumber, String password,
-      String photoUrl, bool profileUpdated) async {
+      String profilePhotoUrl, bool profileUpdated) async {
     return await billsCollection.document(uid).setData({
       'name': name,
       'emailOrPhoneNumber': emailOrPhoneNumber,
       'password': password,
-      'photoUrl': photoUrl,
+      'profilePhotoUrl': profilePhotoUrl,
       'profileUpdated': profileUpdated
     });
   }
@@ -24,5 +25,19 @@ class DatabaseService {
       return doc.data['profileUpdated'];
     });
     return true;
+  }
+
+  UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
+    return UserData(
+        uid: uid,
+        name: snapshot.data['name'],
+        emailOrPhonenumber: snapshot.data['emailOrPhoneNumber'],
+        profilePhotoUrl: snapshot.data['profilePhotoUrl'],
+        profileUpdated: snapshot.data['profileUpdated']);
+  }
+
+  // Get user document
+  Stream<UserData> get userData {
+    return billsCollection.document(uid).snapshots().map(_userDataFromSnapshot);
   }
 }

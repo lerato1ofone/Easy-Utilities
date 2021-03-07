@@ -138,8 +138,12 @@ class _BillsScreenState extends State<BillsScreen> {
                                 letterSpacing: 0.6),
                           ),
                           IconButton(
-                              icon: FaIcon(FontAwesomeIcons.filter, color: Colors.white70, size: 20.0,),
-                              onPressed: null)
+                              icon: FaIcon(
+                                FontAwesomeIcons.filter,
+                                color: Colors.white70,
+                                size: 20.0,
+                              ),
+                              onPressed: null),
                         ],
                       ),
                       SizedBox(
