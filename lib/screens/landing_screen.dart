@@ -1,3 +1,4 @@
+import 'package:easy_utilities/models/user.dart';
 import 'package:easy_utilities/screens/complete_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_utilities/screens/account_screen.dart';
@@ -8,12 +9,10 @@ import 'package:easy_utilities/screens/stats_screen.dart';
 class LandingScreen extends StatefulWidget {
   const LandingScreen({
     Key key,
-    this.isPostSignUp,
-    this.userName,
+    this.user,
   }) : super(key: key);
 
-  final bool isPostSignUp;
-  final String userName;
+  final UserData user;
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -44,9 +43,9 @@ class _HomeScreenState extends State<LandingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.isPostSignUp == true) {
+    if (widget.user != null && widget.user.profileUpdated != true) {
       return CompleteProfileScreen(
-        name: widget.userName,
+        user: widget.user,
       );
     } else {
       return Scaffold(

@@ -91,6 +91,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                               ErrorMessage(text: error),
                               RoundedButton(
                                 text: 'Register',
+                                color: Colors.blue,
                                 onButtonPressed: () => _register(),
                               ),
                               SizedBox(

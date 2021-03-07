@@ -2,13 +2,15 @@ import 'package:easy_utilities/core/palette.dart';
 import 'package:flutter/material.dart';
 
 class RoundedButton extends StatelessWidget {
-  const RoundedButton(
-      {Key key,
-      @required this.text,
-      this.onButtonPressed})
-      : super(key: key);
+  const RoundedButton({
+    Key key,
+    @required this.text,
+    @required this.color,
+    this.onButtonPressed,
+  }) : super(key: key);
 
   final String text;
+  final Color color;
   final VoidCallback onButtonPressed;
 
   @override
@@ -16,7 +18,7 @@ class RoundedButton extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.blue,
+        color: color,
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: TextButton(
@@ -34,10 +36,7 @@ class RoundedButton extends StatelessWidget {
 }
 
 class SmallRoundedButton extends StatelessWidget {
-  const SmallRoundedButton(
-      {Key key,
-      @required this.text,
-      this.onButtonPressed})
+  const SmallRoundedButton({Key key, @required this.text, this.onButtonPressed})
       : super(key: key);
 
   final String text;
@@ -55,7 +54,8 @@ class SmallRoundedButton extends StatelessWidget {
         onPressed: () => onButtonPressed(),
         child: Text(text),
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(Colors.lightBlue[200]),
+          backgroundColor:
+              MaterialStateProperty.all<Color>(Colors.lightBlue[200]),
         ),
       ),
     );

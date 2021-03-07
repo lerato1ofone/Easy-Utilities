@@ -20,8 +20,8 @@ class Wrapper extends StatelessWidget {
             if (snapshot.hasData) {
               UserData userData = snapshot.data;
               return LandingScreen(
-                  isPostSignUp: !userData.profileUpdated,
-                  userName: userData.name);
+                user: userData,
+              );
             } else {
               return Container(
                 child: Text('Loading...'),
