@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        BackgroundImage(),
+        BackgroundImage(image: './assets/images/login.jpg'),
         Scaffold(
           backgroundColor: Colors.transparent,
           body: SafeArea(

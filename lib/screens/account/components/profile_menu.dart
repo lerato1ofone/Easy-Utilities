@@ -20,31 +20,32 @@ class ProfileMenu extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       // ignore: deprecated_member_use
       child: FlatButton(
-          padding: EdgeInsets.all(20),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          color: HexColor.fromHex('#afeeee'),
-          onPressed: press,
-          child: Row(
-            children: [
-              SvgPicture.asset(
-                icon,
-                width: 30,
-                color: HexColor.fromHex('#ffb77a'),
+        padding: EdgeInsets.all(20),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        color: HexColor.fromHex('#afeeee'),
+        onPressed: press,
+        child: Row(
+          children: [
+            SvgPicture.asset(
+              icon,
+              width: 30,
+              color: HexColor.fromHex('#ffb77a'),
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Expanded(
+              child: Text(
+                text,
+                style: eBodyText1,
               ),
-              SizedBox(
-                width: 20,
-              ),
-              Expanded(
-                child: Text(
-                  text,
-                  style: eBodyText1,
-                ),
-              ),
-              Icon(Icons.arrow_forward_ios),
-            ],
-          )),
+            ),
+            Icon(Icons.arrow_forward_ios),
+          ],
+        ),
+      ),
     );
   }
 }
