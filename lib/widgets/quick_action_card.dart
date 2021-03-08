@@ -23,7 +23,7 @@ class QuickActionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 50.0),
+      padding: const EdgeInsets.only(top: 40.0),
       child: GestureDetector(
         onTap: () => onPress(),
         child: Container(

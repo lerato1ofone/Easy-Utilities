@@ -3,14 +3,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class LatestTransactionCard extends StatelessWidget {
+  const LatestTransactionCard({
+    Key key,
+    @required this.title,
+    @required this.subtitle,
+    @required this.icon,
+    @required this.onPress,
+  }) : super(key: key);
+
+  final String title;
+  final String subtitle;
+  final String icon;
+  final VoidCallback onPress;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Card(
         child: ListTile(
-          leading: SvgPicture.asset(
-            './assets/icons/electricity-icon.svg',
-            color: Colors.black,
+          leading: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Container(
+              height: 45,
+              width: 45,
+              child: SvgPicture.asset(
+                './assets/icons/electricity-icon.svg',
+                height: 50,
+                width: 50,
+                color: Colors.black,
+              ),
+            ),
           ),
           title: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
