@@ -175,9 +175,24 @@ class _LandingScreenState extends State<HomeScreen> {
                 child: Container(
                   child: ListView(
                     children: <Widget>[
-                      LatestTransactionCard(),
-                      LatestTransactionCard(),
-                      LatestTransactionCard(),
+                      LatestTransactionCard(
+                        icon: './assets/icons/electricity-icon.svg',
+                        title: 'Cryptic Gxdly',
+                        subtitle: '03 March | R250.00',
+                        onPress: () => {print('open transaction')},
+                      ),
+                      LatestTransactionCard(
+                        icon: './assets/icons/water-drop-icon.svg',
+                        title: 'Cryptic Gxdly',
+                        subtitle: '03 March | R100.00',
+                        onPress: () => {print('open transaction')},
+                      ),
+                      LatestTransactionCard(
+                        icon: './assets/icons/electricity-icon.svg',
+                        title: 'Cryptic Gxdly',
+                        subtitle: '03 March | R150.00',
+                        onPress: () => {print('open transaction')},
+                      ),
                     ],
                   ),
                 ),

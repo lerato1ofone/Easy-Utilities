@@ -21,13 +21,14 @@ class LatestTransactionCard extends StatelessWidget {
     return Container(
       child: Card(
         child: ListTile(
+          onTap: () => onPress(),
           leading: Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Container(
               height: 45,
               width: 45,
               child: SvgPicture.asset(
-                './assets/icons/electricity-icon.svg',
+                icon,
                 height: 50,
                 width: 50,
                 color: Colors.black,
@@ -37,7 +38,7 @@ class LatestTransactionCard extends StatelessWidget {
           title: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: Text(
-              'Cryptic Gxdly',
+              title,
               style: TextStyle(
                 fontFamily: 'Roboto',
                 fontSize: 16,
@@ -46,7 +47,7 @@ class LatestTransactionCard extends StatelessWidget {
             ),
           ),
           subtitle: Text(
-            '03 March | R250.00',
+            subtitle,
             style: TextStyle(
                 fontFamily: 'Roboto',
                 fontSize: 16,
