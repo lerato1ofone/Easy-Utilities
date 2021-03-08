@@ -1,5 +1,6 @@
+import 'package:easy_utilities/core/palette.dart';
+import 'package:easy_utilities/widgets/quick_action_card.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_utilities/constants.dart' as Constants;
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -9,89 +10,119 @@ class HomeScreen extends StatefulWidget {
 class _LandingScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Padding(padding: EdgeInsets.only(top: 50.0)),
-          Container(
-            child: Text(
-              'Easily Track Your Utility Spend.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.purple[10],
-                fontSize: 24.0,
-                fontFamily: 'Nunito',
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.0,
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(
+              left: 35.0, right: 35.0, top: 60.0, bottom: 35.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Good evening,\nCryptic Gxdly',
+                    style: eBlackHeading,
+                  ),
+                  CircleAvatar(
+                    radius: 30.0,
+                    backgroundImage:
+                        AssetImage('./assets/images/profile-img.jpg'),
+                    backgroundColor: Colors.white,
+                  ),
+                ],
               ),
-            ),
-          ),
-          SizedBox(
-            height: 100.0,
-          ),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Column(
-                  children: [
-                    MaterialButton(
-                      onPressed: () {
-                        Navigator.of(context).pushNamed('/bills',
-                            arguments: Constants.ELECTRICITY);
-                      },
-                      color: Colors.blue,
-                      textColor: Colors.deepOrange[50],
-                      child: Icon(
-                        Icons.power,
-                        size: 40,
+              SizedBox(
+                height: 31,
+              ),
+              Container(
+                child: Image(
+                  image: AssetImage('./assets/images/separator.png'),
+                ),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              Text(
+                'Quick Actions',
+                style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontFamily: 'Roboto'),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      height: 280,
+                      width: 160,
+                      child: QuickActionCard(
+                        color: '#F664F7',
+                        icon: './assets/icons/electricity-icon.svg',
+                        text: 'Add electricity',
+                        textColor: '#F6EEE0',
+                        iconColor: '#F6EEE0',
+                        onPress: () => {print('clicked')},
                       ),
-                      padding: EdgeInsets.all(16),
-                      shape: CircleBorder(),
                     ),
-                    Padding(padding: EdgeInsets.only(top: 20.0)),
-                    Text('Add Electricity bill'),
+                    SizedBox(
+                      width: 30,
+                    ),
+                    Container(
+                      height: 280,
+                      width: 160,
+                      child: QuickActionCard(
+                        color: '#DA7423',
+                        icon: './assets/icons/water-drop-icon.svg',
+                        textColor: '#ffffff',
+                        iconColor: '#ffffff',
+                        text: 'Add water',
+                        onPress: () => {print('clicked')},
+                      ),
+                    ),
+                    SizedBox(
+                      width: 30,
+                    ),
+                    Container(
+                      height: 280,
+                      width: 160,
+                      child: QuickActionCard(
+                        color: '#2389DA',
+                        icon: './assets/icons/water-drop-icon.svg',
+                        textColor: '#ffffff',
+                        iconColor: '#ffffff',
+                        text: 'Add water',
+                        onPress: () => {print('clicked')},
+                      ),
+                    ),
+                    SizedBox(
+                      width: 30,
+                    ),
+                    Container(
+                      height: 280,
+                      width: 160,
+                      child: QuickActionCard(
+                        color: '#E2A576',
+                        icon: './assets/icons/water-drop-icon.svg',
+                        textColor: '#ffffff',
+                        iconColor: '#ffffff',
+                        text: 'Add water',
+                        onPress: () => {print('clicked')},
+                      ),
+                    ),
                   ],
                 ),
-                Column(
-                  children: [
-                    MaterialButton(
-                      onPressed: () {
-                        Navigator.of(context)
-                            .pushNamed('/bills', arguments: Constants.WATER);
-                      },
-                      color: Colors.blue,
-                      textColor: Colors.deepOrange[50],
-                      child: Icon(
-                        Icons.water_damage,
-                        size: 40,
-                      ),
-                      padding: EdgeInsets.all(16),
-                      shape: CircleBorder(),
-                    ),
-                    Padding(padding: EdgeInsets.only(top: 20.0)),
-                    Text('Add Water bill'),
-                  ],
-                ),
-              ]),
-          SizedBox(
-            height: 80,
+              ),
+            ],
           ),
-          Text(
-            'R 1200.00',
-            style: TextStyle(
-              fontSize: 30.0,
-              letterSpacing: 2.0,
-            ),
-          ),
-          SizedBox(
-            height: 10.0,
-          ),
-          Text(
-            'OVERALL SPEND',
-            style: TextStyle(fontSize: 15.0, letterSpacing: 1.0),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
