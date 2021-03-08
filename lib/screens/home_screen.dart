@@ -1,3 +1,4 @@
+import 'package:easy_utilities/core/hex_color.dart';
 import 'package:easy_utilities/core/palette.dart';
 import 'package:easy_utilities/widgets/latest_transaction_card.dart';
 import 'package:easy_utilities/widgets/quick_action_card.dart';
@@ -25,7 +26,7 @@ class _LandingScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Good evening,\nCryptic Gxdly',
+                        'Good evening,\nCryptic Gxdly.',
                         style: eBlackHeading,
                       ),
                       CircleAvatar(
@@ -60,7 +61,7 @@ class _LandingScreenState extends State<HomeScreen> {
                     child: Row(
                       children: <Widget>[
                         Container(
-                          height: 280,
+                          height: 220,
                           width: 160,
                           child: QuickActionCard(
                             color: '#F664F7',
@@ -75,7 +76,7 @@ class _LandingScreenState extends State<HomeScreen> {
                           width: 30,
                         ),
                         Container(
-                          height: 280,
+                          height: 220,
                           width: 160,
                           child: QuickActionCard(
                             color: '#DA7423',
@@ -90,7 +91,7 @@ class _LandingScreenState extends State<HomeScreen> {
                           width: 30,
                         ),
                         Container(
-                          height: 280,
+                          height: 220,
                           width: 160,
                           child: QuickActionCard(
                             color: '#2389DA',
@@ -105,7 +106,7 @@ class _LandingScreenState extends State<HomeScreen> {
                           width: 30,
                         ),
                         Container(
-                          height: 280,
+                          height: 220,
                           width: 160,
                           child: QuickActionCard(
                             color: '#E2A576',
@@ -125,17 +126,60 @@ class _LandingScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            Row(
-              children: <Widget>[Text('Latest Transactions')],
+            SizedBox(
+              height: 30,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 35.0, bottom: 10.0),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'Latest Transactions',
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontFamily: 'Roboto'),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: HexColor.fromHex('#E2A576'),
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Center(
+                        child: Text(
+                          '3',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             Expanded(
-              child: Container(
-                child: ListView(
-                  children: <Widget>[
-                    LatestTransactionCard(),
-                    LatestTransactionCard(),
-                    LatestTransactionCard(),
-                  ],
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Container(
+                  child: ListView(
+                    children: <Widget>[
+                      LatestTransactionCard(),
+                      LatestTransactionCard(),
+                      LatestTransactionCard(),
+                    ],
+                  ),
                 ),
               ),
             ),
