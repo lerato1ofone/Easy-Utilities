@@ -12,11 +12,14 @@ class Body extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          SizedBox(
+            height: 20,
+          ),
           ProfilePicture(
             image: './assets/images/profile-img.jpg',
           ),
           SizedBox(
-            height: 15,
+            height: 60,
           ),
           ProfileMenu(
             icon: "./assets/icons/logout-icon.svg",

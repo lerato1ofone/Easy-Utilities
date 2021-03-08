@@ -34,7 +34,7 @@ class _BillsScreenState extends State<BillsScreen> {
     final double addBillHeight = size.height * 0.35;
 
     return Scaffold(
-      backgroundColor: HexColor.fromHex('#4A4040'),
+      backgroundColor: HexColor.fromHex('#ffffff'),
       body: SafeArea(
         child: Container(
           child: Column(
