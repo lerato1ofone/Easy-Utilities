@@ -1,10 +1,18 @@
 import 'package:easy_utilities/core/hex_color.dart';
 import 'package:easy_utilities/core/palette.dart';
+import 'package:easy_utilities/models/user.dart';
 import 'package:easy_utilities/widgets/latest_transaction_card.dart';
 import 'package:easy_utilities/widgets/quick_action_card.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({
+    Key key,
+    @required this.user,
+  }) : super(key: key);
+
+  final UserData user;
+
   @override
   _LandingScreenState createState() => _LandingScreenState();
 }
@@ -26,7 +34,7 @@ class _LandingScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Good evening,\nCryptic Gxdly.',
+                        'Good evening,\n${widget.user.name}.',
                         style: eBlackHeading,
                       ),
                       CircleAvatar(

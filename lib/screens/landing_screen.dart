@@ -23,13 +23,6 @@ class _HomeScreenState extends State<LandingScreen> {
 
   PageController _pageController = PageController();
 
-  List<Widget> _screens = [
-    HomeScreen(),
-    BillsScreen(),
-    StatsScreen(),
-    AccountScreen(),
-  ];
-
   void _onItemTapped(int selectIndex) {
     _pageController.animateToPage(selectIndex,
         duration: Duration(milliseconds: 500), curve: Curves.easeIn);
@@ -52,7 +45,14 @@ class _HomeScreenState extends State<LandingScreen> {
         body: SafeArea(
           child: PageView(
             controller: _pageController,
-            children: _screens,
+            children: <Widget>[
+              HomeScreen(
+                user: widget.user,
+              ),
+              BillsScreen(),
+              StatsScreen(),
+              AccountScreen(),
+            ],
             onPageChanged: _onPageChanged,
           ),
         ),

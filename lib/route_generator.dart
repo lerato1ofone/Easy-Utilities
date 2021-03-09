@@ -23,7 +23,10 @@ class RouteGenerator {
       case '/landing':
         return MaterialPageRoute(builder: (_) => LandingScreen());
       case '/home':
-        return MaterialPageRoute(builder: (_) => HomeScreen());
+        return MaterialPageRoute(
+            builder: (_) => HomeScreen(
+                  user: args,
+                ));
       case '/bills':
         return MaterialPageRoute(builder: (_) => BillsScreen());
       case '/stats':
