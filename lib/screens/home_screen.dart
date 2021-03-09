@@ -1,6 +1,9 @@
 import 'package:easy_utilities/core/hex_color.dart';
 import 'package:easy_utilities/core/palette.dart';
+import 'package:easy_utilities/data/bill_type.dart';
+import 'package:easy_utilities/models/bill.dart';
 import 'package:easy_utilities/models/user.dart';
+import 'package:easy_utilities/services/database.dart';
 import 'package:easy_utilities/widgets/latest_transaction_card.dart';
 import 'package:easy_utilities/widgets/quick_action_card.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +21,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _LandingScreenState extends State<HomeScreen> {
+  List<BillData> bills;
+
+  @override
+  void initState() {
+    super.initState();
+    getLatestBillTransactions(widget.user.uid);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -181,27 +192,25 @@ class _LandingScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Container(
-                  child: ListView(
-                    children: <Widget>[
-                      LatestTransactionCard(
-                        icon: './assets/icons/electricity-icon.svg',
-                        title: 'Cryptic Gxdly',
-                        subtitle: '03 March | R250.00',
-                        onPress: () => {print('open transaction')},
-                      ),
-                      LatestTransactionCard(
-                        icon: './assets/icons/water-drop-icon.svg',
-                        title: 'Cryptic Gxdly',
-                        subtitle: '03 March | R100.00',
-                        onPress: () => {print('open transaction')},
-                      ),
-                      LatestTransactionCard(
-                        icon: './assets/icons/electricity-icon.svg',
-                        title: 'Cryptic Gxdly',
-                        subtitle: '03 March | R150.00',
-                        onPress: () => {print('open transaction')},
-                      ),
-                    ],
+                  child: ListView.builder(
+                    itemCount: bills == null ? 0 : bills.length,
+                    itemBuilder: (context, i) {
+                      if (bills[i].type == BillType.electricity) {
+                        return LatestTransactionCard(
+                          icon: './assets/icons/electricity-icon.svg',
+                          title: bills[i].userId,
+                          subtitle: '${bills[i].date} | R ${bills[i].amount}',
+                          onPress: () => {print('open transaction')},
+                        );
+                      } else {
+                        return LatestTransactionCard(
+                          icon: './assets/icons/water-drop-icon.svg',
+                          title: bills[i].userId,
+                          subtitle: '${bills[i].date} | R ${bills[i].amount}',
+                          onPress: () => {print('open transaction')},
+                        );
+                      }
+                    },
                   ),
                 ),
               ),
@@ -210,5 +219,13 @@ class _LandingScreenState extends State<HomeScreen> {
         ),
       ],
     );
+  }
+
+  void getLatestBillTransactions(String id) async {
+    dynamic result =
+        await DatabaseService(uid: widget.user.uid).getBillsData(true);
+    setState(() {
+      bills = result;
+    });
   }
 }
