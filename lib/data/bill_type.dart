@@ -1,4 +1,1 @@
-enum bill_type{
-  water,
-  electricity
-}
+enum BillType { water, electricity }
