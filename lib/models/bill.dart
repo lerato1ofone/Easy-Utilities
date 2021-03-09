@@ -1,28 +1,26 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:easy_utilities/data/bill_type.dart';
 
-@JsonSerializable(nullable: false)
 class Bill {
-  Bill({this.amount, this.date, this.type, this.kwh, this.by});
+  final String uid;
 
+  Bill({this.uid});
+}
+
+class BillData {
+  final String uid;
   final double amount;
   final DateTime date;
-  final String type;
+  final BillType type;
   final double kwh;
-  final String by;
+  final double litres;
+  final String userId;
 
-  factory Bill.fromJson(Map<String, dynamic> json) => Bill(
-      amount: json["amount"],
-      date: json["date"],
-      type: json["type"],
-      kwh: json["kwh"],
-      by: json["by"],
-    );
-
-  Map<String, dynamic> toJson() => {
-    "amount": this.amount,
-    "date": this.date,
-    "type": this.type,
-    "kwh": this.kwh,
-    "by": this.by,
-  };
+  BillData(
+      {this.uid,
+      this.amount,
+      this.date,
+      this.type,
+      this.kwh,
+      this.litres,
+      this.userId});
 }
