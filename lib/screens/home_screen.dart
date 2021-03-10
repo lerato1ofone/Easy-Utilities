@@ -8,6 +8,8 @@ import 'package:easy_utilities/widgets/latest_transaction_card.dart';
 import 'package:easy_utilities/widgets/quick_action_card.dart';
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
     Key key,
@@ -21,14 +23,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _LandingScreenState extends State<HomeScreen> {
-  List<BillData> bills;
-
-  @override
-  void initState() {
-    super.initState();
-    getLatestBillTransactions(widget.user.uid);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -192,23 +186,47 @@ class _LandingScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Container(
-                  child: ListView.builder(
-                    itemCount: bills == null ? 0 : bills.length,
-                    itemBuilder: (context, i) {
-                      if (bills[i].type == BillType.electricity) {
-                        return LatestTransactionCard(
-                          icon: './assets/icons/electricity-icon.svg',
-                          title: bills[i].userId,
-                          subtitle: '${bills[i].date} | R ${bills[i].amount}',
-                          onPress: () => {print('open transaction')},
-                        );
+                  child: StreamBuilder<List<BillData>>(
+                    stream: DatabaseService(uid: widget.user.uid).bills,
+                    builder: (context, snapshot) {
+                      print('here: $snapshot');
+                      if (snapshot.hasData) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          List<BillData> bills = snapshot.data;
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            itemCount: bills.length,
+                            itemBuilder: (context, i) {
+                              if (bills[i].type == BillType.electricity) {
+                                return LatestTransactionCard(
+                                  icon: './assets/icons/electricity-icon.svg',
+                                  title: bills[i].userName,
+                                  subtitle:
+                                      '${monthsInYear[bills[i].date.month]} ${bills[i].date.day} | R ${bills[i].amount}',
+                                  onPress: () => {print('open transaction')},
+                                );
+                              } else {
+                                return LatestTransactionCard(
+                                  icon: './assets/icons/water-drop-icon.svg',
+                                  title: bills[i].userName,
+                                  subtitle:
+                                      '${bills[i].date} | R ${bills[i].amount}',
+                                  onPress: () => {print('open transaction')},
+                                );
+                              }
+                            },
+                          );
+                        } else {
+                          return Container(
+                            child: Text('not working'),
+                          );
+                        } // Todo: Add Loader
                       } else {
-                        return LatestTransactionCard(
-                          icon: './assets/icons/water-drop-icon.svg',
-                          title: bills[i].userId,
-                          subtitle: '${bills[i].date} | R ${bills[i].amount}',
-                          onPress: () => {print('open transaction')},
-                        );
+                        // print(snapshot);
+                        return Container(
+                          child: Text('not workin bro'),
+                        ); // Todo: Add Loader
                       }
                     },
                   ),
@@ -219,13 +237,5 @@ class _LandingScreenState extends State<HomeScreen> {
         ),
       ],
     );
-  }
-
-  void getLatestBillTransactions(String id) async {
-    dynamic result =
-        await DatabaseService(uid: widget.user.uid).getBillsData(true);
-    setState(() {
-      bills = result;
-    });
   }
 }
