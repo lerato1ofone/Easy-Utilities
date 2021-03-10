@@ -193,7 +193,7 @@ class _BillsScreenState extends State<BillsScreen> {
 class CreateListTile extends ListTile {
   static Widget createTile(Bill bill, index, List<Bill> bills) {
     return ListTile();
-    // if (bill == Constants.WATER) {
+    // if (bill. == Constants.WATER) {
     //   return ListTile(
     //     leading: const Icon(
     //       Icons.water_damage,

@@ -13,7 +13,8 @@ class BillData {
   final BillType type;
   final double kwh;
   final double litres;
-  final String userId;
+  final double userId;
+  final String userName;
 
   BillData(
       {this.uid,
@@ -22,5 +23,6 @@ class BillData {
       this.type,
       this.kwh,
       this.litres,
-      this.userId});
+      this.userId,
+      this.userName});
 }
