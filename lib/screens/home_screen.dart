@@ -56,14 +56,7 @@ class _LandingScreenState extends State<HomeScreen> {
                   SizedBox(
                     height: 30,
                   ),
-                  Text(
-                    'Quick Actions',
-                    style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontFamily: 'Roboto'),
-                  ),
+                  Text('Quick Actions', style: eTitleText),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
@@ -143,11 +136,7 @@ class _LandingScreenState extends State<HomeScreen> {
                 children: <Widget>[
                   Text(
                     'Latest Transactions',
-                    style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontFamily: 'Roboto'),
+                    style: eTitleText,
                   ),
                   SizedBox(
                     width: 20,
@@ -184,6 +173,7 @@ class _LandingScreenState extends State<HomeScreen> {
                   child: BillsStreamBuilder(
                     user: widget.user,
                     isLatest: true,
+                    isSeparated: false,
                   ),
                 ),
               ),
