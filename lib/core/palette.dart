@@ -28,3 +28,9 @@ const TextStyle eBodyText1 = TextStyle(
     fontFamily: 'Nunito',
     letterSpacing: 0.2,
     fontWeight: FontWeight.w500);
+
+const TextStyle eTitleText = TextStyle(
+    fontSize: 20.0,
+    fontWeight: FontWeight.bold,
+    color: Colors.black,
+    fontFamily: 'Roboto');
