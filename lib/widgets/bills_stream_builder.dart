@@ -75,7 +75,6 @@ class _BillsStreamBuilderState extends State<BillsStreamBuilder> {
             return Text('Getting the transactions...');
           } // Todo: Add Loader
         } else {
-          // print(snapshot);
           return Container(
             child: CircularProgressIndicator(),
           ); // Todo: Add Loader

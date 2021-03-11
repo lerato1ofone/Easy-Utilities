@@ -41,10 +41,6 @@ class DatabaseService {
         profileUpdated: snapshot.data['profileUpdated']);
   }
 
-  String _userNameFromSnapshot(DocumentSnapshot snapshot) {
-    return snapshot.data['name'];
-  }
-
   List<BillData> _billListFromSnapshot(QuerySnapshot snapshot) {
     // ignore: deprecated_member_use
     List<BillData> data = List<BillData>();
@@ -52,8 +48,6 @@ class DatabaseService {
     snapshot.documents.forEach((element) {
       data.add(_billDataFromSnapshot(element));
     });
-
-    print(data);
 
     return data;
   }
@@ -66,7 +60,7 @@ class DatabaseService {
         .map(_userDataFromSnapshot);
   }
 
-  String getUserName(String id) async {
+  Future<String> getUserName(String id) async {
     DocumentSnapshot document = await accountsCollection.document(id).get();
 
     return document.data['name'];
@@ -93,13 +87,6 @@ class DatabaseService {
 
   // BillData snapshot
   BillData _billDataFromSnapshot(DocumentSnapshot snapshot) {
-    String name = getUserName(snapshot.data['userId']);
-
-    // accountsCollection.document(uid).get().then((doc) {
-    //   return doc.data['profileUpdated'];
-    // });
-
-    print('name $name');
     return BillData(
         uid: uid,
         amount: double.parse(snapshot.data['amount']),
@@ -109,15 +96,12 @@ class DatabaseService {
             .firstWhere((e) => e.toString() == snapshot.data['type']),
         kwh: double.parse(snapshot.data['kwh']),
         litres: double.parse(snapshot.data['litres']),
-        userName: name);
+        userId: snapshot.data['userId']);
   }
 
   // Get bill document
   Stream<BillData> get billData {
-    return billsCollection
-        .document('YBsgrl7I07W0jNziZD0e')
-        .snapshots()
-        .map(_billDataFromSnapshot);
+    return billsCollection.document(uid).snapshots().map(_billDataFromSnapshot);
   }
 
   // get bills stream
