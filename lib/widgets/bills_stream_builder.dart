@@ -12,10 +12,12 @@ class BillsStreamBuilder extends StatefulWidget {
     Key key,
     @required this.user,
     @required this.isLatest,
+    @required this.isSeparated,
   }) : super(key: key);
 
   final UserData user;
   final bool isLatest;
+  final bool isSeparated;
 
   @override
   _BillsStreamBuilderState createState() => _BillsStreamBuilderState();
@@ -23,6 +25,20 @@ class BillsStreamBuilder extends StatefulWidget {
 
 class _BillsStreamBuilderState extends State<BillsStreamBuilder> {
   Future<List<String>> usernames;
+  bool closeTopContainer = false;
+  ScrollController controller = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(() {
+      if (widget.isSeparated) {
+        setState(() {
+          closeTopContainer = controller.offset > 50;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,29 +65,62 @@ class _BillsStreamBuilderState extends State<BillsStreamBuilder> {
                   (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
                 if (snapshot.hasData) {
                   List<String> names = snapshot.data;
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    itemCount: bills.length,
-                    itemBuilder: (context, i) {
-                      if (bills[i].type == BillType.electricity) {
-                        return LatestTransactionCard(
-                          icon: './assets/icons/electricity-icon.svg',
-                          title: names[i],
-                          subtitle:
-                              '${monthsInYear[bills[i].date.month]} ${bills[i].date.day} | R ${bills[i].amount}',
-                          onPress: () => {print('open transaction')},
+                  if (widget.isSeparated) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: bills.length,
+                      itemBuilder: (context, i) {
+                        if (bills[i].type == BillType.electricity) {
+                          return LatestTransactionCard(
+                            icon: './assets/icons/electricity-icon.svg',
+                            title: names[i],
+                            subtitle:
+                                '${monthsInYear[bills[i].date.month]} ${bills[i].date.day} | R ${bills[i].amount}',
+                            onPress: () => {print('open transaction')},
+                          );
+                        } else {
+                          return LatestTransactionCard(
+                            icon: './assets/icons/water-drop-icon.svg',
+                            title: names[i],
+                            subtitle: '${bills[i].date} | R ${bills[i].amount}',
+                            onPress: () => {print('open transaction')},
+                          );
+                        }
+                      },
+                    );
+                  } else {
+                    return ListView.separated(
+                      controller: controller,
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: bills.length,
+                      itemBuilder: (context, i) {
+                        if (bills[i].type == BillType.electricity) {
+                          return LatestTransactionCard(
+                            icon: './assets/icons/electricity-icon.svg',
+                            title: names[i],
+                            subtitle:
+                                '${monthsInYear[bills[i].date.month]} ${bills[i].date.day} | R ${bills[i].amount}',
+                            onPress: () => {print('open transaction')},
+                          );
+                        } else {
+                          return LatestTransactionCard(
+                            icon: './assets/icons/water-drop-icon.svg',
+                            title: names[i],
+                            subtitle: '${bills[i].date} | R ${bills[i].amount}',
+                            onPress: () => {print('open transaction')},
+                          );
+                        }
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return SizedBox(
+                          height: 10,
                         );
-                      } else {
-                        return LatestTransactionCard(
-                          icon: './assets/icons/water-drop-icon.svg',
-                          title: names[i],
-                          subtitle: '${bills[i].date} | R ${bills[i].amount}',
-                          onPress: () => {print('open transaction')},
-                        );
-                      }
-                    },
-                  );
+                      },
+                    );
+                  }
                 } else {
                   return Container(
                     child:
