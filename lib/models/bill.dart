@@ -13,7 +13,7 @@ class BillData {
   final BillType type;
   final double kwh;
   final double litres;
-  final double userId;
+  final String userId;
   final String userName;
 
   BillData(

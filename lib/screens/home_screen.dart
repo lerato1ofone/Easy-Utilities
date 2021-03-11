@@ -1,14 +1,9 @@
 import 'package:easy_utilities/core/hex_color.dart';
 import 'package:easy_utilities/core/palette.dart';
-import 'package:easy_utilities/data/bill_type.dart';
-import 'package:easy_utilities/models/bill.dart';
 import 'package:easy_utilities/models/user.dart';
-import 'package:easy_utilities/services/database.dart';
-import 'package:easy_utilities/widgets/latest_transaction_card.dart';
 import 'package:easy_utilities/widgets/quick_action_card.dart';
 import 'package:flutter/material.dart';
-
-import '../constants.dart';
+import 'package:easy_utilities/widgets/bills_stream_builder.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -186,49 +181,9 @@ class _LandingScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Container(
-                  child: StreamBuilder<List<BillData>>(
-                    stream: DatabaseService(uid: widget.user.uid).bills,
-                    builder: (context, snapshot) {
-                      print('here: $snapshot');
-                      if (snapshot.hasData) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          List<BillData> bills = snapshot.data;
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            itemCount: bills.length,
-                            itemBuilder: (context, i) {
-                              if (bills[i].type == BillType.electricity) {
-                                return LatestTransactionCard(
-                                  icon: './assets/icons/electricity-icon.svg',
-                                  title: bills[i].userName,
-                                  subtitle:
-                                      '${monthsInYear[bills[i].date.month]} ${bills[i].date.day} | R ${bills[i].amount}',
-                                  onPress: () => {print('open transaction')},
-                                );
-                              } else {
-                                return LatestTransactionCard(
-                                  icon: './assets/icons/water-drop-icon.svg',
-                                  title: bills[i].userName,
-                                  subtitle:
-                                      '${bills[i].date} | R ${bills[i].amount}',
-                                  onPress: () => {print('open transaction')},
-                                );
-                              }
-                            },
-                          );
-                        } else {
-                          return Container(
-                            child: Text('not working'),
-                          );
-                        } // Todo: Add Loader
-                      } else {
-                        // print(snapshot);
-                        return Container(
-                          child: Text('not workin bro'),
-                        ); // Todo: Add Loader
-                      }
-                    },
+                  child: BillsStreamBuilder(
+                    user: widget.user,
+                    isLatest: true,
                   ),
                 ),
               ),
