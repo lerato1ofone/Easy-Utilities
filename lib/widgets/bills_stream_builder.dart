@@ -1,4 +1,5 @@
 import 'package:easy_utilities/constants.dart';
+import 'package:easy_utilities/core/hex_color.dart';
 import 'package:easy_utilities/data/bill_type.dart';
 import 'package:easy_utilities/models/bill.dart';
 import 'package:easy_utilities/models/user.dart';
@@ -65,7 +66,8 @@ class _BillsStreamBuilderState extends State<BillsStreamBuilder> {
                   (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
                 if (snapshot.hasData) {
                   List<String> names = snapshot.data;
-                  if (widget.isSeparated) {
+                  print(widget.isSeparated);
+                  if (!widget.isSeparated) {
                     return ListView.builder(
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
@@ -73,6 +75,7 @@ class _BillsStreamBuilderState extends State<BillsStreamBuilder> {
                       itemBuilder: (context, i) {
                         if (bills[i].type == BillType.electricity) {
                           return LatestTransactionCard(
+                            tileColor: Colors.white,
                             icon: './assets/icons/electricity-icon.svg',
                             title: names[i],
                             subtitle:
@@ -81,6 +84,7 @@ class _BillsStreamBuilderState extends State<BillsStreamBuilder> {
                           );
                         } else {
                           return LatestTransactionCard(
+                            tileColor: Colors.white,
                             icon: './assets/icons/water-drop-icon.svg',
                             title: names[i],
                             subtitle: '${bills[i].date} | R ${bills[i].amount}',
@@ -99,6 +103,7 @@ class _BillsStreamBuilderState extends State<BillsStreamBuilder> {
                       itemBuilder: (context, i) {
                         if (bills[i].type == BillType.electricity) {
                           return LatestTransactionCard(
+                            tileColor: HexColor.fromHex('#00FFFF'),
                             icon: './assets/icons/electricity-icon.svg',
                             title: names[i],
                             subtitle:
@@ -107,6 +112,7 @@ class _BillsStreamBuilderState extends State<BillsStreamBuilder> {
                           );
                         } else {
                           return LatestTransactionCard(
+                            tileColor: HexColor.fromHex('#00FFFF'),
                             icon: './assets/icons/water-drop-icon.svg',
                             title: names[i],
                             subtitle: '${bills[i].date} | R ${bills[i].amount}',

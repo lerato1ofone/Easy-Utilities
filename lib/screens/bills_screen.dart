@@ -159,7 +159,7 @@ class _BillsScreenState extends State<BillsScreen> {
                           child: BillsStreamBuilder(
                             user: widget.user,
                             isLatest: true,
-                            isSeparated: false,
+                            isSeparated: true,
                           ),
                         ),
                       ),
