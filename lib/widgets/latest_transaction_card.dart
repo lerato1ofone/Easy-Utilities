@@ -47,7 +47,7 @@ class LatestTransactionCard extends StatelessWidget {
                 title,
                 style: TextStyle(
                   fontFamily: 'Roboto',
-                  fontSize: 16,
+                  fontSize: 18,
                   fontWeight: FontWeight.normal,
                 ),
               ),
