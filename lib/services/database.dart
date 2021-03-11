@@ -131,7 +131,7 @@ class DatabaseService {
 
     querySnapshot.documents.map((doc) => bills.add(_billDataFromSnapshot(doc)));
 
-    if (isLatest) {
+    if (isLatest && bills.length > 3) {
       return bills;
     } else {
       return bills;

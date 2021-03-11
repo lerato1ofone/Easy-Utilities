@@ -11,9 +11,11 @@ class BillsStreamBuilder extends StatefulWidget {
   const BillsStreamBuilder({
     Key key,
     @required this.user,
+    @required this.isLatest,
   }) : super(key: key);
 
   final UserData user;
+  final bool isLatest;
 
   @override
   _BillsStreamBuilderState createState() => _BillsStreamBuilderState();
@@ -28,7 +30,14 @@ class _BillsStreamBuilderState extends State<BillsStreamBuilder> {
       stream: DatabaseService(uid: widget.user.uid).bills,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<BillData> bills = snapshot.data;
+          // ignore: deprecated_member_use
+          List<BillData> bills = List<BillData>();
+
+          if (widget.isLatest && snapshot.data.length > 3) {
+            bills = snapshot.data.take(3);
+          } else {
+            bills = snapshot.data;
+          }
 
           if (usernames == null) {
             _getUserNames(bills);

@@ -183,6 +183,7 @@ class _LandingScreenState extends State<HomeScreen> {
                 child: Container(
                   child: BillsStreamBuilder(
                     user: widget.user,
+                    isLatest: true,
                   ),
                 ),
               ),
