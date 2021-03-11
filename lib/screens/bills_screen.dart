@@ -1,11 +1,18 @@
 import 'package:easy_utilities/core/hex_color.dart';
+import 'package:easy_utilities/core/palette.dart';
 import 'package:easy_utilities/models/bill.dart';
+import 'package:easy_utilities/models/user.dart';
+import 'package:easy_utilities/widgets/bills_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:easy_utilities/data/bills.dart';
 
 class BillsScreen extends StatefulWidget {
-  BillsScreen() : super();
+  const BillsScreen({
+    Key key,
+    @required this.user,
+  }) : super(key: key);
+
+  final UserData user;
 
   @override
   _BillsScreenState createState() => _BillsScreenState();
@@ -27,7 +34,6 @@ class _BillsScreenState extends State<BillsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final bills = Bills.bills;
     final Size size = MediaQuery.of(context).size;
     final double addBillHeight = size.height * 0.35;
 
@@ -62,13 +68,14 @@ class _BillsScreenState extends State<BillsScreen> {
                               style: TextStyle(
                                 letterSpacing: 0.5,
                                 color: Colors.white,
-                                fontSize: 30.0,
+                                fontSize: 35.0,
                                 fontWeight: FontWeight.bold,
+                                fontFamily: 'Roboto',
                                 shadows: [
                                   Shadow(
                                       // bottomLeft
                                       offset: Offset(-1.5, -1.5),
-                                      color: Colors.black12),
+                                      color: Colors.black),
                                   Shadow(
                                       // bottomRight
                                       offset: Offset(1.5, -1.5),
@@ -76,7 +83,7 @@ class _BillsScreenState extends State<BillsScreen> {
                                   Shadow(
                                       // topRight
                                       offset: Offset(0.5, 0.5),
-                                      color: Colors.black12),
+                                      color: Colors.black),
                                   Shadow(
                                       // topLeft
                                       offset: Offset(-1.5, 1.5),
@@ -84,28 +91,33 @@ class _BillsScreenState extends State<BillsScreen> {
                                 ],
                               ),
                             ),
+                            SizedBox(
+                              height: 25,
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(top: 30.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'Add it right here',
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 15.0),
-                                  ),
-                                  SizedBox(width: 45.0),
-                                  // ignore: deprecated_member_use
-                                  FlatButton(
-                                    minWidth: 105.0,
-                                    color: Colors.green,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                    ),
-                                    splashColor: HexColor.fromHex('#12E2E2'),
-                                    onPressed: () {},
-                                    child: Text("Add"),
-                                  ),
-                                ],
+                              // ignore: deprecated_member_use
+                              child: FlatButton(
+                                minWidth: 200.0,
+                                height: 45.0,
+                                color: HexColor.fromHex('#FFD2E8'),
+                                shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                        color: HexColor.fromHex('#2389DA'),
+                                        width: 1.5,
+                                        style: BorderStyle.solid),
+                                    borderRadius: BorderRadius.circular(18)),
+                                splashColor: HexColor.fromHex('#12E2E2'),
+                                onPressed: () {},
+                                child: Text(
+                                  "Add it right here",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      letterSpacing: 0.5,
+                                      fontFamily: 'Roboto',
+                                      fontWeight: FontWeight.w500),
+                                ),
                               ),
                             ),
                           ],
@@ -128,12 +140,7 @@ class _BillsScreenState extends State<BillsScreen> {
                         children: [
                           Text(
                             'History Purchases',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: HexColor.fromHex('#12E2E2'),
-                                fontSize: 20.0,
-                                fontFamily: 'Nunito',
-                                letterSpacing: 0.6),
+                            style: eTitleText,
                           ),
                           IconButton(
                               icon: FaIcon(
@@ -148,33 +155,11 @@ class _BillsScreenState extends State<BillsScreen> {
                         height: 15.0,
                       ),
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: ListView.separated(
-                            controller: controller,
-                            physics: BouncingScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: bills.length,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                height: 80,
-                                decoration: BoxDecoration(
-                                  color: Colors.indigo[100],
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                ),
-                                child: CreateListTile.createTile(
-                                    bills[index], index, bills),
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return SizedBox(
-                                height: 10,
-                              );
-                            },
+                        child: Container(
+                          child: BillsStreamBuilder(
+                            user: widget.user,
+                            isLatest: true,
+                            isSeparated: false,
                           ),
                         ),
                       ),
