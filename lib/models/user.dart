@@ -20,3 +20,10 @@ class UserData {
       this.profilePhotoUrl,
       this.profileUpdated});
 }
+
+class UserBillData {
+  final String uid;
+  final String name;
+
+  UserBillData({this.uid, this.name});
+}

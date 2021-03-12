@@ -1,4 +1,5 @@
 import 'package:easy_utilities/data/bill_type.dart';
+import 'package:easy_utilities/models/user.dart';
 
 class Bill {
   final String uid;
@@ -13,8 +14,7 @@ class BillData {
   final BillType type;
   final double kwh;
   final double litres;
-  final String userId;
-  final String userName;
+  final UserBillData user;
 
   BillData(
       {this.uid,
@@ -23,6 +23,5 @@ class BillData {
       this.type,
       this.kwh,
       this.litres,
-      this.userId,
-      this.userName});
+      this.user});
 }
