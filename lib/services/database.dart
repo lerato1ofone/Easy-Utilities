@@ -7,15 +7,15 @@ class DatabaseService {
   final String uid;
   DatabaseService({this.uid});
 
-  // Accounts.
+  // Users.
 
-  // collection reference accounts
-  final CollectionReference accountsCollection =
-      Firestore.instance.collection('accounts');
+  // // collection reference users
+  final CollectionReference usersCollection =
+      Firestore.instance.collection('users');
 
   Future updateUserData(String name, String emailOrPhoneNumber, String password,
       String profilePhotoUrl, bool profileUpdated) async {
-    return await accountsCollection.document(uid).setData({
+    return await usersCollection.document(uid).setData({
       'name': name,
       'emailOrPhoneNumber': emailOrPhoneNumber,
       'password': password,
@@ -25,7 +25,7 @@ class DatabaseService {
   }
 
   Future<bool> getUserProfileUpdateStatus() async {
-    await accountsCollection.document(uid).get().then((doc) {
+    await usersCollection.document(uid).get().then((doc) {
       return doc.data['profileUpdated'];
     });
     return true;
@@ -41,6 +41,23 @@ class DatabaseService {
         profileUpdated: snapshot.data['profileUpdated']);
   }
 
+  // Get user document
+  Stream<UserData> get userData {
+    return usersCollection.document(uid).snapshots().map(_userDataFromSnapshot);
+  }
+
+  Future<String> getUserName(String id) async {
+    DocumentSnapshot document = await usersCollection.document(id).get();
+
+    return document.data['name'];
+  }
+
+  // Bills.
+
+  // collection reference bills
+  final CollectionReference billsCollection =
+      Firestore.instance.collection('bills');
+
   List<BillData> _billListFromSnapshot(QuerySnapshot snapshot) {
     // ignore: deprecated_member_use
     List<BillData> data = List<BillData>();
@@ -51,26 +68,6 @@ class DatabaseService {
 
     return data;
   }
-
-  // Get user document
-  Stream<UserData> get userData {
-    return accountsCollection
-        .document(uid)
-        .snapshots()
-        .map(_userDataFromSnapshot);
-  }
-
-  Future<String> getUserName(String id) async {
-    DocumentSnapshot document = await accountsCollection.document(id).get();
-
-    return document.data['name'];
-  }
-
-  // Bills.
-
-  // collection reference bills
-  final CollectionReference billsCollection =
-      Firestore.instance.collection('bills');
 
   Future updateBillData(String uid, double amount, DateTime date, BillType type,
       double kwh, double litres, String userId) async {
@@ -87,16 +84,23 @@ class DatabaseService {
 
   // BillData snapshot
   BillData _billDataFromSnapshot(DocumentSnapshot snapshot) {
+    final Map<String, dynamic> data = snapshot.data;
+
+    UserBillData userBillData = new UserBillData(
+      uid: data['user']['uid'],
+      name: data['user']['name'],
+    );
+
     return BillData(
-        uid: uid,
+        uid: data['uid'],
         amount: double.parse(snapshot.data['amount']),
         date: DateTime.fromMicrosecondsSinceEpoch(
-            snapshot.data['date'].microsecondsSinceEpoch),
+            data['date'].microsecondsSinceEpoch),
         type: BillType.values
             .firstWhere((e) => e.toString() == snapshot.data['type']),
         kwh: double.parse(snapshot.data['kwh']),
         litres: double.parse(snapshot.data['litres']),
-        userId: snapshot.data['userId']);
+        user: userBillData);
   }
 
   // Get bill document
