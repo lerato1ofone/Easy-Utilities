@@ -114,7 +114,10 @@ class _BillsScreenState extends State<BillsScreen> {
                                         style: BorderStyle.solid),
                                     borderRadius: BorderRadius.circular(18)),
                                 splashColor: HexColor.fromHex('#12E2E2'),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.of(context).pushNamed('/add',
+                                      arguments: widget.user);
+                                },
                                 child: Text(
                                   "Add it right here",
                                   style: TextStyle(
