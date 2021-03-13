@@ -146,31 +146,4 @@ class _BillsStreamBuilderState extends State<BillsStreamBuilder> {
       },
     );
   }
-
-  Future<void> _getUserNames(List<BillData> bills) async {
-    if (bills != null) {
-      // ignore: deprecated_member_use
-      List<String> results = List<String>();
-
-      await Future.wait(bills.map((input) async {
-        String result = await _getUserName(input.userId);
-        results.add(result);
-      }));
-
-      if (results.length > 0) {
-        setState(() {
-          usernames = Future.value(results);
-        });
-      }
-    }
-  }
-
-  Future<String> _getUserName(String id) async {
-    String result = await DatabaseService(uid: widget.user.uid).getUserName(id);
-    if (result != null) {
-      return result;
-    } else {
-      return null;
-    }
-  }
 }

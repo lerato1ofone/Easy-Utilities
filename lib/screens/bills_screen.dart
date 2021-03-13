@@ -1,8 +1,11 @@
+import 'package:easy_utilities/constants.dart';
 import 'package:easy_utilities/core/hex_color.dart';
 import 'package:easy_utilities/core/palette.dart';
+import 'package:easy_utilities/data/bill_type.dart';
 import 'package:easy_utilities/models/bill.dart';
 import 'package:easy_utilities/models/user.dart';
-import 'package:easy_utilities/widgets/bills_stream_builder.dart';
+import 'package:easy_utilities/services/database.dart';
+import 'package:easy_utilities/widgets/latest_transaction_card.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -21,10 +24,13 @@ class BillsScreen extends StatefulWidget {
 class _BillsScreenState extends State<BillsScreen> {
   ScrollController controller = ScrollController();
   bool closeTopContainer = false;
+  Future<List<BillData>> bills;
 
   @override
   void initState() {
     super.initState();
+    bills = DatabaseService(uid: widget.user.uid).billsData;
+
     controller.addListener(() {
       setState(() {
         closeTopContainer = controller.offset > 50;
@@ -155,12 +161,66 @@ class _BillsScreenState extends State<BillsScreen> {
                         height: 15.0,
                       ),
                       Expanded(
-                        child: Container(
-                          child: BillsStreamBuilder(
-                            user: widget.user,
-                            isLatest: true,
-                            isSeparated: true,
-                          ),
+                        child: FutureBuilder<List<BillData>>(
+                          future: bills,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              return Container(
+                                child: Text('There was an error'),
+                              );
+                            }
+
+                            if (snapshot.connectionState !=
+                                ConnectionState.done) {
+                              return Container(
+                                child:
+                                    CircularProgressIndicator(), // Todo: add custom loader
+                              );
+                            } else {
+                              print('building');
+
+                              List<BillData> bills = snapshot.data ?? [];
+
+                              return ListView.separated(
+                                controller: controller,
+                                physics: BouncingScrollPhysics(),
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,
+                                itemCount: bills == null ? 0 : bills.length,
+                                itemBuilder: (context, i) {
+                                  if (bills[i].type == BillType.electricity) {
+                                    return LatestTransactionCard(
+                                      tileColor: HexColor.fromHex('#00FFFF'),
+                                      icon:
+                                          './assets/icons/electricity-icon.svg',
+                                      title: bills[i].user.name,
+                                      subtitle:
+                                          '${monthsInYear[bills[i].date.month]} ${bills[i].date.day} | R ${bills[i].amount}',
+                                      onPress: () =>
+                                          {print('open transaction')},
+                                    );
+                                  } else {
+                                    return LatestTransactionCard(
+                                      tileColor: HexColor.fromHex('#00FFFF'),
+                                      icon:
+                                          './assets/icons/water-drop-icon.svg',
+                                      title: bills[i].user.name,
+                                      subtitle:
+                                          '${monthsInYear[bills[i].date.month]} ${bills[i].date.day} | R ${bills[i].amount}',
+                                      onPress: () =>
+                                          {print('open transaction')},
+                                    );
+                                  }
+                                },
+                                separatorBuilder:
+                                    (BuildContext context, int index) {
+                                  return SizedBox(
+                                    height: 10,
+                                  );
+                                },
+                              );
+                            }
+                          },
                         ),
                       ),
                     ],
