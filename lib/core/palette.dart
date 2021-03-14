@@ -34,3 +34,15 @@ const TextStyle eTitleText = TextStyle(
     fontWeight: FontWeight.bold,
     color: Colors.black,
     fontFamily: 'Roboto');
+
+const TextStyle eQuestionText = TextStyle(
+    fontSize: 18.0,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+    fontFamily: 'Roboto');
+
+const TextStyle eRequiredText = TextStyle(
+    fontSize: 14.0,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+    fontFamily: 'Roboto');
