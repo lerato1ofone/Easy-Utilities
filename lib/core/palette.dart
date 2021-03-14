@@ -25,7 +25,7 @@ const TextStyle ePageHeading = TextStyle(
 const TextStyle eBodyText1 = TextStyle(
     fontSize: 18.5,
     color: Colors.black,
-    fontFamily: 'Nunito',
+    fontFamily: 'Roboto',
     letterSpacing: 0.2,
     fontWeight: FontWeight.w500);
 
