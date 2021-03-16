@@ -236,35 +236,6 @@ class _BillsScreenState extends State<BillsScreen> {
   }
 }
 
-class CreateListTile extends ListTile {
-  static Widget createTile(Bill bill, index, List<Bill> bills) {
-    return ListTile();
-    // if (bill. == Constants.WATER) {
-    //   return ListTile(
-    //     leading: const Icon(
-    //       Icons.water_damage,
-    //       size: 45.0,
-    //     ),
-    //     title: Text(
-    //       'R ${bills[index].amount} by ${bills[index].by}',
-    //     ),
-    //     subtitle: Text(DateFormat('dd MMMM yyyy').format(bills[index].date)),
-    //   );
-    // } else {
-    //   return ListTile(
-    //     leading: const Icon(
-    //       Icons.power,
-    //       size: 45.0,
-    //     ),
-    //     title: Text(
-    //       'R ${bills[index].amount} by ${bills[index].by}',
-    //     ),
-    //     subtitle: Text(DateFormat('dd MMMM yyyy').format(bills[index].date)),
-    //   );
-    // }
-  }
-}
-
 class CurvePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {

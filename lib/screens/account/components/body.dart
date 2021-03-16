@@ -1,9 +1,16 @@
+import 'package:easy_utilities/models/user.dart';
 import 'package:easy_utilities/screens/account/components/profile_menu.dart';
 import 'package:easy_utilities/screens/account/components/profile_picture.dart';
 import 'package:easy_utilities/services/auth.dart';
 import 'package:flutter/material.dart';
 
 class Body extends StatelessWidget {
+  Body({
+    Key key,
+    @required this.user,
+  }) : super(key: key);
+
+  final UserData user;
   final AuthService _auth = AuthService();
 
   @override
@@ -31,7 +38,9 @@ class Body extends StatelessWidget {
           ProfileMenu(
             icon: "./assets/icons/user-icon.svg",
             text: 'My account',
-            press: () {},
+            press: () {
+              Navigator.of(context).pushNamed('/my-account', arguments: user);
+            },
           ),
           ProfileMenu(
             icon: "./assets/icons/bell-icon.svg",
