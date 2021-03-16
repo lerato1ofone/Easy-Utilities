@@ -180,8 +180,6 @@ class _BillsScreenState extends State<BillsScreen> {
                                     CircularProgressIndicator(), // Todo: add custom loader
                               );
                             } else {
-                              print('building');
-
                               List<BillData> bills = snapshot.data ?? [];
 
                               return ListView.separated(

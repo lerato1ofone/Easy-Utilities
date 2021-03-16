@@ -2,8 +2,10 @@ import 'package:easy_utilities/core/hex_color.dart';
 import 'package:easy_utilities/core/palette.dart';
 import 'package:easy_utilities/data/bill_type.dart';
 import 'package:easy_utilities/models/user.dart';
+import 'package:easy_utilities/services/database.dart';
 import 'package:easy_utilities/widgets/option_instruction.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AddBillScreen extends StatefulWidget {
@@ -18,11 +20,14 @@ class AddBillScreen extends StatefulWidget {
 }
 
 class _AddBillScreenState extends State<AddBillScreen> {
+  final _formKey = GlobalKey<FormState>();
   DateTime selectedDate = DateTime.now();
   bool dateSelected = false;
-  String type;
   double amount = 0.00;
-  int groupValue = -1;
+  BillType type = BillType.electricity;
+  double kwhOrLitres = 0.00;
+  String error;
+  BuildContext scaffoldContext;
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -38,197 +43,310 @@ class _AddBillScreenState extends State<AddBillScreen> {
   }
 
   void onChanged(String value) {
-    type = value;
-    print(type);
-    print(groupValue);
+    print(value);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return new Scaffold(
       backgroundColor: HexColor.fromHex('#E5DFFE'),
-      body: Column(
-        children: [
-          Container(
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 50, right: 40),
-                child: SvgPicture.asset(
-                  "./assets/icons/cancel-icon.svg",
-                  width: 40,
-                  height: 40,
-                  color: HexColor.fromHex('#4D4D4D'),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          Text(
-            'Enter your purchase',
-            style: eBlackHeading,
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          Container(
-            width: 240,
-            height: 54,
-            decoration: BoxDecoration(
-              color: HexColor.fromHex('#F8F8F8'),
-              borderRadius: BorderRadius.all(
-                Radius.circular(16),
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: TextFormField(
-                validator: (value) => value.isEmpty ? 'Enter an amount' : null,
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
-                  border: InputBorder.none,
-                  hintText: 'Amount',
-                  hintStyle: TextStyle(
-                      fontSize: 18.5,
-                      color: HexColor.fromHex('#4D4D4D'),
-                      fontFamily: 'Roboto',
-                      letterSpacing: 0.2,
-                      fontWeight: FontWeight.w500),
-                  fillColor: Colors.black,
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: SvgPicture.asset(
-                      "./assets/icons/south-african-rand.svg",
-                      width: 40,
-                      height: 40,
-                      color: HexColor.fromHex('#4D4D4D'),
+      body: new Builder(
+        builder: (BuildContext context) {
+          scaffoldContext = context;
+          return SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  Container(
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: IconButton(
+                        icon: SvgPicture.asset(
+                          "./assets/icons/cancel-icon.svg",
+                          color: HexColor.fromHex('#4D4D4D'),
+                        ),
+                        iconSize: 100,
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
                     ),
                   ),
-                ),
-                style: eBodyText1,
-                keyboardType: TextInputType.number,
-                textInputAction: TextInputAction.done,
-                onChanged: (val) => onAmountChanged(val),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 50,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 50),
-            child: Column(
-              children: [
-                OptionInstruction(
-                  text: 'Please enter a date',
-                  requiredNo: 1,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  height: 100,
-                  width: 280,
-                  decoration: new BoxDecoration(
-                    color: HexColor.fromHex('#F8F8F8'),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(16.0),
-                    ),
+                  Text(
+                    'Enter your purchase',
+                    style: eBlackHeading,
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 13.0),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    _selectDate(context);
-                                  },
-                                  child: CircleAvatar(
-                                    radius: 30,
-                                    backgroundColor: Colors.blueGrey[200],
-                                    child: SvgPicture.asset(
-                                      "./assets/icons/calendar-icon.svg",
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 30,
-                              ),
-                              dateSelected == false
-                                  ? Text("Tap icon to add date")
-                                  : Text(
-                                      "${selectedDate.toLocal()}".split(' ')[0],
-                                      style: TextStyle(
-                                          color: HexColor.fromHex('#7C7C7C'),
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: 'Roboto'),
-                                    ),
-                            ],
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    width: 240,
+                    height: 54,
+                    decoration: BoxDecoration(
+                      color: HexColor.fromHex('#F8F8F8'),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(16),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                      child: TextFormField(
+                        validator: (value) =>
+                            value.isEmpty ? 'Enter an amount' : null,
+                        decoration: InputDecoration(
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 16.0),
+                          border: InputBorder.none,
+                          hintText: 'Amount',
+                          hintStyle: TextStyle(
+                              fontSize: 18.5,
+                              color: HexColor.fromHex('#4D4D4D'),
+                              fontFamily: 'Roboto',
+                              letterSpacing: 0.2,
+                              fontWeight: FontWeight.w500),
+                          fillColor: Colors.black,
+                          prefixIcon: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: SvgPicture.asset(
+                              "./assets/icons/south-african-rand.svg",
+                              width: 40,
+                              height: 40,
+                              color: HexColor.fromHex('#4D4D4D'),
+                            ),
                           ),
                         ),
-                      ],
+                        style: eBodyText1,
+                        keyboardType: TextInputType.number,
+                        textInputAction: TextInputAction.done,
+                        onChanged: (val) => onAmountChanged(val),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                OptionInstruction(
-                  text: 'Choose the utility type',
-                  requiredNo: 1,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  height: 130,
-                  width: 280,
-                  decoration: new BoxDecoration(
-                    color: HexColor.fromHex('#F8F8F8'),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(16.0),
-                    ),
+                  SizedBox(
+                    height: 20,
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 50),
                     child: Column(
                       children: [
-                        RadioListTile(
-                          value: type,
-                          groupValue: groupValue,
-                          onChanged: (value) => onChanged(value),
-                          title: Text('Electricity'),
+                        OptionInstruction(
+                          text: 'Please enter a date',
+                          requiredNo: 1,
                         ),
-                        RadioListTile(
-                          value: type,
-                          groupValue: groupValue,
-                          onChanged: (value) => onChanged(value),
-                          title: Text('Water'),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          height: 100,
+                          width: 280,
+                          decoration: new BoxDecoration(
+                            color: HexColor.fromHex('#F8F8F8'),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(16.0),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 13.0),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            _selectDate(context);
+                                          },
+                                          child: CircleAvatar(
+                                            radius: 30,
+                                            backgroundColor:
+                                                Colors.blueGrey[200],
+                                            child: SvgPicture.asset(
+                                              "./assets/icons/calendar-icon.svg",
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 30,
+                                      ),
+                                      dateSelected == false
+                                          ? Text("Tap icon to add date")
+                                          : Text(
+                                              "${selectedDate.toLocal()}"
+                                                  .split(' ')[0],
+                                              style: TextStyle(
+                                                  color: HexColor.fromHex(
+                                                      '#7C7C7C'),
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: 'Roboto'),
+                                            ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        OptionInstruction(
+                          text: 'Choose the utility type',
+                          requiredNo: 1,
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          height: 130,
+                          width: 280,
+                          decoration: new BoxDecoration(
+                            color: HexColor.fromHex('#F8F8F8'),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(16.0),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                RadioListTile<BillType>(
+                                  title: const Text('Electricity'),
+                                  value: BillType.electricity,
+                                  groupValue: type,
+                                  onChanged: (BillType value) {
+                                    setState(() {
+                                      type = value;
+                                    });
+                                  },
+                                ),
+                                RadioListTile<BillType>(
+                                  title: const Text('Water'),
+                                  value: BillType.water,
+                                  groupValue: type,
+                                  onChanged: (BillType value) {
+                                    setState(() {
+                                      type = value;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 70.0),
+                          child: TextFormField(
+                            onChanged: (value) => onkwhOrLitresChanged(value),
+                            decoration: InputDecoration(
+                              hintText: type == BillType.electricity
+                                  ? 'Kwh (Optional)'
+                                  : 'Litres(Optional)',
+                              hintStyle: TextStyle(
+                                  fontSize: 18.5,
+                                  color: HexColor.fromHex('#4D4D4D'),
+                                  fontFamily: 'Roboto',
+                                  letterSpacing: 0.2,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            keyboardType: TextInputType.number,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        IconButton(
+                          color: Colors.transparent,
+                          icon: SvgPicture.asset(
+                            "./assets/icons/success-icon.svg",
+                            color: amount != 0.00 && type != null
+                                ? Colors.green
+                                : Colors.grey,
+                          ),
+                          iconSize: 40,
+                          onPressed: () {
+                            _addBillTransaction();
+                          },
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          'Done',
+                          style: TextStyle(
+                              fontSize: 18.5,
+                              color: amount != 0.00 && type != null
+                                  ? Colors.green
+                                  : Colors.grey,
+                              fontFamily: 'Roboto',
+                              letterSpacing: 0.2,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        SizedBox(
+                          height: 50,
                         ),
                       ],
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
 
+  void createSnackBar(String message, Color color) {
+    final snackBar =
+        new SnackBar(content: new Text(message), backgroundColor: color);
+
+    // ignore: deprecated_member_use
+    Scaffold.of(scaffoldContext).showSnackBar(snackBar);
+  }
+
+  void onkwhOrLitresChanged(value) {
+    setState(() {
+      kwhOrLitres = value.isEmpty ? 0.00 : double.parse(value);
+    });
+  }
+
   void onAmountChanged(value) {
     setState(() {
-      amount = value;
+      amount = value.isEmpty ? 0.00 : double.parse(value);
     });
+  }
+
+  void _addBillTransaction() async {
+    if (_formKey.currentState.validate()) {
+      UserBillData userBillData = new UserBillData(
+        uid: widget.user.uid,
+        name: widget.user.name,
+      );
+
+      dynamic result = await DatabaseService().addBillData(
+          amount, selectedDate, type, kwhOrLitres, kwhOrLitres, userBillData);
+      if (result == null) {
+        createSnackBar(
+            'An error occured while adding your bill. Please try again.',
+            Colors.red);
+      } else {
+        createSnackBar("Awesome Sauce! You've added your bill successfully.",
+            Colors.green);
+
+        Future.delayed(const Duration(milliseconds: 1000), () {
+          Navigator.pop(context);
+        });
+      }
+    }
   }
 }
