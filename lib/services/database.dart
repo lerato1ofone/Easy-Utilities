@@ -78,6 +78,21 @@ class DatabaseService {
       'kwh': kwh,
       'litres': litres,
       'userId': userId
+    }, merge: true);
+  }
+
+  Future addBillData(double amount, DateTime date, BillType type, double kwh,
+      double litres, UserBillData user) async {
+    return await billsCollection.add({
+      'amount': amount.toString(),
+      'date': date,
+      'type': type.toString(),
+      'kwh': kwh.toString(),
+      'litres': litres.toString(),
+      'user': {
+        'uid': user.uid,
+        'name': user.name,
+      }
     });
   }
 

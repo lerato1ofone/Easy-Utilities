@@ -311,9 +311,13 @@ class _AddBillScreenState extends State<AddBillScreen> {
 
   void _addBillTransaction() async {
     if (_formKey.currentState.validate()) {
-      dynamic result = await DatabaseService(uid: widget.user.uid)
-          .updateBillData(amount, selectedDate, type, kwhOrLitres, kwhOrLitres,
-              widget.user.uid);
+      UserBillData userBillData = new UserBillData(
+        uid: widget.user.uid,
+        name: widget.user.name,
+      );
+
+      dynamic result = await DatabaseService().addBillData(
+          amount, selectedDate, type, kwhOrLitres, kwhOrLitres, userBillData);
       if (result == null) {
         setState(() {
           error = 'Invalid information';
