@@ -44,6 +44,7 @@ class _HomeScreenState extends State<LandingScreen> {
       return Scaffold(
         body: SafeArea(
           child: PageView(
+            physics: NeverScrollableScrollPhysics(),
             controller: _pageController,
             children: <Widget>[
               HomeScreen(
@@ -53,7 +54,9 @@ class _HomeScreenState extends State<LandingScreen> {
                 user: widget.user,
               ),
               StatsScreen(),
-              AccountScreen(),
+              AccountScreen(
+                user: widget.user,
+              ),
             ],
             onPageChanged: _onPageChanged,
           ),

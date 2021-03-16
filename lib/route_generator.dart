@@ -1,4 +1,5 @@
 import 'package:easy_utilities/screens/complete_profile_form_screen.dart';
+import 'package:easy_utilities/screens/my_account.dart';
 import 'package:easy_utilities/screens/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_utilities/screens/account_screen.dart';
@@ -41,7 +42,15 @@ class RouteGenerator {
       case '/stats':
         return MaterialPageRoute(builder: (_) => StatsScreen());
       case '/account':
-        return MaterialPageRoute(builder: (_) => AccountScreen());
+        return MaterialPageRoute(
+            builder: (_) => AccountScreen(
+                  user: args,
+                ));
+      case '/my-account':
+        return MaterialPageRoute(
+            builder: (_) => MyAccountScreen(
+                  user: args,
+                ));
       default:
         return _errorRoute();
     }
