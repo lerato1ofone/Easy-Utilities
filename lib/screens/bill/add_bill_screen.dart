@@ -2,6 +2,7 @@ import 'package:easy_utilities/core/hex_color.dart';
 import 'package:easy_utilities/core/palette.dart';
 import 'package:easy_utilities/data/bill_type.dart';
 import 'package:easy_utilities/models/user.dart';
+import 'package:easy_utilities/services/database.dart';
 import 'package:easy_utilities/widgets/option_instruction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,6 +26,7 @@ class _AddBillScreenState extends State<AddBillScreen> {
   double amount = 0.00;
   BillType type = BillType.electricity;
   double kwhOrLitres = 0.00;
+  String error;
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -84,9 +86,8 @@ class _AddBillScreenState extends State<AddBillScreen> {
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 40.0),
                   child: TextFormField(
-                    onSaved: (input) => '0.00',
                     validator: (value) =>
                         value.isEmpty ? 'Enter an amount' : null,
                     decoration: InputDecoration(
@@ -238,6 +239,7 @@ class _AddBillScreenState extends State<AddBillScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 70.0),
                       child: TextFormField(
+                        onChanged: (value) => onkwhorLitresChanged(value),
                         decoration: InputDecoration(
                           hintText: type == BillType.electricity
                               ? 'Kwh (Optional)'
@@ -255,14 +257,18 @@ class _AddBillScreenState extends State<AddBillScreen> {
                     SizedBox(
                       height: 20,
                     ),
-                    CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      child: SvgPicture.asset(
+                    IconButton(
+                      color: Colors.transparent,
+                      icon: SvgPicture.asset(
                         "./assets/icons/success-icon.svg",
                         color: amount != 0.00 && type != null
                             ? Colors.green
                             : Colors.grey,
                       ),
+                      iconSize: 40,
+                      onPressed: () {
+                        _addBillTransaction();
+                      },
                     ),
                     SizedBox(
                       height: 5,
@@ -278,6 +284,9 @@ class _AddBillScreenState extends State<AddBillScreen> {
                           letterSpacing: 0.2,
                           fontWeight: FontWeight.w500),
                     ),
+                    SizedBox(
+                      height: 50,
+                    ),
                   ],
                 ),
               ),
@@ -288,9 +297,28 @@ class _AddBillScreenState extends State<AddBillScreen> {
     );
   }
 
+  void onkwhorLitresChanged(value) {
+    setState(() {
+      kwhOrLitres = value.isEmpty ? 0.00 : double.parse(value);
+    });
+  }
+
   void onAmountChanged(value) {
     setState(() {
       amount = value.isEmpty ? 0.00 : double.parse(value);
     });
+  }
+
+  void _addBillTransaction() async {
+    if (_formKey.currentState.validate()) {
+      dynamic result = await DatabaseService(uid: widget.user.uid)
+          .updateBillData(amount, selectedDate, type, kwhOrLitres, kwhOrLitres,
+              widget.user.uid);
+      if (result == null) {
+        setState(() {
+          error = 'Invalid information';
+        });
+      }
+    }
   }
 }
