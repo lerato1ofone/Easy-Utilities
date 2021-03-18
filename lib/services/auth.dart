@@ -64,6 +64,8 @@ class AuthService {
 
       // update user's password on cloud firestore
       await DatabaseService(uid: user.uid).changePassword(newPassword);
+
+      return true;
     } catch (e) {
       print(e.toString());
       return null;
