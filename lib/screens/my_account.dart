@@ -23,14 +23,14 @@ class MyAccountScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          'My Account',
-          style: ePageHeading,
-        ),
         backgroundColor: HexColor.fromHex('#afeeee'),
         elevation: 0.0,
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
       ),
       body: new Stack(
+        alignment: Alignment.center,
         children: <Widget>[
           new Column(
             children: <Widget>[
@@ -44,7 +44,42 @@ class MyAccountScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 100,
+              ),
+              ProfileMenu(
+                icon: "./assets/icons/logout-icon.svg",
+                text: 'Edit Profile',
+                press: () {
+                  _auth.signOutUser();
+                },
+              ),
+              ProfileMenu(
+                icon: "./assets/icons/user-icon.svg",
+                text: 'Change Password',
+                press: () {
+                  Navigator.of(context)
+                      .pushNamed('/my-account', arguments: user);
+                },
+              ),
+              ProfileMenu(
+                icon: "./assets/icons/bell-icon.svg",
+                text: 'Notifications',
+                press: () {},
+              ),
             ],
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: new Container(
+                child: Text(
+                  'Manage your account',
+                  style: eBlackHeading,
+                ),
+              ),
+            ),
           ),
           new Positioned(
             child: ProfilePicture(
@@ -53,56 +88,8 @@ class MyAccountScreen extends StatelessWidget {
             left: (MediaQuery.of(context).size.width / 2) - avatarRadius,
             top: topWidgetHeight - avatarRadius,
           ),
-          Positioned(
-            child: Column(
-              children: [
-                ProfileMenu(
-                  icon: "./assets/icons/logout-icon.svg",
-                  text: 'Edit Profile',
-                  press: () {
-                    _auth.signOutUser();
-                  },
-                ),
-                ProfileMenu(
-                  icon: "./assets/icons/user-icon.svg",
-                  text: 'Change Password',
-                  press: () {
-                    Navigator.of(context)
-                        .pushNamed('/my-account', arguments: user);
-                  },
-                ),
-                ProfileMenu(
-                  icon: "./assets/icons/bell-icon.svg",
-                  text: 'Notifications',
-                  press: () {},
-                ),
-              ],
-            ),
-          )
         ],
       ),
-      // Stack(
-      //   children: [
-      //     Container(
-      //       height: 150,
-      //       width: MediaQuery.of(context).size.width,
-      //       decoration: BoxDecoration(
-      //         color: HexColor.fromHex('#afeeee'),
-      //         borderRadius: BorderRadius.only(
-      //           bottomLeft: Radius.circular(50),
-      //           bottomRight: Radius.circular(50),
-      //         ),
-      //       ),
-      //     ),
-      //     Positioned(
-      //       top: 100,
-      //       right: 130,
-      //       child: ProfilePicture(
-      //         image: './assets/images/profile-img.jpg',
-      //       ),
-      //     ),
-
-      //   ],
     );
   }
 }
