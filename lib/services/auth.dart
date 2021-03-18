@@ -52,6 +52,24 @@ class AuthService {
     }
   }
 
+  // change user password
+  Future changePassword(String newPassword) async {
+    try {
+      FirebaseUser firebaseUser = await _auth.currentUser();
+
+      // change user's password
+      firebaseUser.updatePassword(newPassword);
+
+      User user = _userFromFirebaseUser(firebaseUser);
+
+      // update user's password on cloud firestore
+      await DatabaseService(uid: user.uid).changePassword(newPassword);
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
   Future signOutUser() async {
     try {
       await _auth.signOut();
