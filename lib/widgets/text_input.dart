@@ -9,11 +9,13 @@ class TextInput extends StatelessWidget {
     @required this.inputType,
     @required this.inputAction,
     @required this.onChanged,
+    this.iconColor,
     this.validator,
   }) : super(key: key);
 
   final IconData icon;
   final String hint;
+  final Color iconColor;
   final TextInputType inputType;
   final TextInputAction inputAction;
   final ValueChanged<String> onChanged;
@@ -39,7 +41,7 @@ class TextInput extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Icon(
                 icon,
-                color: Colors.white,
+                color: iconColor ?? Colors.white,
                 size: 30.0,
               ),
             ),

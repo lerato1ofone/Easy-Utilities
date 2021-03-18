@@ -24,6 +24,12 @@ class DatabaseService {
     });
   }
 
+  Future changePassword(String password) async {
+    return await usersCollection.document(uid).updateData({
+      'password': password,
+    });
+  }
+
   Future<bool> getUserProfileUpdateStatus() async {
     await usersCollection.document(uid).get().then((doc) {
       return doc.data['profileUpdated'];

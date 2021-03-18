@@ -59,12 +59,12 @@ class MyAccountScreen extends StatelessWidget {
                 text: 'Change Password',
                 press: () {
                   Navigator.of(context)
-                      .pushNamed('/my-account', arguments: user);
+                      .pushNamed('/change-password', arguments: user);
                 },
               ),
               ProfileMenu(
-                icon: "./assets/icons/bell-icon.svg",
-                text: 'Notifications',
+                icon: "./assets/icons/trash-can-icon.svg",
+                text: 'Delete accont',
                 press: () {},
               ),
             ],
