@@ -101,7 +101,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                         color: HexColor.fromHex('#E4E0FA'),
-                        onPressed: () {},
+                        onPressed: () {
+                          _changePassword();
+                        },
                         child: Text(
                           'Change Password',
                           style: TextStyle(
@@ -151,5 +153,9 @@ class _ChangePasswordState extends State<ChangePassword> {
     setState(() {
       confirmPassword = value;
     });
+  }
+
+  void _changePassword() async {
+    if (_formKey.currentState.validate()) {}
   }
 }
