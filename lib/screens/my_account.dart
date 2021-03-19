@@ -3,6 +3,7 @@ import 'package:easy_utilities/core/palette.dart';
 import 'package:easy_utilities/models/user.dart';
 import 'package:easy_utilities/screens/account/components/profile_menu.dart';
 import 'package:easy_utilities/screens/account/components/profile_picture.dart';
+import 'package:easy_utilities/screens/account/password/reset_password.dart';
 import 'package:easy_utilities/services/auth.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class MyAccountScreen extends StatelessWidget {
     @required this.user,
   }) : super(key: key);
 
-  AuthService _auth = AuthService();
+  final AuthService _auth = AuthService();
   final UserData user;
 
   final double topWidgetHeight = 200.0;
@@ -64,8 +65,8 @@ class MyAccountScreen extends StatelessWidget {
               ),
               ProfileMenu(
                 icon: "./assets/icons/trash-can-icon.svg",
-                text: 'Delete accont',
-                press: () {},
+                text: 'Reset Passowrd',
+                press: () => _showOverlay(context),
               ),
             ],
           ),
@@ -91,5 +92,9 @@ class MyAccountScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _showOverlay(BuildContext context) {
+    Navigator.of(context).push(ResetPasswordOverly());
   }
 }
