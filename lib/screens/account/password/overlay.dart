@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
-class ResetPasswordOverly extends ModalRoute<void> {
-  ResetPasswordOverly({
+class AccountDialogOverlay extends ModalRoute<void> {
+  AccountDialogOverlay({
+    @required this.text,
     this.resetPassword,
   }) : super();
 
+  final String text;
   final VoidCallback resetPassword;
 
   @override
@@ -51,7 +53,7 @@ class ResetPasswordOverly extends ModalRoute<void> {
             child: Padding(
               padding: const EdgeInsets.only(left: 35.0),
               child: Text(
-                'Are you sure you want to reset your password?',
+                text,
                 style: TextStyle(color: Colors.white, fontSize: 30.0),
               ),
             ),
