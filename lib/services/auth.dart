@@ -85,7 +85,10 @@ class AuthService {
     try {
       FirebaseUser user = await _auth.currentUser();
 
-      return user.delete();
+      user.delete();
+
+      // remove user from cloud firestore
+      return await DatabaseService(uid: user.uid).deleteUser(user.uid);
     } catch (e) {
       print(e.toString());
       return null;
