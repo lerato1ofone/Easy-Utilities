@@ -58,6 +58,10 @@ class DatabaseService {
     return document.data['name'];
   }
 
+  Future<void> deleteUser(id) async {
+    return await usersCollection.document(id).delete();
+  }
+
   // Bills.
 
   // collection reference bills
