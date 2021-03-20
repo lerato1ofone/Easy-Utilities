@@ -3,7 +3,7 @@ import 'package:easy_utilities/core/palette.dart';
 import 'package:easy_utilities/models/user.dart';
 import 'package:easy_utilities/screens/account/components/profile_menu.dart';
 import 'package:easy_utilities/screens/account/components/profile_picture.dart';
-import 'package:easy_utilities/screens/account/password/reset_password.dart';
+import 'package:easy_utilities/screens/account/password/overlay.dart';
 import 'package:easy_utilities/services/auth.dart';
 import 'package:flutter/material.dart';
 
@@ -61,7 +61,7 @@ class MyAccountScreen extends StatelessWidget {
                       },
                     ),
                     ProfileMenu(
-                      icon: "./assets/icons/user-icon.svg",
+                      icon: "./assets/icons/lock-icon.svg",
                       text: 'Change Password',
                       press: () {
                         Navigator.of(context)
@@ -69,9 +69,14 @@ class MyAccountScreen extends StatelessWidget {
                       },
                     ),
                     ProfileMenu(
-                      icon: "./assets/icons/trash-can-icon.svg",
+                      icon: "./assets/icons/reset-icon.svg",
                       text: 'Reset Passowrd',
-                      press: () => _showOverlay(context),
+                      press: () => _showresetPasswordOverlay(context),
+                    ),
+                    ProfileMenu(
+                      icon: "./assets/icons/trash-can-icon.svg",
+                      text: 'Delete account',
+                      press: () => _showDeleteAccountOverlay(context),
                     ),
                   ],
                 ),
@@ -120,8 +125,25 @@ class MyAccountScreen extends StatelessWidget {
         Colors.green);
   }
 
-  void _showOverlay(BuildContext context) {
-    Navigator.of(context).push(
-        ResetPasswordOverly(resetPassword: () => _resetPassword(context)));
+  void _deleteAccount(BuildContext context) {
+    _auth.deleteAccount();
+
+    Navigator.pop(context);
+
+    createSnackBar('Your account was deleted', Colors.green);
+
+    _auth.signOutUser();
+  }
+
+  void _showDeleteAccountOverlay(BuildContext context) {
+    Navigator.of(context).push(AccountDialogOverlay(
+        text: 'Are you sure you want to delete your account?',
+        resetPassword: () => _deleteAccount(context)));
+  }
+
+  void _showresetPasswordOverlay(BuildContext context) {
+    Navigator.of(context).push(AccountDialogOverlay(
+        text: 'Are you sure you want to reset your password?',
+        resetPassword: () => _resetPassword(context)));
   }
 }
