@@ -94,7 +94,10 @@ class MyAccountScreen extends StatelessWidget {
     );
   }
 
+  void _resetPassword() {}
+
   void _showOverlay(BuildContext context) {
-    Navigator.of(context).push(ResetPasswordOverly());
+    Navigator.of(context)
+        .push(ResetPasswordOverly(resetPassword: _resetPassword));
   }
 }
