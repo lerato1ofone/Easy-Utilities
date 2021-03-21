@@ -7,6 +7,7 @@ import 'package:easy_utilities/screens/account/password/overlay.dart';
 import 'package:easy_utilities/services/auth.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class MyAccountScreen extends StatelessWidget {
   MyAccountScreen({
     Key key,
@@ -28,7 +29,7 @@ class MyAccountScreen extends StatelessWidget {
         backgroundColor: HexColor.fromHex('#afeeee'),
         elevation: 0.0,
         iconTheme: IconThemeData(
-          color: Colors.black, //change your color here
+          color: Colors.black,
         ),
       ),
       body: new Builder(
