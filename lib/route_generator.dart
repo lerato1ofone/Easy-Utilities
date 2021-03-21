@@ -1,3 +1,4 @@
+import 'package:easy_utilities/screens/account/edit_profile.dart';
 import 'package:easy_utilities/screens/account/password/change_password.dart';
 import 'package:easy_utilities/screens/complete_profile_form_screen.dart';
 import 'package:easy_utilities/screens/my_account.dart';
@@ -55,6 +56,11 @@ class RouteGenerator {
       case '/change-password':
         return MaterialPageRoute(
             builder: (_) => ChangePassword(
+                  user: args,
+                ));
+      case '/edit-profile':
+        return MaterialPageRoute(
+            builder: (_) => EditProfileScreen(
                   user: args,
                 ));
       default:

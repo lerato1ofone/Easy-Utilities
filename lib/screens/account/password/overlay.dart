@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ResetPasswordOverly extends ModalRoute<void> {
-  ResetPasswordOverly({
-    Key key,
-    @required this.email,
-  }) : super(key: key);
+class AccountDialogOverlay extends ModalRoute<void> {
+  AccountDialogOverlay({
+    @required this.text,
+    this.resetPassword,
+  }) : super();
 
-  final string email;
+  final String text;
+  final VoidCallback resetPassword;
 
   @override
   Duration get transitionDuration => Duration(milliseconds: 500);
@@ -52,7 +53,7 @@ class ResetPasswordOverly extends ModalRoute<void> {
             child: Padding(
               padding: const EdgeInsets.only(left: 35.0),
               child: Text(
-                'Are you sure you want to reset your password?',
+                text,
                 style: TextStyle(color: Colors.white, fontSize: 30.0),
               ),
             ),
@@ -63,12 +64,14 @@ class ResetPasswordOverly extends ModalRoute<void> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
+              // ignore: deprecated_member_use
               RaisedButton(
                 onPressed: () => Navigator.pop(context),
                 child: Text('Cancel'),
               ),
+              // ignore: deprecated_member_use
               RaisedButton(
-                onPressed: () => _resetPassword(),
+                onPressed: () => resetPassword(),
                 child: Text('Yes'),
               ),
             ],
@@ -89,9 +92,5 @@ class ResetPasswordOverly extends ModalRoute<void> {
         child: child,
       ),
     );
-  }
-
-  void _resetPassword() {
-    await _auth.sendPasswordResetEmail(email: email);
   }
 }

@@ -72,6 +72,29 @@ class AuthService {
     }
   }
 
+  Future resetPassword(email) async {
+    try {
+      return _auth.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
+  Future deleteAccount() async {
+    try {
+      FirebaseUser user = await _auth.currentUser();
+
+      user.delete();
+
+      // remove user from cloud firestore
+      return await DatabaseService(uid: user.uid).deleteUser(user.uid);
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
   Future signOutUser() async {
     try {
       await _auth.signOut();

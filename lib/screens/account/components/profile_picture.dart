@@ -5,9 +5,11 @@ class ProfilePicture extends StatelessWidget {
   const ProfilePicture({
     Key key,
     @required this.image,
+    this.press,
   }) : super(key: key);
 
   final String image;
+  final VoidCallback press;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,9 @@ class ProfilePicture extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           CircleAvatar(
-            backgroundImage: AssetImage(image),
+            backgroundImage: AssetImage(image == ""
+                ? './assets/images/default-profile-img.jpg'
+                : image),
             backgroundColor: Colors.white,
           ),
           Positioned(
@@ -36,7 +40,9 @@ class ProfilePicture extends StatelessWidget {
                   side: BorderSide(color: Colors.white),
                 ),
                 color: Color(0XFFF5F6F9),
-                onPressed: () {},
+                onPressed: () {
+                  press();
+                },
                 child: SvgPicture.asset(
                   './assets/icons/camera-icon.svg',
                 ),
