@@ -2,6 +2,7 @@ import 'package:easy_utilities/core/hex_color.dart';
 import 'package:easy_utilities/core/palette.dart';
 import 'package:easy_utilities/models/user.dart';
 import 'package:easy_utilities/screens/account/components/profile_picture.dart';
+import 'package:easy_utilities/services/database.dart';
 import 'package:easy_utilities/widgets/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -25,6 +26,8 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final _formKey = GlobalKey<FormState>();
   String name = '';
+  String email = '';
+  String profilePhotoUrl = '';
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +86,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               inputAction: TextInputAction.next,
                               onChanged: (value) => _onNameChange(value),
                               validator: (value) =>
-                                  value.isEmpty ? 'Enter a name' : null,
+                                  value.isEmpty ? 'Enter an email' : null,
                             ),
                             SizedBox(
                               height: 50,
@@ -96,7 +99,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               ),
                               color: HexColor.fromHex('#E4E0FA'),
                               onPressed: () {
-                                print('updating your profile');
+                                _updateProfile();
                               },
                               child: Expanded(
                                 child: Padding(
@@ -147,9 +150,38 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
+  void onEmailChange(value) {
+    setState(() {
+      email = value;
+    });
+  }
+
   void _onNameChange(value) {
     setState(() {
       name = value;
     });
+  }
+
+  void _updateProfile() async {
+    dynamic result = DatabaseService(uid: widget.user.uid).updateUserData(
+        name == "" ? widget.user.name : name,
+        email == "" ? widget.user.emailOrPhonenumber : email,
+        widget.user.password,
+        profilePhotoUrl == "" ? widget.user.profilePhotoUrl : profilePhotoUrl,
+        true);
+
+    if (result == null) {
+      createSnackBar('Please supply valid information', Colors.red);
+    } else {
+      createSnackBar('Profile updated successfully!', Colors.green);
+    }
+  }
+
+  void createSnackBar(String message, Color color) {
+    final snackBar =
+        new SnackBar(content: new Text(message), backgroundColor: color);
+
+    // ignore: deprecated_member_use
+    Scaffold.of(widget.scaffoldContext).showSnackBar(snackBar);
   }
 }
