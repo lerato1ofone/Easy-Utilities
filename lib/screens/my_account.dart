@@ -57,7 +57,8 @@ class MyAccountScreen extends StatelessWidget {
                       icon: "./assets/icons/logout-icon.svg",
                       text: 'Edit Profile',
                       press: () {
-                        _auth.signOutUser();
+                        Navigator.of(context)
+                            .pushNamed('/edit-profile', arguments: user);
                       },
                     ),
                     ProfileMenu(
