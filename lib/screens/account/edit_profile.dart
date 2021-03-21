@@ -1,9 +1,11 @@
+import 'dart:io';
 import 'package:easy_utilities/core/hex_color.dart';
 import 'package:easy_utilities/core/palette.dart';
 import 'package:easy_utilities/models/user.dart';
 import 'package:easy_utilities/screens/account/components/profile_picture.dart';
 import 'package:easy_utilities/services/database.dart';
 import 'package:easy_utilities/widgets/text_input.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -28,6 +30,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final _formKey = GlobalKey<FormState>();
   String name = '';
   String email = '';
+  File _image;
   String profilePhotoUrl = '';
 
   @override
@@ -102,18 +105,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               onPressed: () {
                                 _updateProfile();
                               },
-                              child: Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 5.0),
-                                  child: Text(
-                                    'Update profile',
-                                    style: TextStyle(
-                                        fontSize: 18.5,
-                                        color: HexColor.fromHex('#2D4343'),
-                                        fontFamily: 'Roboto',
-                                        letterSpacing: 0.2,
-                                        fontWeight: FontWeight.bold),
-                                  ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 5.0),
+                                child: Text(
+                                  'Update profile',
+                                  style: TextStyle(
+                                      fontSize: 18.5,
+                                      color: HexColor.fromHex('#2D4343'),
+                                      fontFamily: 'Roboto',
+                                      letterSpacing: 0.2,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),
@@ -135,13 +136,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                   ),
                 ),
-                new Positioned(
-                  child: ProfilePicture(
-                    image: widget.user.profilePhotoUrl,
+                Expanded(
+                  child: new Positioned(
+                    child: ProfilePicture(
+                      image: _image == null
+                          ? widget.user.profilePhotoUrl
+                          : _image.path,
+                      press: () => chooseFile(),
+                    ),
+                    left: (MediaQuery.of(context).size.width / 2) -
+                        widget.avatarRadius,
+                    top: widget.topWidgetHeight - widget.avatarRadius,
                   ),
-                  left: (MediaQuery.of(context).size.width / 2) -
-                      widget.avatarRadius,
-                  top: widget.topWidgetHeight - widget.avatarRadius,
                 ),
               ],
             ),
@@ -164,6 +170,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   void _updateProfile() async {
+    if (profilePhotoUrl != "") uploadFile();
+
     dynamic result = DatabaseService(uid: widget.user.uid).updateUserData(
         name == "" ? widget.user.name : name,
         email == "" ? widget.user.emailOrPhonenumber : email,
@@ -184,5 +192,31 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     // ignore: deprecated_member_use
     Scaffold.of(widget.scaffoldContext).showSnackBar(snackBar);
+  }
+
+  Future chooseFile() async {
+    final _picker = ImagePicker();
+
+    await _picker.getImage(source: ImageSource.gallery).then((image) {
+      setState(() {
+        _image = File(image.path);
+      });
+    });
+
+    print(_image);
+  }
+
+  Future uploadFile() async {
+    StorageReference storageReference = FirebaseStorage.instance
+        .ref()
+        .child('profileImages/${widget.user.uid}}');
+    StorageUploadTask uploadTask = storageReference.putFile(_image);
+    await uploadTask.onComplete;
+    print('File Uploaded');
+    storageReference.getDownloadURL().then((fileURL) {
+      setState(() {
+        profilePhotoUrl = fileURL;
+      });
+    });
   }
 }
