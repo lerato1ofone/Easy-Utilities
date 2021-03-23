@@ -9,7 +9,6 @@ class UserData {
   final String name;
   final String password;
   final String emailOrPhonenumber;
-  final String profilePhotoUrl;
   final bool profileUpdated;
 
   UserData(
@@ -17,7 +16,6 @@ class UserData {
       this.name,
       this.password,
       this.emailOrPhonenumber,
-      this.profilePhotoUrl,
       this.profileUpdated});
 }
 

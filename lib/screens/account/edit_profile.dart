@@ -31,7 +31,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String name = '';
   String email = '';
   File _image;
-  String profilePhotoUrl = '';
 
   @override
   Widget build(BuildContext context) {
@@ -48,81 +47,82 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         builder: (BuildContext context) {
           return SafeArea(
             child: Stack(
-              alignment: Alignment.center,
               children: <Widget>[
-                new Column(
-                  children: <Widget>[
-                    new Container(
-                      height: widget.topWidgetHeight,
-                      decoration: BoxDecoration(
-                        color: HexColor.fromHex('#afeeee'),
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(50),
-                          bottomRight: Radius.circular(50),
+                SingleChildScrollView(
+                  child: new Column(
+                    children: <Widget>[
+                      new Container(
+                        height: widget.topWidgetHeight,
+                        decoration: BoxDecoration(
+                          color: HexColor.fromHex('#afeeee'),
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(50),
+                            bottomRight: Radius.circular(50),
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 100,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            TextInput(
-                              icon: FontAwesomeIcons.user,
-                              hint: widget.user.name,
-                              inputType: TextInputType.emailAddress,
-                              inputAction: TextInputAction.next,
-                              onChanged: (value) => _onNameChange(value),
-                              validator: (value) =>
-                                  value.isEmpty ? 'Enter a name' : null,
-                            ),
-                            SizedBox(
-                              height: 25,
-                            ),
-                            TextInput(
-                              icon: FontAwesomeIcons.solidEnvelope,
-                              hint: widget.user.emailOrPhonenumber,
-                              inputType: TextInputType.emailAddress,
-                              inputAction: TextInputAction.next,
-                              onChanged: (value) => _onNameChange(value),
-                              validator: (value) =>
-                                  value.isEmpty ? 'Enter an email' : null,
-                            ),
-                            SizedBox(
-                              height: 50,
-                            ),
-                            // ignore: deprecated_member_use
-                            FlatButton(
-                              padding: EdgeInsets.all(15),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
+                      SizedBox(
+                        height: 100,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              TextInput(
+                                icon: FontAwesomeIcons.user,
+                                hint: widget.user.name,
+                                inputType: TextInputType.emailAddress,
+                                inputAction: TextInputAction.next,
+                                onChanged: (value) => _onNameChange(value),
+                                validator: (value) =>
+                                    value.isEmpty ? 'Enter a name' : null,
                               ),
-                              color: HexColor.fromHex('#E4E0FA'),
-                              onPressed: () {
-                                _updateProfile();
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 5.0),
-                                child: Text(
-                                  'Update profile',
-                                  style: TextStyle(
-                                      fontSize: 18.5,
-                                      color: HexColor.fromHex('#2D4343'),
-                                      fontFamily: 'Roboto',
-                                      letterSpacing: 0.2,
-                                      fontWeight: FontWeight.bold),
+                              SizedBox(
+                                height: 25,
+                              ),
+                              TextInput(
+                                icon: FontAwesomeIcons.solidEnvelope,
+                                hint: widget.user.emailOrPhonenumber,
+                                inputType: TextInputType.emailAddress,
+                                inputAction: TextInputAction.next,
+                                onChanged: (value) => _onNameChange(value),
+                                validator: (value) =>
+                                    value.isEmpty ? 'Enter an email' : null,
+                              ),
+                              SizedBox(
+                                height: 50,
+                              ),
+                              // ignore: deprecated_member_use
+                              FlatButton(
+                                padding: EdgeInsets.all(15),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                color: HexColor.fromHex('#E4E0FA'),
+                                onPressed: () {
+                                  _updateProfile();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 5.0),
+                                  child: Text(
+                                    'Update profile',
+                                    style: TextStyle(
+                                        fontSize: 18.5,
+                                        color: HexColor.fromHex('#2D4343'),
+                                        fontFamily: 'Roboto',
+                                        letterSpacing: 0.2,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 Align(
                   alignment: Alignment.topCenter,
@@ -136,18 +136,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: new Positioned(
-                    child: ProfilePicture(
-                      image: _image == null
-                          ? widget.user.profilePhotoUrl
-                          : _image.path,
-                      press: () => chooseFile(),
-                    ),
-                    left: (MediaQuery.of(context).size.width / 2) -
-                        widget.avatarRadius,
-                    top: widget.topWidgetHeight - widget.avatarRadius,
+                new Positioned(
+                  child: ProfilePicture(
+                    user: widget.user,
+                    imageFile: _image,
+                    disableIcon: false,
+                    press: () => chooseFile(),
                   ),
+                  left: (MediaQuery.of(context).size.width / 2) -
+                      widget.avatarRadius,
+                  top: widget.topWidgetHeight - widget.avatarRadius,
                 ),
               ],
             ),
@@ -170,13 +168,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   void _updateProfile() async {
-    if (profilePhotoUrl != "") uploadFile();
+    if (_image != null) uploadFile();
 
     dynamic result = DatabaseService(uid: widget.user.uid).updateUserData(
         name == "" ? widget.user.name : name,
         email == "" ? widget.user.emailOrPhonenumber : email,
         widget.user.password,
-        profilePhotoUrl == "" ? widget.user.profilePhotoUrl : profilePhotoUrl,
         true);
 
     if (result == null) {
@@ -198,25 +195,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final _picker = ImagePicker();
 
     await _picker.getImage(source: ImageSource.gallery).then((image) {
-      setState(() {
-        _image = File(image.path);
-      });
+      if (_image != null) {
+        setState(() {
+          _image = File(image.path);
+        });
+      }
     });
-
-    print(_image);
   }
 
   Future uploadFile() async {
     StorageReference storageReference = FirebaseStorage.instance
         .ref()
-        .child('profileImages/${widget.user.uid}}');
+        .child('profileImages/${widget.user.uid}');
     StorageUploadTask uploadTask = storageReference.putFile(_image);
     await uploadTask.onComplete;
-    print('File Uploaded');
-    storageReference.getDownloadURL().then((fileURL) {
-      setState(() {
-        profilePhotoUrl = fileURL;
-      });
-    });
   }
 }

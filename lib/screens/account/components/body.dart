@@ -23,7 +23,8 @@ class Body extends StatelessWidget {
             height: 20,
           ),
           ProfilePicture(
-            image: './assets/images/profile-img.jpg',
+            disableIcon: true,
+            user: user,
           ),
           SizedBox(
             height: 60,

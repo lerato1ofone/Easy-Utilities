@@ -96,7 +96,9 @@ class MyAccountScreen extends StatelessWidget {
                 ),
                 new Positioned(
                   child: ProfilePicture(
-                    image: './assets/images/profile-img.jpg',
+                    disableIcon: true,
+                    user: user,
+                    imageFile: null,
                   ),
                   left: (MediaQuery.of(context).size.width / 2) - avatarRadius,
                   top: topWidgetHeight - avatarRadius,

@@ -14,12 +14,11 @@ class DatabaseService {
       Firestore.instance.collection('users');
 
   Future updateUserData(String name, String emailOrPhoneNumber, String password,
-      String profilePhotoUrl, bool profileUpdated) async {
+      bool profileUpdated) async {
     return await usersCollection.document(uid).setData({
       'name': name,
       'emailOrPhoneNumber': emailOrPhoneNumber,
       'password': password,
-      'profilePhotoUrl': profilePhotoUrl,
       'profileUpdated': profileUpdated
     });
   }
@@ -43,7 +42,6 @@ class DatabaseService {
         name: snapshot.data['name'],
         password: snapshot.data['password'],
         emailOrPhonenumber: snapshot.data['emailOrPhoneNumber'],
-        profilePhotoUrl: snapshot.data['profilePhotoUrl'],
         profileUpdated: snapshot.data['profileUpdated']);
   }
 

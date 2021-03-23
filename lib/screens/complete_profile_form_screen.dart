@@ -26,8 +26,6 @@ class _CompleteProfileFormScreenState extends State<CompleteProfileFormScreen> {
 
   String name = '';
 
-  String profilePhotoUrl = '';
-
   String error = '';
 
   final bool showToast = false;
@@ -74,8 +72,9 @@ class _CompleteProfileFormScreenState extends State<CompleteProfileFormScreen> {
                                 height: 70,
                               ),
                               ProfilePicture(
-                                image:
-                                    './assets/images/default-profile-img.jpg',
+                                disableIcon: false,
+                                user: widget.user,
+                                imageFile: null,
                               ),
                               SizedBox(
                                 height: 20,
@@ -126,11 +125,7 @@ class _CompleteProfileFormScreenState extends State<CompleteProfileFormScreen> {
   void _updateProfile() async {
     if (_formKey.currentState.validate()) {
       dynamic result = DatabaseService(uid: widget.user.uid).updateUserData(
-          name,
-          widget.user.emailOrPhonenumber,
-          widget.user.password,
-          profilePhotoUrl,
-          true);
+          name, widget.user.emailOrPhonenumber, widget.user.password, true);
 
       if (result == null) {
         setState(() {
