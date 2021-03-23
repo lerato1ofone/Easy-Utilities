@@ -1,13 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ProfilePicture extends StatelessWidget {
   const ProfilePicture({
     Key key,
-    @required this.image,
+    this.imageFile,
+    this.image,
     this.press,
   }) : super(key: key);
 
+  final File imageFile;
   final String image;
   final VoidCallback press;
 
@@ -20,12 +24,20 @@ class ProfilePicture extends StatelessWidget {
         clipBehavior: Clip.none,
         fit: StackFit.expand,
         children: [
-          CircleAvatar(
-            backgroundImage: AssetImage(image == ""
-                ? './assets/images/default-profile-img.jpg'
-                : image),
-            backgroundColor: Colors.white,
-          ),
+          imageFile != null
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Image.file(
+                    imageFile,
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.cover,
+                  ),
+                )
+              : CircleAvatar(
+                  backgroundImage: AssetImage(image),
+                  backgroundColor: Colors.white,
+                ),
           Positioned(
             right: -10,
             bottom: 0,
