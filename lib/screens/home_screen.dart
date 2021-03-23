@@ -1,6 +1,7 @@
 import 'package:easy_utilities/core/hex_color.dart';
 import 'package:easy_utilities/core/palette.dart';
 import 'package:easy_utilities/models/user.dart';
+import 'package:easy_utilities/screens/account/components/profile_picture.dart';
 import 'package:easy_utilities/widgets/quick_action_card.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_utilities/widgets/bills_stream_builder.dart';
@@ -37,11 +38,14 @@ class _LandingScreenState extends State<HomeScreen> {
                         'Good evening,\n${widget.user.name}.',
                         style: eBlackHeading,
                       ),
-                      CircleAvatar(
-                        radius: 30.0,
-                        backgroundImage:
-                            AssetImage('./assets/images/profile-img.jpg'),
-                        backgroundColor: Colors.white,
+                      Container(
+                        child: ProfilePicture(
+                          disableIcon: true,
+                          user: widget.user,
+                          imageFile: null,
+                        ),
+                        height: 75,
+                        width: 75,
                       ),
                     ],
                   ),

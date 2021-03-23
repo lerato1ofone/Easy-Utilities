@@ -74,8 +74,9 @@ class _CompleteProfileFormScreenState extends State<CompleteProfileFormScreen> {
                                 height: 70,
                               ),
                               ProfilePicture(
-                                image:
-                                    './assets/images/default-profile-img.jpg',
+                                disableIcon: false,
+                                user: widget.user,
+                                imageFile: null,
                               ),
                               SizedBox(
                                 height: 20,
