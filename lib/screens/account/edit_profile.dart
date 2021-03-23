@@ -31,7 +31,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String name = '';
   String email = '';
   File _image;
-  String profilePhotoUrl = '';
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +174,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         name == "" ? widget.user.name : name,
         email == "" ? widget.user.emailOrPhonenumber : email,
         widget.user.password,
-        profilePhotoUrl == "" ? widget.user.profilePhotoUrl : profilePhotoUrl,
         true);
 
     if (result == null) {
@@ -197,9 +195,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final _picker = ImagePicker();
 
     await _picker.getImage(source: ImageSource.gallery).then((image) {
-      setState(() {
-        _image = File(image.path);
-      });
+      if (_image != null) {
+        setState(() {
+          _image = File(image.path);
+        });
+      }
     });
   }
 
@@ -209,11 +209,5 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         .child('profileImages/${widget.user.uid}');
     StorageUploadTask uploadTask = storageReference.putFile(_image);
     await uploadTask.onComplete;
-
-    storageReference.getDownloadURL().then((fileURL) {
-      setState(() {
-        profilePhotoUrl = fileURL;
-      });
-    });
   }
 }
