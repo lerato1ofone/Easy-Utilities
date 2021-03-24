@@ -1,5 +1,6 @@
 import 'package:easy_utilities/screens/account/edit_profile.dart';
 import 'package:easy_utilities/screens/account/password/change_password.dart';
+import 'package:easy_utilities/screens/bill/view_bill.dart';
 import 'package:easy_utilities/screens/complete_profile_form_screen.dart';
 import 'package:easy_utilities/screens/my_account.dart';
 import 'package:easy_utilities/screens/wrapper.dart';
@@ -35,6 +36,11 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (_) => BillsScreen(
                   user: args,
+                ));
+      case '/view-bill':
+        return MaterialPageRoute(
+            builder: (_) => ViewBillScreen(
+                  bill: args,
                 ));
       case '/add':
         return MaterialPageRoute(

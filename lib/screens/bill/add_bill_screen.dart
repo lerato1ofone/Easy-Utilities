@@ -316,7 +316,7 @@ class _AddBillScreenState extends State<AddBillScreen> {
 
   void onkwhOrLitresChanged(value) {
     setState(() {
-      kwhOrLitres = value.isEmpty ? 0.00 : double.parse(value);
+      kwhOrLitres = value.isEmpty ? null : double.parse(value);
     });
   }
 
