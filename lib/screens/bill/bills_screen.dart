@@ -196,7 +196,7 @@ class _BillsScreenState extends State<BillsScreen> {
                                           './assets/icons/electricity-icon.svg',
                                       title: bills[i].user.name,
                                       subtitle:
-                                          '${monthsInYear[bills[i].date.month]} ${bills[i].date.day} | R ${bills[i].amount}',
+                                          '${monthsInYear[bills[i].date.month]} ${bills[i].date.day} | R ${bills[i].amount.toStringAsFixed(2)}',
                                       onPress: () => {
                                         Navigator.of(context).pushNamed(
                                             '/view-bill',
@@ -210,7 +210,7 @@ class _BillsScreenState extends State<BillsScreen> {
                                           './assets/icons/water-drop-icon.svg',
                                       title: bills[i].user.name,
                                       subtitle:
-                                          '${monthsInYear[bills[i].date.month]} ${bills[i].date.day} | R ${bills[i].amount}',
+                                          '${monthsInYear[bills[i].date.month]} ${bills[i].date.day} | R ${bills[i].amount.toStringAsFixed(2)}',
                                       onPress: () => {
                                         Navigator.of(context).pushNamed(
                                             '/view-bill',
