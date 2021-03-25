@@ -12,9 +12,11 @@ class AddBillScreen extends StatefulWidget {
   const AddBillScreen({
     Key key,
     @required this.user,
+    this.billType,
   }) : super(key: key);
 
   final UserData user;
+  final BillType billType;
   @override
   _AddBillScreenState createState() => _AddBillScreenState();
 }
@@ -24,9 +26,9 @@ class _AddBillScreenState extends State<AddBillScreen> {
   DateTime selectedDate = DateTime.now();
   bool dateSelected = false;
   double amount = 0.00;
-  BillType type = BillType.electricity;
   double kwhOrLitres = 0.00;
   String error;
+  BillType type;
   BuildContext scaffoldContext;
 
   Future<Null> _selectDate(BuildContext context) async {
@@ -48,6 +50,8 @@ class _AddBillScreenState extends State<AddBillScreen> {
 
   @override
   Widget build(BuildContext context) {
+    type = widget.billType ?? BillType.electricity;
+
     return new Scaffold(
       backgroundColor: HexColor.fromHex('#E5DFFE'),
       body: new Builder(

@@ -1,6 +1,7 @@
 import 'package:easy_utilities/constants.dart';
 import 'package:easy_utilities/core/hex_color.dart';
 import 'package:easy_utilities/core/palette.dart';
+import 'package:easy_utilities/core/routes/add_bill_arguments.dart';
 import 'package:easy_utilities/data/bill_type.dart';
 import 'package:easy_utilities/models/bill.dart';
 import 'package:easy_utilities/models/user.dart';
@@ -116,7 +117,8 @@ class _BillsScreenState extends State<BillsScreen> {
                                 splashColor: HexColor.fromHex('#12E2E2'),
                                 onPressed: () {
                                   Navigator.of(context).pushNamed('/add',
-                                      arguments: widget.user);
+                                      arguments:
+                                          AddBillArguments(widget.user, null));
                                 },
                                 child: Text(
                                   "Add it right here",
