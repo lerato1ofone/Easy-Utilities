@@ -1,3 +1,4 @@
+import 'package:easy_utilities/core/routes/add_bill_arguments.dart';
 import 'package:easy_utilities/screens/account/edit_profile.dart';
 import 'package:easy_utilities/screens/account/password/change_password.dart';
 import 'package:easy_utilities/screens/bill/view_bill.dart';
@@ -43,10 +44,13 @@ class RouteGenerator {
                   bill: args,
                 ));
       case '/add':
+        AddBillArguments argument = args;
         return MaterialPageRoute(
-            builder: (_) => AddBillScreen(
-                  user: args,
-                ));
+          builder: (_) => AddBillScreen(
+            user: argument.user,
+            billType: argument.billType,
+          ),
+        );
       case '/stats':
         return MaterialPageRoute(builder: (_) => StatsScreen());
       case '/account':
