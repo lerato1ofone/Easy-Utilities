@@ -1,5 +1,7 @@
 import 'package:easy_utilities/core/hex_color.dart';
 import 'package:easy_utilities/core/palette.dart';
+import 'package:easy_utilities/core/routes/add_bill_arguments.dart';
+import 'package:easy_utilities/data/bill_type.dart';
 import 'package:easy_utilities/models/user.dart';
 import 'package:easy_utilities/screens/account/components/profile_picture.dart';
 import 'package:easy_utilities/widgets/quick_action_card.dart';
@@ -74,7 +76,11 @@ class _LandingScreenState extends State<HomeScreen> {
                             text: 'Add electricity',
                             textColor: '#F6EEE0',
                             iconColor: '#F6EEE0',
-                            onPress: () => {print('clicked')},
+                            onPress: () {
+                              Navigator.of(context).pushNamed('/add',
+                                  arguments: AddBillArguments(
+                                      widget.user, BillType.electricity));
+                            },
                           ),
                         ),
                         SizedBox(
@@ -89,7 +95,11 @@ class _LandingScreenState extends State<HomeScreen> {
                             textColor: '#ffffff',
                             iconColor: '#ffffff',
                             text: 'Add water',
-                            onPress: () => {print('clicked')},
+                            onPress: () {
+                              Navigator.of(context).pushNamed('/add',
+                                  arguments: AddBillArguments(
+                                      widget.user, BillType.water));
+                            },
                           ),
                         ),
                         SizedBox(
@@ -104,7 +114,11 @@ class _LandingScreenState extends State<HomeScreen> {
                             textColor: '#ffffff',
                             iconColor: '#ffffff',
                             text: 'Add water',
-                            onPress: () => {print('clicked')},
+                            onPress: () {
+                              Navigator.of(context).pushNamed('/add',
+                                  arguments: AddBillArguments(
+                                      widget.user, BillType.water));
+                            },
                           ),
                         ),
                         SizedBox(
@@ -119,7 +133,11 @@ class _LandingScreenState extends State<HomeScreen> {
                             textColor: '#ffffff',
                             iconColor: '#ffffff',
                             text: 'Add water',
-                            onPress: () => {print('clicked')},
+                            onPress: () {
+                              Navigator.of(context).pushNamed('/add',
+                                  arguments: AddBillArguments(
+                                      widget.user, BillType.water));
+                            },
                           ),
                         ),
                       ],
