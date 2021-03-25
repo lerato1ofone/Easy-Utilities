@@ -97,7 +97,10 @@ class _BillsStreamBuilderState extends State<BillsStreamBuilder> {
                       title: bills[i].user.name,
                       subtitle:
                           '${monthsInYear[bills[i].date.month]} ${bills[i].date.day} | R ${bills[i].amount.toStringAsFixed(2)}',
-                      onPress: () => {print('open transaction')},
+                      onPress: () => {
+                        Navigator.of(context)
+                            .pushNamed('/view-bill', arguments: bills[i])
+                      },
                     );
                   } else {
                     return LatestTransactionCard(
@@ -106,7 +109,10 @@ class _BillsStreamBuilderState extends State<BillsStreamBuilder> {
                       title: bills[i].user.name,
                       subtitle:
                           '${monthsInYear[bills[i].date.month]} ${bills[i].date.day} | R ${bills[i].amount.toStringAsFixed(2)}',
-                      onPress: () => {print('open transaction')},
+                      onPress: () => {
+                        Navigator.of(context)
+                            .pushNamed('/view-bill', arguments: bills[i])
+                      },
                     );
                   }
                 },
