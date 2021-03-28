@@ -24,6 +24,21 @@ class _StatsScreenState extends State<StatsScreen> {
 
   Widget getBody() {
     var size = MediaQuery.of(context).size;
+    List expenses = [
+      {
+        "icon": Icons.arrow_back,
+        "color": Colors.red,
+        "label": "Electricity",
+        "amount": "\R1320.00",
+      },
+      {
+        "icon": Icons.arrow_forward,
+        "color": HexColor.fromHex('#2389DA'),
+        "label": "Water",
+        "amount": "\R550.00",
+      },
+    ];
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -49,10 +64,25 @@ class _StatsScreenState extends State<StatsScreen> {
                         "Stats",
                         style: eTitleText,
                       ),
-                      SvgPicture.asset(
-                        './assets/icons/search-icon.svg',
-                        width: 30,
-                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          IconButton(
+                            icon: SvgPicture.asset(
+                              './assets/icons/search-icon.svg',
+                              width: 30,
+                            ),
+                            onPressed: () {},
+                          ),
+                          IconButton(
+                            icon: SvgPicture.asset(
+                              './assets/icons/funnel-icon.svg',
+                              width: 30,
+                            ),
+                            onPressed: () {},
+                          ),
+                        ],
+                      )
                     ],
                   ),
                   SizedBox(
@@ -66,54 +96,55 @@ class _StatsScreenState extends State<StatsScreen> {
                         days.length,
                         (index) {
                           return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  activeMonth = index;
-                                });
-                              },
-                              child: Container(
-                                width: (size.width - 40) / 7,
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      days[index]['label'],
-                                      style: TextStyle(fontSize: 10),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
+                            onTap: () {
+                              setState(() {
+                                activeMonth = index;
+                              });
+                            },
+                            child: Container(
+                              width: (size.width - 40) / 7,
+                              child: Column(
+                                children: [
+                                  Text(
+                                    days[index]['label'],
+                                    style: TextStyle(fontSize: 10),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: activeMonth == index
+                                          ? HexColor.fromHex('#F664F7')
+                                          : Colors.transparent,
+                                      borderRadius: BorderRadius.circular(5),
+                                      border: Border.all(
                                         color: activeMonth == index
-                                            ? Colors.red
-                                            : Colors.transparent,
-                                        borderRadius: BorderRadius.circular(5),
-                                        border: Border.all(
-                                          color: activeMonth == index
-                                              ? HexColor.fromHex('#000')
-                                              : Colors.black.withOpacity(0.1),
-                                        ),
+                                            ? HexColor.fromHex('#000')
+                                            : Colors.black.withOpacity(0.1),
                                       ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 7,
-                                            bottom: 7,
-                                            right: 12,
-                                            left: 12),
-                                        child: Text(
-                                          months[index]['day'],
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                            color: activeMonth == index
-                                                ? Colors.white
-                                                : Colors.black,
-                                          ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 7,
+                                          bottom: 7,
+                                          right: 12,
+                                          left: 12),
+                                      child: Text(
+                                        months[index]['day'],
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          color: activeMonth == index
+                                              ? Colors.white
+                                              : Colors.black,
                                         ),
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ));
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -161,7 +192,7 @@ class _StatsScreenState extends State<StatsScreen> {
                             height: 10,
                           ),
                           Text(
-                            "\R1320.00",
+                            "\R1870.00",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 25,
@@ -181,6 +212,76 @@ class _StatsScreenState extends State<StatsScreen> {
                   ],
                 ),
               ),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Wrap(
+            spacing: 20,
+            children: List.generate(
+              expenses.length,
+              (index) {
+                return Container(
+                  width: (size.width - 60) / 2,
+                  height: 170,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.03),
+                          spreadRadius: 10,
+                          blurRadius: 3),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 25, right: 25, top: 20, bottom: 20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                              color: expenses[index]
+                                  ['color'], //  Color(0xFFec5766)
+                              shape: BoxShape.circle),
+                          child: Center(
+                              child: Icon(expenses[index]['icon'],
+                                  color: Colors.white)),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              expenses[index]['label'],
+                              style: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 13,
+                                  color: Colors.black.withOpacity(0.5)),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              expenses[index]['amount'],
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
           )
         ],
