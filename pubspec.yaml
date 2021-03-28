@@ -31,7 +31,6 @@ dependencies:
   cloud_firestore: ^0.12.10+2
   flutter_spinkit: ^4.1.0
 
-
   provider: ^5.0.0
 
   flutter_svg: ^0.19.3
