@@ -1,6 +1,8 @@
 import 'package:easy_utilities/core/hex_color.dart';
 import 'package:easy_utilities/core/palette.dart';
 import 'package:easy_utilities/data/constants.dart';
+import 'package:easy_utilities/widgets/chart.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -63,7 +65,6 @@ class _StatsScreenState extends State<StatsScreen> {
                       children: List<Widget>.generate(
                         days.length,
                         (index) {
-                          print(index);
                           return GestureDetector(
                               onTap: () {
                                 setState(() {
@@ -121,6 +122,67 @@ class _StatsScreenState extends State<StatsScreen> {
               ),
             ),
           ),
+          SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Container(
+              width: double.infinity,
+              height: 250,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(0.03),
+                      spreadRadius: 10,
+                      blurRadius: 3),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Net Spent",
+                            style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13,
+                                color: Colors.black.withOpacity(0.5)),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "\R1320.00",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      child: Container(
+                        width: size.width - 20,
+                        height: 150,
+                        child: LineChart(mainData()),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
