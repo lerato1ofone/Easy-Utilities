@@ -1,84 +1,97 @@
-import 'package:fl_chart/fl_chart.dart';
+import 'package:easy_utilities/core/hex_color.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
+import 'package:charts_flutter/flutter.dart' as charts;
 
-LineChartData mainData() {
-  return LineChartData(
-    gridData: FlGridData(
-        show: true,
-        drawHorizontalLine: true,
-        getDrawingHorizontalLine: (value) {
-          return FlLine(
-            color: const Color(0xff37434d),
-            strokeWidth: 0.1,
-          );
-        }),
-    titlesData: FlTitlesData(
-      show: true,
-      bottomTitles: SideTitles(
-        showTitles: true,
-        reservedSize: 22,
-        getTextStyles: (value) =>
-            const TextStyle(color: Color(0xff68737d), fontSize: 12),
-        getTitles: (value) {
-          switch (value.toInt()) {
-            case 2:
-              return '1';
-            case 5:
-              return '11';
-            case 8:
-              return '21';
-          }
-          return '';
+class ChartsDemo extends StatefulWidget {
+  //
+  ChartsDemo() : super();
+
+  @override
+  ChartsDemoState createState() => ChartsDemoState();
+}
+
+class ChartsDemoState extends State<ChartsDemo> {
+  //
+  List<charts.Series> seriesList;
+  static List<charts.Series<Sales, String>> _createRandomData() {
+    final random = Random();
+
+    final tabletSalesData = [
+      Sales('Jan', random.nextInt(100)),
+      Sales('Feb', random.nextInt(100)),
+      Sales('Mar', random.nextInt(100)),
+      Sales('Apr', random.nextInt(100)),
+      Sales('May', random.nextInt(100)),
+    ];
+
+    final mobileSalesData = [
+      Sales('Jan', random.nextInt(100)),
+      Sales('Feb', random.nextInt(100)),
+      Sales('Mar', random.nextInt(100)),
+      Sales('Apr', random.nextInt(100)),
+      Sales('May', random.nextInt(100)),
+    ];
+
+    return [
+      charts.Series<Sales, String>(
+        id: 'Sales',
+        domainFn: (Sales sales, _) => sales.year,
+        measureFn: (Sales sales, _) => sales.sales,
+        data: tabletSalesData,
+        fillColorFn: (Sales sales, _) {
+          return charts.ColorUtil.fromDartColor(HexColor.fromHex('#f05454'));
         },
-        margin: 8,
       ),
-      leftTitles: SideTitles(
-        showTitles: true,
-        getTextStyles: (value) => const TextStyle(
-          color: Color(0xff67727d),
-          fontSize: 12,
-        ),
-        getTitles: (value) {
-          switch (value.toInt()) {
-            case 1:
-              return '10k';
-            case 3:
-              return '50k';
-            case 5:
-              return '100k';
-          }
-          return '';
+      charts.Series<Sales, String>(
+        id: 'Sales',
+        domainFn: (Sales sales, _) => sales.year,
+        measureFn: (Sales sales, _) => sales.sales,
+        data: mobileSalesData,
+        fillColorFn: (Sales sales, _) {
+          return charts.ColorUtil.fromDartColor(HexColor.fromHex('#2389DA'));
         },
-        reservedSize: 28,
-        margin: 12,
+      )
+    ];
+  }
+
+  charts.BarChart barChart() {
+    return charts.BarChart(
+      seriesList,
+      animate: true,
+      vertical: true,
+      barGroupingType: charts.BarGroupingType.grouped,
+      defaultRenderer: charts.BarRendererConfig(
+        groupingType: charts.BarGroupingType.grouped,
+        strokeWidthPx: 1.0,
       ),
-    ),
-    borderData: FlBorderData(
-      show: false,
-    ),
-    minX: 0,
-    maxX: 11,
-    minY: 0,
-    maxY: 6,
-    lineBarsData: [
-      LineChartBarData(
-        spots: [
-          FlSpot(0, 3),
-          FlSpot(2.6, 2),
-          FlSpot(4.9, 5),
-          FlSpot(6.8, 3.1),
-          FlSpot(8, 4),
-          FlSpot(9.5, 3),
-          FlSpot(11, 4),
-        ],
-        isCurved: true,
-        colors: [Color(0xFFFF3378)],
-        barWidth: 3,
-        isStrokeCapRound: true,
-        dotData: FlDotData(
-          show: false,
-        ),
-      ),
-    ],
-  );
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    seriesList = _createRandomData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: barChart(),
+    );
+  }
+}
+
+class Sales {
+  final String year;
+  final int sales;
+
+  Sales(this.year, this.sales);
+}
+
+class BarChart extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
 }
