@@ -2,7 +2,6 @@ import 'package:easy_utilities/core/hex_color.dart';
 import 'package:easy_utilities/core/palette.dart';
 import 'package:easy_utilities/data/constants.dart';
 import 'package:easy_utilities/widgets/chart.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -27,7 +26,7 @@ class _StatsScreenState extends State<StatsScreen> {
     List expenses = [
       {
         "icon": Icons.arrow_back,
-        "color": Colors.red,
+        "color": HexColor.fromHex('#f05454'),
         "label": "Electricity",
         "amount": "\R1320.00",
       },
@@ -82,7 +81,7 @@ class _StatsScreenState extends State<StatsScreen> {
                             onPressed: () {},
                           ),
                         ],
-                      )
+                      ),
                     ],
                   ),
                   SizedBox(
@@ -206,7 +205,7 @@ class _StatsScreenState extends State<StatsScreen> {
                       child: Container(
                         width: size.width - 20,
                         height: 150,
-                        child: LineChart(mainData()),
+                        child: BarChart(),
                       ),
                     )
                   ],

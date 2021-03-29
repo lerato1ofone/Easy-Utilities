@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:charts_flutter/flutter.dart' as charts;
 
-class ChartsDemo extends StatefulWidget {
+class BarChart extends StatefulWidget {
   //
-  ChartsDemo() : super();
+  BarChart() : super();
 
   @override
-  ChartsDemoState createState() => ChartsDemoState();
+  BarChartState createState() => BarChartState();
 }
 
-class ChartsDemoState extends State<ChartsDemo> {
+class BarChartState extends State<BarChart> {
   //
   List<charts.Series> seriesList;
   static List<charts.Series<Sales, String>> _createRandomData() {
@@ -87,11 +87,4 @@ class Sales {
   final int sales;
 
   Sales(this.year, this.sales);
-}
-
-class BarChart extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
 }
