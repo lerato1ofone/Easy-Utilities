@@ -1,7 +1,9 @@
+import 'package:easy_utilities/constants.dart';
 import 'package:easy_utilities/core/hex_color.dart';
+import 'package:easy_utilities/data/bill_type.dart';
+import 'package:easy_utilities/models/bill.dart';
 import 'package:easy_utilities/models/dto/bar_chart_data.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
 import 'package:charts_flutter/flutter.dart' as charts;
 
 class BarChart extends StatefulWidget {
@@ -17,43 +19,34 @@ class BarChart extends StatefulWidget {
 }
 
 class BarChartState extends State<BarChart> {
-  //
   List<charts.Series> seriesList;
-  static List<charts.Series<Sales, String>> _createRandomData() {
-    final random = Random();
+  List<charts.Series<BillData, String>> _createBillsData() {
+    final eletricityBills = widget.billsData.bills
+        .where((bill) => bill.type == BillType.electricity)
+        .toList();
 
-    final tabletSalesData = [
-      Sales('Jan', random.nextInt(100)),
-      Sales('Feb', random.nextInt(100)),
-      Sales('Mar', random.nextInt(100)),
-      Sales('Apr', random.nextInt(100)),
-      Sales('May', random.nextInt(100)),
-    ];
-
-    final mobileSalesData = [
-      Sales('Jan', random.nextInt(100)),
-      Sales('Feb', random.nextInt(100)),
-      Sales('Mar', random.nextInt(100)),
-      Sales('Apr', random.nextInt(100)),
-      Sales('May', random.nextInt(100)),
-    ];
+    final waterBills = widget.billsData.bills
+        .where((bill) => bill.type == BillType.electricity)
+        .toList();
 
     return [
-      charts.Series<Sales, String>(
-        id: 'Sales',
-        domainFn: (Sales sales, _) => sales.year,
-        measureFn: (Sales sales, _) => sales.sales,
-        data: tabletSalesData,
-        fillColorFn: (Sales sales, _) {
+      charts.Series<BillData, String>(
+        id: 'Elecricity Bills',
+        domainFn: (BillData bill, _) =>
+            "${bill.date.day} ${monthsInYear[bill.date.month]} ${bill.date.year}",
+        measureFn: (BillData bill, _) => bill.amount,
+        data: eletricityBills,
+        fillColorFn: (BillData bill, _) {
           return charts.ColorUtil.fromDartColor(HexColor.fromHex('#f05454'));
         },
       ),
-      charts.Series<Sales, String>(
-        id: 'Sales',
-        domainFn: (Sales sales, _) => sales.year,
-        measureFn: (Sales sales, _) => sales.sales,
-        data: mobileSalesData,
-        fillColorFn: (Sales sales, _) {
+      charts.Series<BillData, String>(
+        id: 'Water Bills',
+        domainFn: (BillData bill, _) =>
+            "${bill.date.day} ${monthsInYear[bill.date.month]} ${bill.date.year}",
+        measureFn: (BillData bill, _) => bill.amount,
+        data: waterBills,
+        fillColorFn: (BillData bill, _) {
           return charts.ColorUtil.fromDartColor(HexColor.fromHex('#2389DA'));
         },
       )
@@ -76,7 +69,7 @@ class BarChartState extends State<BarChart> {
   @override
   void initState() {
     super.initState();
-    seriesList = _createRandomData();
+    seriesList = _createBillsData();
   }
 
   @override
@@ -85,11 +78,4 @@ class BarChartState extends State<BarChart> {
       child: barChart(),
     );
   }
-}
-
-class Sales {
-  final String year;
-  final int sales;
-
-  Sales(this.year, this.sales);
 }
