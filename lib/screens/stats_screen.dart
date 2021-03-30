@@ -1,18 +1,51 @@
 import 'package:easy_utilities/core/hex_color.dart';
 import 'package:easy_utilities/core/palette.dart';
+import 'package:easy_utilities/models/dto/bar_chart_data.dart';
+import 'package:easy_utilities/data/bill_type.dart';
 import 'package:easy_utilities/data/constants.dart';
+import 'package:easy_utilities/models/bill.dart';
+import 'package:easy_utilities/models/user.dart';
+import 'package:easy_utilities/services/database.dart';
 import 'package:easy_utilities/widgets/chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class StatsScreen extends StatefulWidget {
+  const StatsScreen({
+    Key key,
+    @required this.user,
+  }) : super(key: key);
+
+  final UserData user;
+
   @override
   _StatsScreenState createState() => _StatsScreenState();
 }
 
 class _StatsScreenState extends State<StatsScreen> {
   int activeMonth = 4;
+  List<BillData> bills;
+  double totalBillsAmount = 0.0;
+  double totalElectricityBillsAmount = 0.0;
+  double totalWaterBillsAmount = 0.0;
+
+  @override
+  void initState() async {
+    super.initState();
+    bills = await DatabaseService(uid: widget.user.uid).billsData;
+
+    if (bills.length > 0) {
+      bills.forEach((bill) {
+        totalBillsAmount += bill.amount;
+        if (bill.type == BillType.electricity)
+          totalElectricityBillsAmount += bill.amount;
+        else
+          totalWaterBillsAmount += bill.amount;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -205,7 +238,14 @@ class _StatsScreenState extends State<StatsScreen> {
                       child: Container(
                         width: size.width - 20,
                         height: 150,
-                        child: BarChart(),
+                        child: BarChart(
+                          billsData: new BarChartData(
+                              widget.user,
+                              bills,
+                              totalBillsAmount,
+                              totalElectricityBillsAmount,
+                              totalWaterBillsAmount),
+                        ),
                       ),
                     )
                   ],

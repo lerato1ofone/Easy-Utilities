@@ -1,11 +1,16 @@
 import 'package:easy_utilities/core/hex_color.dart';
+import 'package:easy_utilities/models/dto/bar_chart_data.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:charts_flutter/flutter.dart' as charts;
 
 class BarChart extends StatefulWidget {
-  //
-  BarChart() : super();
+  BarChart({
+    Key key,
+    @required this.billsData,
+  }) : super(key: key);
+
+  final BarChartData billsData;
 
   @override
   BarChartState createState() => BarChartState();
