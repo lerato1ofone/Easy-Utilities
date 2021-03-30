@@ -25,26 +25,9 @@ class StatsScreen extends StatefulWidget {
 
 class _StatsScreenState extends State<StatsScreen> {
   int activeMonth = 4;
-  List<BillData> bills;
   double totalBillsAmount = 0.0;
   double totalElectricityBillsAmount = 0.0;
   double totalWaterBillsAmount = 0.0;
-
-  @override
-  void initState() async {
-    super.initState();
-    bills = await DatabaseService(uid: widget.user.uid).billsData;
-
-    if (bills.length > 0) {
-      bills.forEach((bill) {
-        totalBillsAmount += bill.amount;
-        if (bill.type == BillType.electricity)
-          totalElectricityBillsAmount += bill.amount;
-        else
-          totalWaterBillsAmount += bill.amount;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -238,13 +221,47 @@ class _StatsScreenState extends State<StatsScreen> {
                       child: Container(
                         width: size.width - 20,
                         height: 150,
-                        child: BarChart(
-                          billsData: new BarChartData(
-                              widget.user,
-                              bills,
-                              totalBillsAmount,
-                              totalElectricityBillsAmount,
-                              totalWaterBillsAmount),
+                        child: FutureBuilder(
+                          future:
+                              DatabaseService(uid: widget.user.uid).billsData,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              if (snapshot.hasData) {
+                                List<BillData> bills = snapshot.data;
+
+                                if (bills.length > 0) {
+                                  bills.forEach((bill) {
+                                    totalBillsAmount += bill.amount;
+                                    if (bill.type == BillType.electricity)
+                                      totalElectricityBillsAmount +=
+                                          bill.amount;
+                                    else
+                                      totalWaterBillsAmount += bill.amount;
+                                  });
+                                }
+
+                                return BarChart(
+                                  billsData: new BarChartData(
+                                      widget.user,
+                                      bills,
+                                      totalBillsAmount,
+                                      totalElectricityBillsAmount,
+                                      totalWaterBillsAmount),
+                                );
+                              }
+                            }
+
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Container(
+                                width: 15,
+                                height: 15,
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            return Container();
+                          },
                         ),
                       ),
                     )
