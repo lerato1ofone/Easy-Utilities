@@ -20,6 +20,7 @@ class BarChart extends StatefulWidget {
 
 class BarChartState extends State<BarChart> {
   List<charts.Series> seriesList;
+
   List<charts.Series<BillData, String>> _createBillsData() {
     final eletricityBills = widget.billsData.bills
         .where((bill) => bill.type == BillType.electricity)
@@ -62,6 +63,19 @@ class BarChartState extends State<BarChart> {
       defaultRenderer: charts.BarRendererConfig(
         groupingType: charts.BarGroupingType.grouped,
         strokeWidthPx: 1.0,
+      ),
+      domainAxis: new charts.OrdinalAxisSpec(
+        renderSpec: new charts.SmallTickRendererSpec(
+          minimumPaddingBetweenLabelsPx: 0,
+          // Tick and Label styling here.
+          labelStyle: new charts.TextStyleSpec(
+              fontSize: 10, // size in Pts.
+              color: charts.MaterialPalette.black),
+
+          // Change the line colors to match text color.
+          lineStyle:
+              new charts.LineStyleSpec(color: charts.MaterialPalette.black),
+        ),
       ),
     );
   }
