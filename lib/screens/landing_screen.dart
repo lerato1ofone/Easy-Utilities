@@ -53,7 +53,9 @@ class _HomeScreenState extends State<LandingScreen> {
               BillsScreen(
                 user: widget.user,
               ),
-              StatsScreen(),
+              StatsScreen(
+                user: widget.user,
+              ),
               AccountScreen(
                 user: widget.user,
               ),

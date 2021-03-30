@@ -52,7 +52,10 @@ class RouteGenerator {
           ),
         );
       case '/stats':
-        return MaterialPageRoute(builder: (_) => StatsScreen());
+        return MaterialPageRoute(
+            builder: (_) => StatsScreen(
+                  user: args,
+                ));
       case '/account':
         return MaterialPageRoute(
             builder: (_) => AccountScreen(
