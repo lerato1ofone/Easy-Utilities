@@ -4,6 +4,7 @@ import 'package:easy_utilities/screens/account/password/change_password.dart';
 import 'package:easy_utilities/screens/bill/view_bill.dart';
 import 'package:easy_utilities/screens/complete_profile_form_screen.dart';
 import 'package:easy_utilities/screens/my_account.dart';
+import 'package:easy_utilities/screens/stats/filter_screen.dart';
 import 'package:easy_utilities/screens/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_utilities/screens/account_screen.dart';
@@ -56,6 +57,8 @@ class RouteGenerator {
             builder: (_) => StatsScreen(
                   user: args,
                 ));
+      case '/stats-filters':
+        return MaterialPageRoute(builder: (_) => StatsFilters());
       case '/account':
         return MaterialPageRoute(
             builder: (_) => AccountScreen(

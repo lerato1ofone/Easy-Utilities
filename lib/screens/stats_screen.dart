@@ -6,7 +6,7 @@ import 'package:easy_utilities/data/constants.dart';
 import 'package:easy_utilities/models/bill.dart';
 import 'package:easy_utilities/models/user.dart';
 import 'package:easy_utilities/services/database.dart';
-import 'package:easy_utilities/widgets/chart.dart';
+import 'package:easy_utilities/screens/stats/chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -97,7 +97,9 @@ class _StatsScreenState extends State<StatsScreen> {
                               './assets/icons/funnel-icon.svg',
                               width: 30,
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).pushNamed('/stats-filters');
+                            },
                           ),
                         ],
                       ),
