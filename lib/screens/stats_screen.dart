@@ -28,6 +28,7 @@ class _StatsScreenState extends State<StatsScreen> {
   double totalBillsAmount = 0.0;
   double totalElectricityBillsAmount = 0.0;
   double totalWaterBillsAmount = 0.0;
+  BillType billType;
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +46,14 @@ class _StatsScreenState extends State<StatsScreen> {
         "color": HexColor.fromHex('#f05454'),
         "label": "Electricity",
         "amount": "\R1320.00",
+        "type": BillType.electricity,
       },
       {
         "icon": Icons.arrow_forward,
         "color": HexColor.fromHex('#2389DA'),
         "label": "Water",
         "amount": "\R550.00",
+        "type": BillType.water,
       },
     ];
 
@@ -242,6 +245,7 @@ class _StatsScreenState extends State<StatsScreen> {
                                 }
 
                                 return BarChart(
+                                  billType: billType,
                                   billsData: new BarChartData(
                                       widget.user,
                                       bills,
@@ -306,8 +310,20 @@ class _StatsScreenState extends State<StatsScreen> {
                                   ['color'], //  Color(0xFFec5766)
                               shape: BoxShape.circle),
                           child: Center(
-                              child: Icon(expenses[index]['icon'],
-                                  color: Colors.white)),
+                            child: IconButton(
+                              onPressed: () {
+                                setState(
+                                  () {
+                                    billType = expenses[index]['type'];
+                                  },
+                                );
+                              },
+                              icon: Icon(
+                                expenses[index]['icon'],
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

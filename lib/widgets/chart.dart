@@ -9,10 +9,12 @@ import 'package:charts_flutter/flutter.dart' as charts;
 class BarChart extends StatefulWidget {
   BarChart({
     Key key,
+    this.billType,
     @required this.billsData,
   }) : super(key: key);
 
   final BarChartData billsData;
+  final BillType billType;
 
   @override
   BarChartState createState() => BarChartState();
@@ -21,37 +23,80 @@ class BarChart extends StatefulWidget {
 class BarChartState extends State<BarChart> {
   List<charts.Series> seriesList;
 
-  List<charts.Series<BillData, String>> _createBillsData() {
-    final eletricityBills = widget.billsData.bills
-        .where((bill) => bill.type == BillType.electricity)
-        .toList();
+  List<charts.Series<BillData, String>> _createBillsData(BillType billType) {
+    switch (billType) {
+      case BillType.electricity:
+        final eletricityBills = widget.billsData.bills
+            .where((bill) => bill.type == BillType.electricity)
+            .toList();
+        return [
+          charts.Series<BillData, String>(
+            id: 'Elecricity Bills',
+            domainFn: (BillData bill, _) =>
+                "${bill.date.day} ${monthsInYear[bill.date.month]} ${bill.date.year}",
+            measureFn: (BillData bill, _) => bill.amount,
+            data: eletricityBills,
+            fillColorFn: (BillData bill, _) {
+              return charts.ColorUtil.fromDartColor(
+                  HexColor.fromHex('#f05454'));
+            },
+          ),
+        ];
+        break;
+      case BillType.water:
+        final waterBills = widget.billsData.bills
+            .where((bill) => bill.type == BillType.electricity)
+            .toList();
 
-    final waterBills = widget.billsData.bills
-        .where((bill) => bill.type == BillType.electricity)
-        .toList();
+        return [
+          charts.Series<BillData, String>(
+            id: 'Water Bills',
+            domainFn: (BillData bill, _) =>
+                "${bill.date.day} ${monthsInYear[bill.date.month]} ${bill.date.year}",
+            measureFn: (BillData bill, _) => bill.amount,
+            data: waterBills,
+            fillColorFn: (BillData bill, _) {
+              return charts.ColorUtil.fromDartColor(
+                  HexColor.fromHex('#2389DA'));
+            },
+          )
+        ];
+        break;
+      default:
+        final eletricityBills = widget.billsData.bills
+            .where((bill) => bill.type == BillType.electricity)
+            .toList();
 
-    return [
-      charts.Series<BillData, String>(
-        id: 'Elecricity Bills',
-        domainFn: (BillData bill, _) =>
-            "${bill.date.day} ${monthsInYear[bill.date.month]} ${bill.date.year}",
-        measureFn: (BillData bill, _) => bill.amount,
-        data: eletricityBills,
-        fillColorFn: (BillData bill, _) {
-          return charts.ColorUtil.fromDartColor(HexColor.fromHex('#f05454'));
-        },
-      ),
-      charts.Series<BillData, String>(
-        id: 'Water Bills',
-        domainFn: (BillData bill, _) =>
-            "${bill.date.day} ${monthsInYear[bill.date.month]} ${bill.date.year}",
-        measureFn: (BillData bill, _) => bill.amount,
-        data: waterBills,
-        fillColorFn: (BillData bill, _) {
-          return charts.ColorUtil.fromDartColor(HexColor.fromHex('#2389DA'));
-        },
-      )
-    ];
+        final waterBills = widget.billsData.bills
+            .where((bill) => bill.type == BillType.electricity)
+            .toList();
+
+        return [
+          charts.Series<BillData, String>(
+            id: 'Elecricity Bills',
+            domainFn: (BillData bill, _) =>
+                "${bill.date.day} ${monthsInYear[bill.date.month]} ${bill.date.year}",
+            measureFn: (BillData bill, _) => bill.amount,
+            data: eletricityBills,
+            fillColorFn: (BillData bill, _) {
+              return charts.ColorUtil.fromDartColor(
+                  HexColor.fromHex('#f05454'));
+            },
+          ),
+          charts.Series<BillData, String>(
+            id: 'Water Bills',
+            domainFn: (BillData bill, _) =>
+                "${bill.date.day} ${monthsInYear[bill.date.month]} ${bill.date.year}",
+            measureFn: (BillData bill, _) => bill.amount,
+            data: waterBills,
+            fillColorFn: (BillData bill, _) {
+              return charts.ColorUtil.fromDartColor(
+                  HexColor.fromHex('#2389DA'));
+            },
+          )
+        ];
+        break;
+    }
   }
 
   charts.BarChart barChart() {
@@ -83,7 +128,7 @@ class BarChartState extends State<BarChart> {
   @override
   void initState() {
     super.initState();
-    seriesList = _createBillsData();
+    seriesList = _createBillsData(widget.billType);
   }
 
   @override
