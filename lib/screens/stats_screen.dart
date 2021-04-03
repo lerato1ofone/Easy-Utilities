@@ -4,6 +4,7 @@ import 'package:easy_utilities/models/dto/bar_chart_data.dart';
 import 'package:easy_utilities/data/bill_type.dart';
 import 'package:easy_utilities/data/constants.dart';
 import 'package:easy_utilities/models/bill.dart';
+import 'package:easy_utilities/models/dto/stats_filters_data.dart';
 import 'package:easy_utilities/models/user.dart';
 import 'package:easy_utilities/services/database.dart';
 import 'package:easy_utilities/screens/stats/chart.dart';
@@ -29,6 +30,7 @@ class _StatsScreenState extends State<StatsScreen> {
   double totalElectricityBillsAmount = 0.0;
   double totalWaterBillsAmount = 0.0;
   BillType billType;
+  List<String> names;
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +100,10 @@ class _StatsScreenState extends State<StatsScreen> {
                               width: 30,
                             ),
                             onPressed: () {
-                              Navigator.of(context).pushNamed('/stats-filters');
+                              StatsFiltersData filters =
+                                  new StatsFiltersData(names);
+                              Navigator.of(context).pushNamed('/stats-filters',
+                                  arguments: filters);
                             },
                           ),
                         ],
@@ -234,6 +239,16 @@ class _StatsScreenState extends State<StatsScreen> {
                                 ConnectionState.done) {
                               if (snapshot.hasData) {
                                 List<BillData> bills = snapshot.data;
+
+                                var nameSet = <String>{};
+                                var distinct = <String>[];
+                                for (var bill in bills) {
+                                  if (nameSet.add(bill.user.name)) {
+                                    distinct.add(bill.user.name);
+                                  }
+                                }
+
+                                names = distinct ?? null;
 
                                 if (bills.length > 0) {
                                   bills.forEach((bill) {

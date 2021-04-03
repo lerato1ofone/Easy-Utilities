@@ -1,4 +1,5 @@
 import 'package:easy_utilities/core/routes/add_bill_arguments.dart';
+import 'package:easy_utilities/models/dto/stats_filters_data.dart';
 import 'package:easy_utilities/screens/account/edit_profile.dart';
 import 'package:easy_utilities/screens/account/password/change_password.dart';
 import 'package:easy_utilities/screens/bill/view_bill.dart';
@@ -58,7 +59,11 @@ class RouteGenerator {
                   user: args,
                 ));
       case '/stats-filters':
-        return MaterialPageRoute(builder: (_) => StatsFilters());
+        StatsFiltersData filters = args;
+        return MaterialPageRoute(
+            builder: (_) => StatsFilters(
+                  names: filters.names,
+                ));
       case '/account':
         return MaterialPageRoute(
             builder: (_) => AccountScreen(

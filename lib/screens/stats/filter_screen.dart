@@ -5,11 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class StatsFilters extends StatelessWidget {
+  StatsFilters({
+    Key key,
+    @required this.names,
+  }) : super(key: key);
+
+  final List<String> names;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: HexColor.fromHex('#E5DFFE'),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             child: Align(
@@ -26,19 +34,40 @@ class StatsFilters extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            child: Text('Stats FIlters', style: eTitleText),
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              child: Text('Stats Filters', style: ePageHeading),
+            ),
           ),
           SizedBox(
-            height: 25,
+            height: 50,
           ),
-          Wrap(
-            spacing: 5.0,
-            runSpacing: 3.0,
-            children: <Widget>[
-              FilterChipWidget(chipName: 'Filters'),
-            ],
-          )
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Purchased by',
+                  style: eQuestionText,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Wrap(
+                  spacing: 5.0,
+                  runSpacing: 3.0,
+                  children: List<Widget>.generate(
+                    names.length,
+                    (index) {
+                      return FilterChipWidget(chipName: names[index]);
+                    },
+                  ),
+                )
+              ],
+            ),
+          ),
         ],
       ),
     );
