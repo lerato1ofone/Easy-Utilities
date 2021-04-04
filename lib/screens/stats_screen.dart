@@ -31,6 +31,7 @@ class _StatsScreenState extends State<StatsScreen> {
   double totalWaterBillsAmount = 0.0;
   BillType billType;
   List<String> names;
+  List<BillType> types;
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +102,7 @@ class _StatsScreenState extends State<StatsScreen> {
                             ),
                             onPressed: () {
                               StatsFiltersData filters =
-                                  new StatsFiltersData(names);
+                                  new StatsFiltersData(names, types);
                               Navigator.of(context).pushNamed('/stats-filters',
                                   arguments: filters);
                             },
@@ -238,28 +239,8 @@ class _StatsScreenState extends State<StatsScreen> {
                             if (snapshot.connectionState ==
                                 ConnectionState.done) {
                               if (snapshot.hasData) {
-                                List<BillData> bills = snapshot.data;
-
-                                var nameSet = <String>{};
-                                var distinct = <String>[];
-                                for (var bill in bills) {
-                                  if (nameSet.add(bill.user.name)) {
-                                    distinct.add(bill.user.name);
-                                  }
-                                }
-
-                                names = distinct ?? null;
-
-                                if (bills.length > 0) {
-                                  bills.forEach((bill) {
-                                    totalBillsAmount += bill.amount;
-                                    if (bill.type == BillType.electricity)
-                                      totalElectricityBillsAmount +=
-                                          bill.amount;
-                                    else
-                                      totalWaterBillsAmount += bill.amount;
-                                  });
-                                }
+                                List<BillData> bills =
+                                    prepareBillsBarChartData(snapshot);
 
                                 return BarChart(
                                   billType: billType,
@@ -376,5 +357,43 @@ class _StatsScreenState extends State<StatsScreen> {
         ],
       ),
     );
+  }
+
+  List<BillData> prepareBillsBarChartData(dynamic snapshot) {
+    List<BillData> bills = snapshot.data;
+
+    var nameSet = <String>{};
+    var distinctNames = <String>[];
+    for (var bill in bills) {
+      if (nameSet.add(bill.user.name)) {
+        distinctNames.add(bill.user.name);
+      }
+    }
+
+    names = distinctNames ?? null;
+    names.add('All');
+
+    var billTypesSet = <BillType>{};
+    var distinctTypes = <BillType>[];
+    for (var bill in bills) {
+      if (billTypesSet.add(bill.type)) {
+        distinctTypes.add(bill.type);
+      }
+    }
+
+    types = distinctTypes ?? null;
+    types.add(null);
+
+    if (bills.length > 0) {
+      bills.forEach((bill) {
+        totalBillsAmount += bill.amount;
+        if (bill.type == BillType.electricity)
+          totalElectricityBillsAmount += bill.amount;
+        else
+          totalWaterBillsAmount += bill.amount;
+      });
+    }
+
+    return bills;
   }
 }
