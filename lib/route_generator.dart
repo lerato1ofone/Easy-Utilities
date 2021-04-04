@@ -63,6 +63,7 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (_) => StatsFilters(
                   names: filters.names,
+                  billTypes: filters.billTypes,
                 ));
       case '/account':
         return MaterialPageRoute(

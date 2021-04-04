@@ -8,7 +8,7 @@ import 'package:easy_utilities/models/user.dart';
 import 'package:easy_utilities/services/database.dart';
 import 'package:easy_utilities/widgets/latest_transaction_card.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class BillsScreen extends StatefulWidget {
   const BillsScreen({
@@ -154,10 +154,9 @@ class _BillsScreenState extends State<BillsScreen> {
                             style: eTitleText,
                           ),
                           IconButton(
-                              icon: FaIcon(
-                                FontAwesomeIcons.filter,
-                                color: Colors.white70,
-                                size: 20.0,
+                              icon: SvgPicture.asset(
+                                './assets/icons/funnel-icon.svg',
+                                width: 30,
                               ),
                               onPressed: null),
                         ],
