@@ -6,6 +6,7 @@ import 'package:easy_utilities/data/constants.dart';
 import 'package:easy_utilities/models/bill.dart';
 import 'package:easy_utilities/models/dto/stats_filters_data.dart';
 import 'package:easy_utilities/models/user.dart';
+import 'package:easy_utilities/screens/stats/filter_screen.dart';
 import 'package:easy_utilities/services/database.dart';
 import 'package:easy_utilities/screens/stats/chart.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,15 @@ class _StatsScreenState extends State<StatsScreen> {
   BillType billType;
   List<String> names;
   List<BillType> types;
+  StatsFiltersData filtersData;
+
+  updateFilters(StatsFiltersData filters) {
+    if (filters != null) {
+      setState(() {
+        filtersData = filters;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,8 +113,7 @@ class _StatsScreenState extends State<StatsScreen> {
                             onPressed: () {
                               StatsFiltersData filters = new StatsFiltersData(
                                   names, types, null, null, null, null);
-                              Navigator.of(context).pushNamed('/stats-filters',
-                                  arguments: filters);
+                              showFilters(filters);
                             },
                           ),
                         ],
@@ -357,6 +366,19 @@ class _StatsScreenState extends State<StatsScreen> {
         ],
       ),
     );
+  }
+
+  showFilters(StatsFiltersData filters) async {
+    final filterValues = await Navigator.push(
+      context,
+      // Create the SelectionScreen in the next step.
+      MaterialPageRoute(
+        builder: (context) =>
+            StatsFilters(names: filters.names, billTypes: filters.billTypes),
+      ),
+    );
+
+    updateFilters(filterValues);
   }
 
   List<BillData> prepareBillsBarChartData(dynamic snapshot) {

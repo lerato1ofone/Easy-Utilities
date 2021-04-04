@@ -48,7 +48,6 @@ class _BillsStreamBuilderState extends State<BillsStreamBuilder> {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
             List<BillData> bills = snapshot.data;
-            print(widget.isSeparated);
             if (!widget.isSeparated) {
               return ListView.builder(
                 shrinkWrap: true,

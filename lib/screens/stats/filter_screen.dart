@@ -236,9 +236,14 @@ class _StatsFiltersState extends State<StatsFilters> {
                 ),
                 onPressed: () {
                   StatsFiltersData filters = new StatsFiltersData(
-                      selectedNames, selectedBillTypes, null, null, null, null);
+                      selectedNames,
+                      selectedBillTypes,
+                      minPrice,
+                      maxPrice,
+                      startDate,
+                      endDate);
 
-                  print(filters);
+                  Navigator.pop(context, filters);
                 },
                 child: Text('Apply Filters', style: eBodyText1),
               ),

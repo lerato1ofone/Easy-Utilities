@@ -44,10 +44,6 @@ class _AddBillScreenState extends State<AddBillScreen> {
       });
   }
 
-  void onChanged(String value) {
-    print(value);
-  }
-
   @override
   Widget build(BuildContext context) {
     type = widget.billType ?? BillType.electricity;
