@@ -101,8 +101,8 @@ class _StatsScreenState extends State<StatsScreen> {
                               width: 30,
                             ),
                             onPressed: () {
-                              StatsFiltersData filters =
-                                  new StatsFiltersData(names, types);
+                              StatsFiltersData filters = new StatsFiltersData(
+                                  names, types, null, null, null, null);
                               Navigator.of(context).pushNamed('/stats-filters',
                                   arguments: filters);
                             },

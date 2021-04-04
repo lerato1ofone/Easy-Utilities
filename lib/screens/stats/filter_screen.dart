@@ -2,10 +2,12 @@ import 'package:easy_utilities/constants.dart';
 import 'package:easy_utilities/core/hex_color.dart';
 import 'package:easy_utilities/core/palette.dart';
 import 'package:easy_utilities/data/bill_type.dart';
+import 'package:easy_utilities/models/dto/stats_filters_data.dart';
 import 'package:easy_utilities/widgets/filter_chip_widget.dart';
 import 'package:easy_utilities/widgets/price_range_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:easy_utilities/core/capitalize_extension.dart';
 
 class StatsFilters extends StatefulWidget {
   StatsFilters({
@@ -26,6 +28,8 @@ class _StatsFiltersState extends State<StatsFilters> {
   DateTime startDate;
   double minPrice = 0.00;
   double maxPrice = 500.00;
+  List<String> selectedNames = [];
+  List<BillType> selectedBillTypes = [];
 
   @override
   void initState() {
@@ -84,7 +88,12 @@ class _StatsFiltersState extends State<StatsFilters> {
                     children: List<Widget>.generate(
                       widget.names.length,
                       (index) {
-                        return FilterChipWidget(chipName: widget.names[index]);
+                        return FilterChipWidget(
+                          chipName: widget.names[index],
+                          returnFilterValue: (val, isAdd) => isAdd
+                              ? selectedNames.add(val)
+                              : selectedNames.remove(val),
+                        );
                       },
                     ),
                   )
@@ -115,7 +124,20 @@ class _StatsFiltersState extends State<StatsFilters> {
                         return FilterChipWidget(
                           chipName: widget.billTypes[index] == null
                               ? 'All'
-                              : widget.billTypes[index].toShortString(),
+                              : widget.billTypes[index]
+                                  .toShortString()
+                                  .capitalize(),
+                          returnFilterValue: (val, isAdd) => isAdd
+                              ? selectedBillTypes.add(
+                                  BillType.values.firstWhere((e) =>
+                                      e.toShortString().toLowerCase() ==
+                                      val.toLowerCase()),
+                                )
+                              : selectedBillTypes.remove(
+                                  BillType.values.firstWhere((e) =>
+                                      e.toShortString().toLowerCase() ==
+                                      val.toLowerCase()),
+                                ),
                         );
                       },
                     ),
@@ -213,7 +235,10 @@ class _StatsFiltersState extends State<StatsFilters> {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 onPressed: () {
-                  print('apply filters');
+                  StatsFiltersData filters = new StatsFiltersData(
+                      selectedNames, selectedBillTypes, null, null, null, null);
+
+                  print(filters);
                 },
                 child: Text('Apply Filters', style: eBodyText1),
               ),
