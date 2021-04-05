@@ -9,10 +9,14 @@ class FilterChipWidget extends StatefulWidget {
     Key key,
     @required this.returnFilterValue,
     @required this.chipName,
+    this.isSmall = false,
+    this.isShowCloseIcon,
   }) : super(key: key);
 
   final String chipName;
   final IntCallback returnFilterValue;
+  final bool isSmall;
+  final bool isShowCloseIcon;
 
   @override
   _FilterChipWidgetState createState() => _FilterChipWidgetState();
@@ -25,7 +29,7 @@ class _FilterChipWidgetState extends State<FilterChipWidget> {
     return FilterChip(
       padding: EdgeInsets.symmetric(horizontal: 5),
       label: Text(widget.chipName),
-      labelStyle: eBodyText1,
+      labelStyle: widget.isSmall ? eSmallText : eBodyText1,
       selected: isSelected,
       backgroundColor: HexColor.fromHex('#fff'),
       onSelected: (_isSelected) {
