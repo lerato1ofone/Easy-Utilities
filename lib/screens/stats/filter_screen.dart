@@ -238,8 +238,8 @@ class _StatsFiltersState extends State<StatsFilters> {
                   StatsFiltersData filters = new StatsFiltersData(
                       selectedNames,
                       selectedBillTypes,
-                      minPrice,
-                      maxPrice,
+                      minPrice != 0.00 ? minPrice : null,
+                      maxPrice != 500.00 ? maxPrice : null,
                       startDate,
                       endDate);
 

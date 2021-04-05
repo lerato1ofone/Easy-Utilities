@@ -46,3 +46,9 @@ const TextStyle eRequiredText = TextStyle(
     fontWeight: FontWeight.w500,
     color: Colors.black,
     fontFamily: 'Roboto');
+
+const TextStyle eSmallText = TextStyle(
+    fontSize: 12.0,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+    fontFamily: 'Roboto');
