@@ -5,8 +5,8 @@ class StatsFiltersData {
   final List<BillType> billTypes;
   final double minPrice;
   final double maxPrice;
-  final DateTime endDate;
-  final DateTime startDate;
+  DateTime endDate;
+  DateTime startDate;
 
   StatsFiltersData(this.names, this.billTypes, this.minPrice, this.maxPrice,
       this.startDate, this.endDate);

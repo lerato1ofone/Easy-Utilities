@@ -1,3 +1,4 @@
+import 'package:easy_utilities/constants.dart';
 import 'package:easy_utilities/core/hex_color.dart';
 import 'package:easy_utilities/core/palette.dart';
 import 'package:easy_utilities/models/dto/bar_chart_data.dart';
@@ -9,9 +10,11 @@ import 'package:easy_utilities/models/user.dart';
 import 'package:easy_utilities/screens/stats/filter_screen.dart';
 import 'package:easy_utilities/services/database.dart';
 import 'package:easy_utilities/screens/stats/chart.dart';
+import 'package:easy_utilities/widgets/filter_chip_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:easy_utilities/core/capitalize_extension.dart';
 
 class StatsScreen extends StatefulWidget {
   const StatsScreen({
@@ -34,11 +37,16 @@ class _StatsScreenState extends State<StatsScreen> {
   List<String> names;
   List<BillType> types;
   StatsFiltersData filtersData;
+  bool isRemoveMinPrice;
+  bool isRemoveMaxPrice;
+  DateTime nullDate;
 
   updateFilters(StatsFiltersData filters) {
     if (filters != null) {
       setState(() {
         filtersData = filters;
+        isRemoveMinPrice = false;
+        isRemoveMaxPrice = false;
       });
     }
   }
@@ -133,9 +141,11 @@ class _StatsScreenState extends State<StatsScreen> {
                               (index) {
                                 return GestureDetector(
                                   onTap: () {
-                                    setState(() {
-                                      activeMonth = index;
-                                    });
+                                    setState(
+                                      () {
+                                        activeMonth = index;
+                                      },
+                                    );
                                   },
                                   child: Container(
                                     width: (size.width - 40) / 7,
@@ -279,7 +289,7 @@ class _StatsScreenState extends State<StatsScreen> {
                           },
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -343,10 +353,11 @@ class _StatsScreenState extends State<StatsScreen> {
                             Text(
                               expenses[index]['label'],
                               style: TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 13,
-                                  color: Colors.black.withOpacity(0.5)),
+                                fontFamily: 'Roboto',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13,
+                                color: Colors.black.withOpacity(0.5),
+                              ),
                             ),
                             SizedBox(
                               height: 10,
@@ -359,21 +370,138 @@ class _StatsScreenState extends State<StatsScreen> {
                               ),
                             ),
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ),
                 );
               },
             ),
-          )
+          ),
         ],
       ),
     );
   }
 
   Widget showFilters() {
-    return Container();
+    return Center(
+      child: Wrap(
+        children: <Widget>[...getFilterChipsList()],
+      ),
+    );
+  }
+
+  List<Widget> getFilterChipsList() {
+    List<Widget> chips = [];
+
+    filtersData.names.forEach(
+      (name) => chips.add(
+        Container(
+          child: FilterChipWidget(
+            isRenderingFilters: true,
+            chipColor: HexColor.fromHex('#E5DFFE'),
+            isSmall: true,
+            chipName: 'Name: $name',
+            returnFilterValue: (val, isAdd) => {
+              setState(() => {filtersData.names.remove(name)}),
+              resetFilterChips(),
+            },
+          ),
+        ),
+      ),
+    );
+
+    filtersData.billTypes.forEach(
+      (billType) => chips.add(
+        Container(
+          child: FilterChipWidget(
+            isRenderingFilters: true,
+            chipColor: HexColor.fromHex('#E5DFFE'),
+            isSmall: true,
+            chipName: "Type: ${billType.toShortString().capitalize()}",
+            returnFilterValue: (val, isAdd) => {
+              setState(() => {filtersData.billTypes.remove(billType)}),
+              resetFilterChips(),
+            },
+          ),
+        ),
+      ),
+    );
+
+    if (isRemoveMinPrice != null && !isRemoveMinPrice) {
+      chips.add(
+        Container(
+          child: FilterChipWidget(
+            isRenderingFilters: true,
+            chipColor: HexColor.fromHex('#E5DFFE'),
+            isSmall: true,
+            chipName:
+                'Min Amount: \R${filtersData.minPrice.toStringAsFixed(2)}',
+            returnFilterValue: (val, isAdd) => {
+              setState(() => isRemoveMinPrice = true),
+              resetFilterChips(),
+            },
+          ),
+        ),
+      );
+    }
+
+    if (isRemoveMaxPrice != null && !isRemoveMaxPrice) {
+      chips.add(
+        Container(
+          child: FilterChipWidget(
+            isRenderingFilters: true,
+            chipColor: HexColor.fromHex('#E5DFFE'),
+            isSmall: true,
+            chipName:
+                'Max Amount: \R${filtersData.maxPrice.toStringAsFixed(2)}',
+            returnFilterValue: (val, isAdd) => {
+              setState(() => isRemoveMaxPrice = true),
+              resetFilterChips(),
+            },
+          ),
+        ),
+      );
+    }
+
+    if (filtersData.startDate != null && filtersData.endDate != null)
+      chips.add(
+        Container(
+          child: FilterChipWidget(
+              isRenderingFilters: true,
+              chipColor: HexColor.fromHex('#E5DFFE'),
+              isSmall: true,
+              chipName:
+                  "Date range: ${filtersData.startDate.day} ${monthsInYear[filtersData.startDate.month]} ${filtersData.startDate.year} - ${filtersData.endDate.day} ${monthsInYear[filtersData.endDate.month]} ${filtersData.endDate.year}",
+              returnFilterValue: (val, isAdd) => {
+                    setState(
+                      () => {
+                        filtersData.startDate = null,
+                        filtersData.endDate = null,
+                      },
+                    ),
+                    resetFilterChips(),
+                  }),
+        ),
+      );
+
+    resetFilterChips();
+
+    return chips;
+  }
+
+  void resetFilterChips() {
+    if (filtersData.names.length < 1 &&
+        filtersData.billTypes.length < 1 &&
+        isRemoveMinPrice &&
+        isRemoveMaxPrice &&
+        filtersData.startDate == null &&
+        filtersData.endDate == null)
+      setState(
+        () {
+          filtersData = null;
+        },
+      );
   }
 
   showFiltersScreen(StatsFiltersData filters) async {
@@ -414,13 +542,15 @@ class _StatsScreenState extends State<StatsScreen> {
     types.add(null);
 
     if (bills.length > 0) {
-      bills.forEach((bill) {
-        totalBillsAmount += bill.amount;
-        if (bill.type == BillType.electricity)
-          totalElectricityBillsAmount += bill.amount;
-        else
-          totalWaterBillsAmount += bill.amount;
-      });
+      bills.forEach(
+        (bill) {
+          totalBillsAmount += bill.amount;
+          if (bill.type == BillType.electricity)
+            totalElectricityBillsAmount += bill.amount;
+          else
+            totalWaterBillsAmount += bill.amount;
+        },
+      );
     }
 
     return bills;

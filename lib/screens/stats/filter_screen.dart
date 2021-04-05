@@ -34,8 +34,6 @@ class _StatsFiltersState extends State<StatsFilters> {
   @override
   void initState() {
     super.initState();
-    endDate = DateTime.now();
-    startDate = new DateTime(endDate.year, endDate.month - 1, endDate.day);
   }
 
   @override
@@ -166,6 +164,11 @@ class _StatsFiltersState extends State<StatsFilters> {
                     children: [
                       IconButton(
                         onPressed: () async {
+                          setState(() {
+                            endDate = DateTime.now();
+                            startDate = new DateTime(
+                                endDate.year, endDate.month - 1, endDate.day);
+                          });
                           final picked = await showDateRangePicker(
                             context: context,
                             lastDate: endDate,
@@ -184,8 +187,7 @@ class _StatsFiltersState extends State<StatsFilters> {
                         ),
                       ),
                       Expanded(
-                        child: Text(
-                            "${startDate.day} ${monthsInYear[startDate.month]} ${startDate.year} - ${endDate.day} ${monthsInYear[endDate.month]} ${endDate.year}"),
+                        child: getDatesText(),
                       ),
                     ],
                   ),
@@ -240,8 +242,8 @@ class _StatsFiltersState extends State<StatsFilters> {
                   StatsFiltersData filters = new StatsFiltersData(
                       selectedNames,
                       selectedBillTypes,
-                      minPrice != 0.00 ? minPrice : null,
-                      maxPrice != 500.00 ? maxPrice : null,
+                      double.parse(minPrice.toStringAsPrecision(2)),
+                      double.parse(maxPrice.toStringAsPrecision(2)),
                       startDate,
                       endDate);
 
@@ -257,6 +259,14 @@ class _StatsFiltersState extends State<StatsFilters> {
         ),
       ),
     );
+  }
+
+  Text getDatesText() {
+    if (startDate == null && endDate == null)
+      return Text("Select Date Range");
+    else
+      return Text(
+          "${startDate.day} ${monthsInYear[startDate.month]} ${startDate.year} - ${endDate.day} ${monthsInYear[endDate.month]} ${endDate.year}");
   }
 
   void onPriceRangeSelected(RangeValues _rangeValues) {

@@ -43,7 +43,7 @@ class _FilterChipWidgetState extends State<FilterChipWidget> {
           });
           widget.returnFilterValue(widget.chipName, isSelected);
         },
-        selectedColor: Colors.greenAccent,
+        selectedColor: widget.chipColor,
         showCheckmark: false,
         avatar: CircleAvatar(
           radius: 10,
