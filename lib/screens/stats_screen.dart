@@ -113,7 +113,7 @@ class _StatsScreenState extends State<StatsScreen> {
                             onPressed: () {
                               StatsFiltersData filters = new StatsFiltersData(
                                   names, types, null, null, null, null);
-                              showFilters(filters);
+                              showFiltersScreen(filters);
                             },
                           ),
                         ],
@@ -123,67 +123,71 @@ class _StatsScreenState extends State<StatsScreen> {
                   SizedBox(
                     height: 25,
                   ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: List<Widget>.generate(
-                        days.length,
-                        (index) {
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                activeMonth = index;
-                              });
-                            },
-                            child: Container(
-                              width: (size.width - 40) / 7,
-                              child: Column(
-                                children: [
-                                  Text(
-                                    days[index]['label'],
-                                    style: TextStyle(fontSize: 10),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: activeMonth == index
-                                          ? HexColor.fromHex('#F664F7')
-                                          : Colors.transparent,
-                                      borderRadius: BorderRadius.circular(5),
-                                      border: Border.all(
-                                        color: activeMonth == index
-                                            ? HexColor.fromHex('#000')
-                                            : Colors.black.withOpacity(0.1),
-                                      ),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 7,
-                                          bottom: 7,
-                                          right: 12,
-                                          left: 12),
-                                      child: Text(
-                                        months[index]['day'],
-                                        style: TextStyle(
-                                          fontSize: 10,
-                                          color: activeMonth == index
-                                              ? Colors.white
-                                              : Colors.black,
+                  filtersData == null
+                      ? SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: List<Widget>.generate(
+                              days.length,
+                              (index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      activeMonth = index;
+                                    });
+                                  },
+                                  child: Container(
+                                    width: (size.width - 40) / 7,
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          days[index]['label'],
+                                          style: TextStyle(fontSize: 10),
                                         ),
-                                      ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: activeMonth == index
+                                                ? HexColor.fromHex('#F664F7')
+                                                : Colors.transparent,
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            border: Border.all(
+                                              color: activeMonth == index
+                                                  ? HexColor.fromHex('#000')
+                                                  : Colors.black
+                                                      .withOpacity(0.1),
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 7,
+                                                bottom: 7,
+                                                right: 12,
+                                                left: 12),
+                                            child: Text(
+                                              months[index]['day'],
+                                              style: TextStyle(
+                                                fontSize: 10,
+                                                color: activeMonth == index
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
-                              ),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
+                          ),
+                        )
+                      : showFilters(),
                 ],
               ),
             ),
@@ -368,10 +372,13 @@ class _StatsScreenState extends State<StatsScreen> {
     );
   }
 
-  showFilters(StatsFiltersData filters) async {
+  Widget showFilters() {
+    return Container();
+  }
+
+  showFiltersScreen(StatsFiltersData filters) async {
     final filterValues = await Navigator.push(
       context,
-      // Create the SelectionScreen in the next step.
       MaterialPageRoute(
         builder: (context) =>
             StatsFilters(names: filters.names, billTypes: filters.billTypes),
