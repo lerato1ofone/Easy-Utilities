@@ -1,4 +1,4 @@
-enum BillType { water, electricity }
+enum BillType { water, electricity, all }
 
 extension ParseToString on BillType {
   String toShortString() {

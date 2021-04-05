@@ -89,6 +89,7 @@ class _StatsFiltersState extends State<StatsFilters> {
                       widget.names.length,
                       (index) {
                         return FilterChipWidget(
+                          isRenderingFilters: false,
                           chipName: widget.names[index],
                           returnFilterValue: (val, isAdd) => isAdd
                               ? selectedNames.add(val)
@@ -122,6 +123,7 @@ class _StatsFiltersState extends State<StatsFilters> {
                       widget.billTypes.length,
                       (index) {
                         return FilterChipWidget(
+                          isRenderingFilters: false,
                           chipName: widget.billTypes[index] == null
                               ? 'All'
                               : widget.billTypes[index]
